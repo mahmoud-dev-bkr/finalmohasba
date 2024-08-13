@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
+
+
+:root {
+    --main:   #1B97DF!important;
+    --second: #14293c !important;
+    --border: #217ca8 !important;
+}
+
+
+*,
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: Inter;
+    font-weight: 600;
+    /* 114.286% */
+}
+
+.baloo {
+    font-family: 'Baloo 2', sans-serif !important;
+}
+
+.inter {
+    font-family: 'Inter', sans-serif !important;
+}
+
+.text-second {
+    color: var(--second) !important;
+}
+
+.bg-second {
+    color: var(--second) !important;
+}
+
+.btn-outline-primary,
+.btn-primary {
+    border-color: var(--main) !important;
+    color: var(--second);
+}
+
+.btn-outline-primary:hover{
+    color: var(--main);
+    background-color: white;
+}
+.border-primary {
+    border-color: var(--main) !important;
+}
+
+.bg-primary,
+.btn-primary,
+.bg-boy {
+    background-color: var(--main) !important;
+}
+
+.text-primary {
+    color: var(--main) !important;
+}
+
+.border-bottom-dashed {
+    border-bottom: 1px dashed;
+}
+
+.bg-nav {
+    background-color: var(--second) !important;
+    color: white;
+}
+
+.scroll-x {
+    overflow-x: auto;
+}
+.border-text {
+    border: 1px solid white;
+}
+
+.scroll-y {
+    overflow-y: auto;
+}
+
+.btn-fn {
+    color: var(--main);
+}
+.card-border,.border-modal-head,.none-border {
+    border: none;
+    background-color: var(--main);
+    color: white;
+}

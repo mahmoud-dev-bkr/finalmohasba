@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600&display=swap');
+
+*
+{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:root
+{
+    --main-color:#14293C;
+    --main-color-alt:#1B97DF;
+    --main-color-alt2:#036C9C;
+    --main-transition:0.3s;
+    --section-color: #F4F4F4;
+}
+
+html
+{
+    scroll-behavior: smooth;
+}
+
+body
+{
+    font-family: 'Noto Kufi Arabic', sans-serif;
+    direction: rtl;
+    background-color: #F4F4F4;
+    padding-bottom: 30px;
+    position: relative;
+    min-height: 100%;
+}
+
+a{
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+ul
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar
+{
+    background-color: #313335 !important;
+    color: white !important;
+    font-size: small;
+}
+
+.nav-link
+{
+    color: #cccbcb;
+}
+
+.nav-link:hover
+{
+    color: var(--main-color-alt);
+}
+
+.nav-item
+{
+    margin: 10px 10px;
+}
+
+.bt
+{
+    border: 1px solid #cccbcb;
+    border-radius: 5px;
+    padding: 5px 12px;
+      
+}
+
+.bt:hover
+{
+    background-color: var(--main-color-alt);
+    color: white;
+}
+
+.sign-img
+{
+    width: 100px;
+    height: 50px;
+    background-size: cover;
+}
+
+.sign
+{
+    width: 90%;
+    margin: 100px auto;
+    background-color: white;
+    border-radius: 5px;
+
+}
+
+input::placeholder
+{
+    color: #aaa !important;
+    font-size: small;
+}
+
+.head h2
+{
+    
+    color: #6e7379 !important;
+}
+
+.head p
+{
+    font-size: small;
+    font-weight: bold;
+}
+
+.first
+{
+    
+    height: 100%;
+    background-color: #036C9C;
+}
+
+.sign2
+{
+    width: 90%;
+    margin: 100px auto;
+    border-radius: 5px;
+}
+
+.form-holder
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.head a:hover
+{
+    color: white !important;
+}
