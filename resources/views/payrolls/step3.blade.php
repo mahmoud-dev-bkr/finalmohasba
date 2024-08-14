@@ -23,9 +23,9 @@
             </div>
         </section>
 
-        <form action="{{ route('payroll.step3') }}" method="post">
+        <form action="{{ route('payroll.step4') }}" method="post">
             @csrf
-            <section class="sec_control">
+            <section class="">
                 <div class="d-flex justify-content-sm-end mx-5">
                     <button class="btn btn-primary mx-2"> <a href="payroll-manager.html" class="text-light"> رجوع</a>
                     </button>
@@ -36,7 +36,7 @@
                         <div class="col-md-12 hi-mohasba">
 
                             <h4 class="mx-4">
-                                مراجعة صرف الرواتب
+                                مراجعة المصروفات
                             </h4>
                         </div>
 
@@ -46,6 +46,7 @@
                         <div class="row  pb-4 ">
                             <div class="col-md-12">
                                 <div class="w-100 my-5 table-responsive-lg">
+
                                     <table class="payroll-header-table">
                                         <thead>
                                             <tr class="s_hr_payroll-time_table-header">
@@ -69,77 +70,67 @@
                                             </tr>
                                         </tfoot>
                                     </table>
+                                    @foreach ($Employeesdata as $employee )
 
-                                    <table class="table  text-center table-hover table-bordered inventary-table ">
-                                        <thead class="py-5">
-                                            <tr class="">
-                                                <th class="">رقم الموظف</th>
-                                                <th class="">الاسم</th>
-                                                <th class="">أساسي الراتب</th>
-                                                <th class="">بدلات الراتب</th>
-                                                <th class="">خصومات دورية</th>
-                                                <th class="">ساعات إضافية</th>
-                                                <th class="">المكافآت</th>
-                                                <th class="">الخصومات</th>
-                                                <th class="">صافي القبض</th>
-                                                <th class="th-total-shifted ">المبلغ المستحق</th>
-                                                <th class="th-total-shifted ">الخيارات</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="custom-td">EMP2</td>
-                                                <td class="custom-td">mahmoud 1</td>
-                                                <td class="custom-td">5,000.00 ر.س</td>
-                                                <td class="custom-td">0.00 ر.س</td>
-                                                <td class="custom-td">0.00 ر.س</td>
-                                                <td class="custom-td">0.00 ر.س</td>
-                                                <td class="custom-td">0.00 ر.س</td>
-                                                <td class="custom-td">0.00 ر.س</td>
-                                                <td class="custom-td">5,000.00 ر.س</td>
-                                                <td class="custom-td">5,000.00 ر.س</td>
-                                                <td class="custom-td">
-                                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                        <span class="glyphicon glyphicon-credit-card">
-                                                            <i class="fa-solid fa-credit-card"></i>
-                                                        </span>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="8" style="border-bottom: none"></td>
-                                                <th>المبلغ المستحق</th>
-                                                <td>5000.0</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="8" style="border-top: none"></td>
-                                                <th>المبلغ المدفوع</th>
-                                                <td>0.0</td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
+                                        <table class="table  text-center table-hover table-bordered inventary-table">
 
+                                            <thead>
+                                                <tr>
+                                                    <th style="border-bottom: outset" rowspan="2" colspan="1">تعريف الموظف
+                                                    </th>
+                                                    <th colspan="4">المستحقات</th>
+                                                    <th colspan="4">المخصومات</th>
+                                                </tr>
+                                                <tr class="s_payroll-table_tr">
+                                                    <th>الوصف</th>
+                                                    <th>التاريخ</th>
+                                                    <th>القيمة</th>
+                                                    <th class="s_payroll_sub-table_action">الخيارات</th>
+                                                    <th>الوصف</th>
+                                                    <th>التاريخ</th>
+                                                    <th>القيمة</th>
+                                                    <th class="s_payroll_sub-table_action">الخيارات</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr class="s_payroll-table_tr">
+                                                    <td class="s_payroll-table_td" colspan="1">{{ $employee->employee->name_ar }}</td>
+                                                    <td>مرتب شهري</td>
+                                                    <td>
+                                                        {{ date('Y-m-d') }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $employee->total_salary }}
+                                                    </td>
+                                                    <td> <button class="btn btn-outline-danger delete_row">حذف</button></td>
+                                                    <td>مرتب شهري</td>
+                                                    <td>
+                                                        {{ date('Y-m-d') }}
+                                                    </td>
+                                                    <td> 5000.0</td>
+                                                    <td> <button class="btn btn-outline-danger delete_row">حذف</button> </td>
+
+                                                </tr>
+                                            </tbody>
+
+
+                                        </table>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
-                        <!-- //modal -->
+
 
 
                         <div class="mt-5"
                             style="
-                                  width: 100%;
+                                  width: 90%;
                                   margin: 0 auto;
                                    ">
-                            <button class="btn btn-primary submit" ty style="width: 15%;" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal2">
-                                دفع جميع الرواتب </button>
+                            <button class="btn btn-primary submit" type="button" id="nextBtn">اوافق </button>
                             <button class="btn btn-dark re-submit" id="prevBtn">السابق</button>
-
                         </div>
-                        <button class="btn btn-primary submit mt-4 mx-2"> تحميل </button>
-
 
                     </div>
 

@@ -30,7 +30,6 @@ class PayRollController extends Controller
     {
         $sites = site::all();
         return view('payrolls.create', compact('sites'));
-
     }
 
     public function getEmployesWithSiteId(Request $request)
@@ -53,34 +52,26 @@ class PayRollController extends Controller
     {
         $data = $request->all();
         // dd($data['code']);
-        session(['step1' => $data]);
+        session(['step2' => $data]);
         return view('payrolls.step2');
-
     }
     public function createStep3(Request $request)
     {
         $data = $request->all();
 
-        session(['step2' => $data]);
-        foreach (session('step2')['employees'] as $key => $value) {
-            // dd($value['id']);
-            $totalSalary = 0;
-            $value['date'] = date('Y-m-d');
-            $value['company_id']    = auth()->user()->company_id;
-            $employessSalary = Employee::find($value['employee_id']);
-            $employeeWorkingHour = WorkingHour::where('employee_id',$value['employee_id'])->where('date', date('Y-m-d'))->where('company_id',auth()->user()->company_id)->first();
-            // dd($employeeWorkingHour);
-            $SalaryMonth = $value['regular_hours'] / $totalHor * $employessSalary->salary;
-            $PonsSalary  = $employessSalary->salary / $totalHor * 1.5 * $value['overtime_hours'];
-            $totalSalary = $SalaryMonth + $PonsSalary;
-            if($employeeWorkingHour){
-                $employeeWorkingHour->delete();
-            }
-            // dd($value);
-            WorkingHour::create($value);
-        }
-        return view('payrolls.step3');
+        session(['step3' => $data]);
+        $Employeesdata = $this->cloulatorSalary(session('step3')['employees']);
+        // dd($Employeesdata);
+        return view('payrolls.step3', compact('Employeesdata'));
+    }
+    public function createStep4(Request $request)
+    {
+        $data = $request->all();
 
+        session(['step4' => $data]);
+        $Employeesdata = $this->cloulatorSalary(session('step2')['employees']);
+        // dd($Employeesdata);
+        return view('payrolls.step4', compact('Employeesdata'));
     }
 
     /**
@@ -137,5 +128,34 @@ class PayRollController extends Controller
     public function destroy(Item $item)
     {
         //
+    }
+
+    public function cloulatorSalary($data)
+    {
+        $employees = [];
+        foreach ($data as $key => $value) {
+            if (!is_array($value)) {
+                continue; // Skip this iteration if $value is not an array
+            }
+
+            $totalSalary = 0;
+            $value['date'] = date('Y-m-d');
+            $value['company_id'] = auth()->user()->company_id;
+            $employessSalary = Employee::find($value['employee_id']);
+            $employeeWorkingHour = WorkingHour::where('employee_id', $value['employee_id'])
+                ->where('date', date('Y-m-d'))
+                ->where('company_id', auth()->user()->company_id)
+                ->first();
+            $SalaryMonth = $value['real_hours'] / $employessSalary->monthly_working_hours * $employessSalary->Salary_Value;
+            $PonsSalary  = $employessSalary->Salary_Value / $employessSalary->monthly_working_hours * 1.5 * $value['overtime_hours'];
+            $totalSalary = $SalaryMonth + $PonsSalary;
+            if ($employeeWorkingHour) {
+                $employeeWorkingHour->delete();
+            }
+            $value['total_salary'] = $totalSalary;
+            $employees[] = WorkingHour::create($value);
+        }
+
+        return $employees;
     }
 }

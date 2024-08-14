@@ -56,8 +56,8 @@
                             <tbody>
                               <tr>
                                 <td>
-                                    {{session('step1')['code']}}
-                                    <input type="hidden" name="code" value="{{session('step1')['code']}}" >
+                                    {{session('step2')['code']}}
+                                    <input type="hidden" name="code" value="{{session('step2')['code']}}" >
                                 </td>
                                 <td>مراجعة المصروفات</td>
                                 <td>2023-10-01</td>
@@ -73,20 +73,20 @@
                           <table class="table  text-center table-hover table-bordered inventary-table">
                             <thead class="cf">
                               <tr>
-                                <th class="text-center" colspan="1">رقم الموظف</th>
-                                <th class="text-center" colspan="1">الاسم </th>
-                                <th class="text-center" colspan="1">الموقع </th>
-                                <th class="text-center" colspan="1">عدد الساعات </th>
-                                <th class="text-center" colspan="1"> ساعات العمل المؤدية </th>
-                                <th class="text-center" colspan="1">غياب </th>
-                                <th class="text-center" colspan="1">ساعات ضائعة </th>
-                                <th class="text-center" colspan="1">ساعات فائضة </th>
-                                <th class="text-center" colspan="1">ساعات إضافية </th>
+                                <th class="text-center" style="width: 120px;">رقم الموظف</th>
+                                <th class="text-center" style="width: 150px;" >الاسم </th>
+                                <th class="text-center" style="width: 150px;" >الموقع </th>
+                                <th class="text-center" style="width: 150px;" >عدد الساعات </th>
+                                <th class="text-center" colspan="1" style="width: 200px;"> ساعات العمل المؤدية </th>
+                                <th class="text-center" colspan="1" style="width: 200px;">غياب </th>
+                                <th class="text-center" colspan="1" style="width: 200px;">ساعات ضائعة </th>
+                                <th class="text-center" colspan="1" style="width: 200px;">ساعات فائضة </th>
+                                <th class="text-center" colspan="1" style="width: 200px;">ساعات إضافية </th>
 
                               </tr>
                             </thead>
                             <tbody>
-                                @foreach (session('step1')['employees'] as $get)
+                                @foreach (session('step2')['employees'] as $get)
                                     <input type="hidden" name="employees[{{$get}}][employee_id]" value="{{$get}}">
                                     <tr>
                                         <td class="text-center" colspan="1">EMP-{{$get}} </td>
@@ -96,21 +96,23 @@
                                         <td class="text-center" colspan="1">
                                             {{  \App\Employee::find($get)->site->name_ar }}
                                         </td>
-                                        <td class="text-center" colspan="1">184.0 </td>
-                                        <td class="text-center " colspan="1" style="width: 125px;">
-                                            <input type="number" class="form-custom-2 my-2 " value="184.0" name="employees[{{$get}}][real_hours]">
+                                        <td class="text-center" colspan="1">
+                                            {{ \App\Employee::find($get)->monthly_working_hours ?? 0 }}
                                         </td>
-                                        <td class="text-center " colspan="1" style="width: 125px;">
-                                            <input type="number" class="form-custom-2 my-2 " value="184.0" name="employees[{{$get}}][absence_hours]">
+                                        <td class="text-center " colspan="1" style="width: 120px;">
+                                            <input type="number" style="width: 90%; text-align:center;" class="form-custom-2 my-2 " value="{{ \App\Employee::find($get)->monthly_working_hours ?? 0 }}" name="employees[{{$get}}][real_hours]">
                                         </td>
-                                        <td class="text-center " colspan="1" style="width: 125px;">
-                                            <input type="number" class="form-custom-2 my-2 " value="184.0" name="employees[{{$get}}][lost_hours]">
+                                        <td class="text-center " colspan="1" style="width: 120px;">
+                                            <input type="number" style="width: 90%; text-align:center;" class="form-custom-2 my-2 " value="{{ \App\Employee::find($get)->monthly_working_hours ?? 0 }}" name="employees[{{$get}}][absence_hours]">
                                         </td>
-                                        <td class="text-center " colspan="1" style="width: 125px;">
-                                            <input type="number" class="form-custom-2 my-2 " value="184.0" name="employees[{{$get}}][surplus_hours]">
+                                        <td class="text-center " colspan="1" style="width: 120px;">
+                                            <input type="number" style="width: 90%; text-align:center;" class="form-custom-2 my-2 " value="{{ \App\Employee::find($get)->monthly_working_hours ?? 0 }}" name="employees[{{$get}}][lost_hours]">
                                         </td>
-                                        <td class="text-center " colspan="1" style="width: 125px;">
-                                            <input type="number" class="form-custom-2 my-2 " value="184.0" name="employees[{{$get}}][overtime_hours]">
+                                        <td class="text-center " colspan="1" style="width: 120px;">
+                                            <input type="number" style="width: 90%; text-align:center;" class="form-custom-2 my-2 " value="{{ \App\Employee::find($get)->monthly_working_hours ?? 0 }}" name="employees[{{$get}}][surplus_hours]">
+                                        </td>
+                                        <td class="text-center " colspan="1" style="width: 120px;">
+                                            <input type="number" style="width: 90%; text-align:center;" class="form-custom-2 my-2 " value="{{ \App\Employee::find($get)->monthly_working_hours ?? 0 }}" name="employees[{{$get}}][overtime_hours]">
                                         </td>
                                     </tr>
                                 @endforeach

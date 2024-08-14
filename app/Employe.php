@@ -20,7 +20,7 @@ class Employe extends Model
           'Reviews_Allowances', 'Calculated_Value_Allowances', 'Value_Allowances',
            'Type_Periodic_discounts', 'Reviews_Periodic_discounts', 'Calculated_Value_Periodic_discounts',
             'Value_Periodic_discounts', 'reference', 'Calculation_method', 'Social_Insurance', 'Document_Name',
-            'Expiry_Date', 'Choose_File', 'company_id', 'site_id'
+            'Expiry_Date', 'Choose_File', 'company_id', 'site_id','monthly_working_hours'
     ];
     protected $hidden = [
         '	updated_at	', '	created_at',

@@ -290,8 +290,8 @@
                                                 </select>
                                             </div>
 
-                                            <div class="d-flex align-content-center justify-content-around">
-                                                <label class="mt-3 ml-5 mx-4">جدول العمل </label>
+                                            {{-- <div class="d-flex align-content-center justify-content-around">
+                                                <label class="mt-3 ml-5 mx-4"> ساعات </label>
                                                 <select class="form-control w-50 my-3" name="Work_schedule" id="">
                                                     <optgroup>
                                                         <option value="1">1</option>
@@ -299,6 +299,10 @@
 
                                                     </optgroup>
                                                 </select>
+                                            </div> --}}
+                                            <div class="d-flex align-content-center justify-content-around">
+                                                <label class="mt-3 ml-5">   ساعات العمل في الشهر  </label>
+                                                <input type="text" name="monthly_working_hours" class="form-control w-50 my-2">
                                             </div>
 
 

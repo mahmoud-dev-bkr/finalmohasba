@@ -17,6 +17,7 @@ class WorkingHour extends Model
         'overtime_hours',
         'company_id',
         'employee_id',
+        'total_salary',
     ];
 
     public function employee()
