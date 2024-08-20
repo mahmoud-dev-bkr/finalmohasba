@@ -2,19 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Inventory;
+use App\InventoryDetails;
+use App\Product;
+use App\site;
 use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
+
+    private $model;
+
+    public function __construct(Inventory $model)
+    {
+        $this->model = $model;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+     public function index()
     {
-        $Inventory = Inventory::all();
+        $Inventory = $this->model::all();
         return view('inventory.index', ['Inventory' => $Inventory]);
     }
 
@@ -25,7 +37,11 @@ class InventoryController extends Controller
      */
     public function create()
     {
-        //
+        $accounts_plus   = Account::all();
+        $accounts_minus  = Account::all();
+        $sites           = site::all();
+        $products        = Product::all();
+        return view('inventory.create', compact('accounts_plus', 'accounts_minus', 'sites', 'products'));
     }
 
     /**
@@ -36,7 +52,12 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        // dd($data);
+        $inventory = $this->model::create($data);
+
+        $this->InsertInventoryDetails($inventory->id ,$data['inventorydetails']);
+        return redirect()->route('Inventory.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
 
     /**
@@ -94,12 +115,12 @@ class InventoryController extends Controller
 
     public function filtter($Inventory,  $request)
     {
-        
+
 
         if ($request->date)
             $Inventory->where('date', $request->date);
 
-            
+
         return $data = Datatables()->eloquent($Inventory->latest())
             ->addColumn('action', function ($Inventory) {
                 $premation = $Inventory->total == $Inventory->old_balance ? 'ok' : 'notEdit';
@@ -107,5 +128,16 @@ class InventoryController extends Controller
                 return view('inventory.actions', ['type' => 'action', 'Inventory' => $Inventory, 'premation' => $premation, 'is_done' => $is_done]);
             })
         ->toJson();
+    }
+
+    public function InsertInventoryDetails ($inventory_id ,$InventoryDetails)
+    {
+
+        foreach ($InventoryDetails as $index => $InD)  {
+            $InD['inventory_id'] = $inventory_id;
+            // dd($InD);
+            InventoryDetails::create($InD);
+        }
+
     }
 }

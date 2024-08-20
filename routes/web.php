@@ -27,6 +27,7 @@ use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RewardController;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\PayRollController;
 use App\Http\Controllers\sales_invoicesController;
@@ -276,20 +277,21 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
 
     // -------------------------------------------------------------------------------------< inventory >-----------------------------------------------------------
 
-    Route::get('/Inventory',              [Stocktakingcontroller::class, 'index'])->name('Inventory.index');
-    Route::get('/Inventory/print/{id}',   [Stocktakingcontroller::class, 'print'])->name('Inventory.print');
-    Route::get('/Inventory/show/{id}',   [Stocktakingcontroller::class, 'show'])->name('Inventory.show');
-    Route::get('/Inventory/create',        [Stocktakingcontroller::class, 'create'])->name('Inventory.create');
-    Route::get('/Inventory/update/{id}',        [Stocktakingcontroller::class, 'edit'])->name('Inventory.update');
-    Route::post('/Inventory/edit/{id}',        [Stocktakingcontroller::class, 'update'])->name('Inventory.edit');
-    Route::post('/Inventory/create/post',  [Stocktakingcontroller::class, 'store'])->name('Inventory.create.post');
-    Route::get('/Inventory/data',          [Stocktakingcontroller::class, 'getInventory'])->name('getInventorysData');
-    Route::post('/Inventory/destroy/{id}',   [Stocktakingcontroller::class, 'destroy'])->name('Inventory.destroy');
+    Route::get('/Inventory',                [InventoryController::class, 'index'])->name('Inventory.index');
+    Route::get('/Inventory/print/{id}',     [InventoryController::class, 'print'])->name('Inventory.print');
+    Route::get('/Inventory/show/{id}',      [InventoryController::class, 'show'])->name('Inventory.show');
+    Route::get('/Inventory/create',         [InventoryController::class, 'create'])->name('Inventory.create');
+    Route::get('/Inventory/update/{id}',    [InventoryController::class, 'edit'])->name('Inventory.update');
+    Route::post('/Inventory/edit/{id}',     [InventoryController::class, 'update'])->name('Inventory.edit');
+    Route::post('/Inventory/create/post',   [InventoryController::class, 'store'])->name('Inventory.create.post');
+    Route::get('/Inventory/data',           [InventoryController::class, 'getInventory'])->name('getInventorysData');
+    Route::post('/Inventory/destroy/{id}',  [InventoryController::class, 'destroy'])->name('Inventory.destroy');
 
     // -------------------------------------------------------------------------------------< pallrole >-----------------------------------------------------------
     Route::get('/payroll/create',[PayRollController::class, 'create'])->name('payroll.create');
     Route::post('/payroll/create/step2',[PayRollController::class, 'createStep2'])->name('payroll.step2');
     Route::post('/payroll/create/step3',[PayRollController::class, 'createStep3'])->name('payroll.step3');
+    Route::post('/payroll/create/step4',[PayRollController::class, 'createStep4'])->name('payroll.step4');
     Route::get('/get/employes/with/site',[PayRollController::class, 'getEmployesWithSiteId'])->name('getEmployesWithSiteId');
     // -------------------------------------------------------------------------------------< End inventory >-----------------------------------------------------------
 

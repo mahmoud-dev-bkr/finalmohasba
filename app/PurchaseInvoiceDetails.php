@@ -8,16 +8,16 @@ use App\Scopes\CompanyScope;
 
 class PurchaseInvoiceDetails extends Model
 {
-    protected static function booted()
-    {
-        static::addGlobalScope(new CompanyScope);
+    // protected static function booted()
+    // {
+    //     static::addGlobalScope(new CompanyScope);
 
-        static::creating(function ($model) {
-            if (auth()->check()) {
-                $model->company_id = auth()->user()->company_id;
-            }
-        });
-    }
+    //     static::creating(function ($model) {
+    //         if (auth()->check()) {
+    //             $model->company_id = auth()->user()->company_id;
+    //         }
+    //     });
+    // }
     protected $fillable = [
         'product_id',
         'purchase_invoice_id',

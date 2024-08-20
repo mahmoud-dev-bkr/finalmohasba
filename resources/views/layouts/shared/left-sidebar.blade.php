@@ -22,7 +22,7 @@
         <li>
             <a href="#submenu7" data-bs-toggle="collapse" class="nav-link px-0 align-middle clicked-item">
                 <i class="fa-solid fa-gear side-icon"></i>
-                <span class="ms-1  d-sm-inline toggle-span">
+                <span class="ms-4  d-sm-inline toggle-span">
                     {{ __('basic.facility_settings') }}
                 </span>
                     <i class="fa fa-angle-down pull_right_3"></i>
@@ -220,6 +220,32 @@
                             <span class=" d-sm-inline text">
                                 <i class="fa-solid fa-box-open side-icon"></i>
                                 <span>الخدمات</span>
+                            </span>
+                            <!--<span>-->
+                            <!--    <a href="{{ route('Product.tenant') }}" class="add-feature-btn"><i-->
+                            <!--            class="fa fa-plus"></i></a>-->
+
+                            <!--</span>-->
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <li>
+            <a href="#submenu44" data-bs-toggle="collapse" class="nav-link px-0 align-middle clicked-item">
+                <i class="fa-solid fa-table-cells side-icon"></i>
+                <span class="ms-1  d-sm-inline toggle-span">
+                    جرد و نقل المخزون
+                    <i class="fa fa-angle-down pull_right_3"></i>
+            </a>
+            <ul class="collapse  nav flex-column ms-1 content_nav" id="submenu44" data-bs-parent="#menu">
+                <li class="w-100">
+                    <a href=" {{ route('Inventory.index') }} " class="nav-link px-0">
+                        <div class="space">
+                            <span class=" d-sm-inline text">
+                                <i class="fa-solid fa-box-open side-icon"></i>
+                                <span>جرد المخزن</span>
                             </span>
                             <!--<span>-->
                             <!--    <a href="{{ route('Product.tenant') }}" class="add-feature-btn"><i-->
@@ -609,7 +635,7 @@
         <li>
             <a href="#submenu8" data-bs-toggle="collapse" class="nav-link px-0 align-middle clicked-item">
                 <i class="fa-solid fa-gear side-icon"></i>
-                <span class="ms-1  d-sm-inline toggle-span"> الإعدادات العامه
+                <span class="ms-4  d-sm-inline toggle-span"> الإعدادات العامه</span>
                     <i class="fa fa-angle-down pull_right_9"></i>
 
             </a>
@@ -617,7 +643,7 @@
                 <li class="w-100">
                     <a href="" class="nav-link px-0">
                         <div class="space">
-                            <span class=" d-sm-inline text">
+                            <span class="ml-4 d-sm-inline text">
                                 <i class="fa-solid fa-gear side-icon"></i>
                                 <span>الإعدادات العامة</span>
                             </span>
@@ -626,7 +652,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="subscription-settings.html" class="nav-link px-0">
+                    <a href="" class="nav-link px-0">
                         <div class="space">
                             <span class=" d-sm-inline text">
                                 <i class="fa-solid fa-gear side-icon"></i>

@@ -13,27 +13,32 @@ class CreateInventoryDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('inventoryDetails', function (Blueprint $table) {
+        Schema::create('inventory_details', function (Blueprint $table) {
             $table->id();
 
-            // account_id foreign key with accounts table (assuming accounts table exists)
-            $table->unsignedBigInteger('account_id')->nullable();
-            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('set null');
+            $table->unsignedBigInteger('inventory_id');
+            $table->foreign('inventory_id')->references('id')->on('inventories')->onDelete('cascade');
 
-            // site_from_id foreign key with sites table
-            $table->unsignedBigInteger('site_from_id');
-            $table->foreign('site_from_id')->references('id')->on('sites')->onDelete('cascade');
-
-            // site_to_id foreign key with sites table
-            $table->unsignedBigInteger('site_to_id');
-            $table->foreign('site_to_id')->references('id')->on('sites')->onDelete('cascade');
-
-            // product_id foreign key with products table (assuming products table exists)
+            
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
 
-            // quantity of the product
-            $table->integer('qty');
+            $table->unsignedBigInteger('created_by');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('updated_by');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
+
+
+            $table->string('current_qty')->nullable();
+
+            $table->string('actual_qty')->nullable();
+
+            $table->string('troupes')->nullable();
+
+            $table->string('median_value')->nullable();
+
+            $table->string('company_id')->nullable();
 
             $table->timestamps();
         });
