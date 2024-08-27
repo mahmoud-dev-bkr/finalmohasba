@@ -168,10 +168,10 @@ class PurchaseInvoiceController extends Controller
             $count = 1;
         }
         $Clients  = Supplier::where('status', 1)
-                 ->where(function($query) {
-                     $query->where('site_id', 10)
-                           ->orWhere('site_id', 0);
-                 })
+                //  ->where(function($query) {
+                //      $query->where('site_id', 10)
+                //            ->orWhere('site_id', 0);
+                //  })
                  ->get();
         $salespersons = Salesperson::where('site_id', 10)->get();
         $products   = Product::all();

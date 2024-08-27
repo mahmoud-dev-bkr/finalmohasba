@@ -105,7 +105,7 @@
                                     <select class="form-select  form-select-lg my-2" name="site_id" id="site-id" onchange="checkinStore()">
                                       
                                       @foreach($sites as $site)
-                                         <option value="{{ $site->id }}"  >{{  $site->name_ar  }}</option>
+                                         <option value="{{ $site->id }}"  >{{  $site->name_en  }}</option>
                                       @endforeach
                                       
                                     </select>

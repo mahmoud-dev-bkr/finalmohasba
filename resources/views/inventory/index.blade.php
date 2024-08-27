@@ -1,4 +1,4 @@
-@extends('layouts.vertical', ['title' => 'سندات العميل'])
+@extends('layouts.vertical', ['title' => 'جرد المخزون'])
 @section('content')
 <div class="container-fluid">
 
@@ -6,9 +6,9 @@
         <div class="row">
             <div class="col-lg-12 mt-3">
                 <ul class="d-flex align-content-center">
-                    <li><span class="text-dark ml-3">المبيعات</span></li>
+                    <li><span class="text-dark ml-3">المخازن</span></li>
                     <li class="text-primary">
-                        <i class="fa fa-angle-double-left mx-2 "></i><a href="clients.html">سندات العميل</a>
+                        <i class="fa fa-angle-double-left mx-2 "></i><a href="clients.html">جرد المخزون</a>
                     </li>
                 </ul>
             </div>
@@ -31,7 +31,7 @@
         <div class="container my-3 max-con">
             <div class="row">
                 <div class="col-md-12 hi-mohasba">
-                    <h4 class="mx-4">سندات العميل</h4>
+                    <h4 class="mx-4">جرد المخزون</h4>
                 </div>
             </div>
             @if (count($Inventory) > 0)
@@ -119,7 +119,7 @@
                                         <th scope="col">من الموقع</th>
                                         <th scope="col">الى الموقع</th>
                                         <th scope="col">الحساب</th>
-                                        <th scope="col">الوصف </th>
+                                        <th scope="col">الخيارات </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -173,7 +173,7 @@
 <script>
     function reloadData(code, name, status, date, start_date, end_date) {
         // end-date start-date date status name code
-        var url = "{{ route('getClientbondsData') }}?code=" + code + "&name=" + name + "&status=" + status + "&date=" +
+        var url = "{{ route('getInventorysData') }}?code=" + code + "&name=" + name + "&status=" + status + "&date=" +
             date + "&start_date=" + start_date + "&end_date=" + end_date;
         ClientbondsTable.ajax.url(url).load();
     }
@@ -195,13 +195,13 @@
         // $('.').val() = ""
         // $('.barcode-product').val() = ""
         // $('.item-product').val() = ""
-        var url = "{{ route('getClientbondsData') }}"
+        var url = "{{ route('getInventorysData') }}"
         ClientbondsTable.ajax.url(url).load();
     }
     let ClientbondsTable = null
 
     function setClientbondsDatatable() {
-        var url = "{{ route('getClientbondsData') }}";
+        var url = "{{ route('getInventorysData') }}";
         ClientbondsTable = $("#ClientbondsTable").DataTable({
             processing: true,
             serverSide: true,
@@ -251,19 +251,19 @@
             // },
 
             columns: [{
-                    data: 'account_id'
+                    data: 'account_id_plus'
                 },
                 {
-                    data: 'site_from_id'
+                    data: 'account_id_plus'
                 },
                 {
-                    data: 'site_to_id'
+                    data: 'site_id'
                 },
                 {
                     data: 'date'
                 },
                 {
-                    data: 'Note'
+                    data: 'action'
                 }
 
             ],

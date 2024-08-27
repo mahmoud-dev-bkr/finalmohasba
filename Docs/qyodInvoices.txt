@@ -1,0 +1,56 @@
+// $totalamountClaint = $accountClaint->amount     - $request->total;
+        // $totalamountTax    = $accountTax->amount        + $request->tax_value;
+        // $totalamountSales  = $accountSales->amount      + $request->total_with_tax;
+
+        // $accountClaint->update([
+        //       'amount' =>  $totalamountClaint
+        // ]);
+
+        // $accountTax->update([
+        //     'amount' =>  $totalamountTax
+        // ]);
+
+        // $accountSales->update([
+        //     'amount' =>  $totalamountSales
+        // ]);
+
+
+        // $CcountEstrictions = [
+        //     'account_id' => $accountClaint->id,
+        //     'type' => '2',
+        //     'account_type' => $PurchaseInvoices->id,
+        //     'ammount_from' => $request->total,
+        //     'ammount_to'   => 0,
+        //     'from_to'      => 1,
+        // ];
+        // CcountEstrictions::create($CcountEstrictions);
+
+
+        // $CcountEstrictions = [
+        //     'account_id' => $accountTax->id,
+        //     'type' => '2',
+        //     'account_type' => $PurchaseInvoices->id,
+        //     'ammount_from' => 0,
+        //     'ammount_to'   => $request->tax_value,
+        //     'from_to'      => 1,
+        // ];
+        // CcountEstrictions::create($CcountEstrictions);
+
+        // $CcountEstrictions = [
+        //     'account_id' => $accountSales->id,
+        //     'type' => '2',
+        //     'account_type' => $PurchaseInvoices->id,
+        //     'ammount_from' => 0,
+        //     'ammount_to'   => $request->total_with_tax,
+        //     'from_to'      => 1,
+        // ];
+        // CcountEstrictions::create($CcountEstrictions);
+
+        // $Journal = [];
+        // $Journal[] = [
+        //     'journal_id' => $PurchaseInvoices->id,
+        //     'type' => 2,
+        //     'acount_from' => 1,
+        //     'acount_to' => 2,
+        // ];
+        // Journal::insert($Journal);

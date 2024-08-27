@@ -103,6 +103,9 @@
           background-size: 12px;
           background-position: 8px center;
         }
+        table {
+            width: 100%!important
+        }
     </style>
 </head>
 

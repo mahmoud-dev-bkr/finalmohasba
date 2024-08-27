@@ -1,4 +1,4 @@
-@extends('layouts.vertical', ['title' => 'اضافة سندات العميل'])
+@extends('layouts.vertical', ['title' => 'اضافة جرد مخزون'])
 @section('content')
     <section id="content-wrapper" class="content-header">
         <div class="row">
@@ -32,7 +32,7 @@
                                 </label>
                                 <div class="d-flex  flex-column w-75  my-2  mb-3">
 
-                                    <select class="form-select w-75 my-2 form-select-lg mb-3" name="site_id">
+                                    <select class="form-select w-75 my-2 form-select-lg mb-3" name="site_id" id="site_id">
                                         <option selected>يرجى الاختيار</option>
                                         @foreach ($sites as $site)
                                             <option value="{{ $site->id }}">{{ $site->name_ar }}</option>
@@ -122,7 +122,7 @@
                                     <tbody>
                                         <tr>
                                             <td class="text-center" colspan="1" width="450px">
-                                                <select class="form-select py-2 w-80 my-2 form-select-lg " name="inventorydetails[0][product_id]">
+                                                <select class="form-select py-2 w-80 my-2 form-select-lg" id="product_id_0" name="inventorydetails[0][product_id]" onchange="getProductDetails(0)">
                                                     <option selected="">يرجى الاختيار</option>
                                                     @foreach ($products as $product)
                                                         <option value="{{ $product->id }}">{{ $product->name_ar }}</option>
@@ -130,16 +130,16 @@
                                                 </select>
                                             </td>
                                             <td class="text-center" colspan="1" width="350px">
-                                                <input type="text" class="form-control w-100 my-2" name="inventorydetails[0][current_qty]">
+                                                <input type="text" class="form-control w-100 my-2" id="current_qty_0" name="inventorydetails[0][current_qty]">
                                             </td>
                                             <td class="text-center" colspan="1" width="350px">
-                                                <input type="text" class="form-control w-100 my-2" name="inventorydetails[0][actual_qty]">
+                                                <input type="text" class="form-control w-100 my-2" id="actual_qty_0" name="inventorydetails[0][actual_qty]">
                                             </td>
                                             <td class="text-center" colspan="1" width="350px">
-                                                <input type="text" class="form-control w-100 my-2" name="inventorydetails[0][troupes]">
+                                                <input type="text" class="form-control w-100 my-2" id="troupes_0" name="inventorydetails[0][troupes]">
                                             </td>
                                             <td class="text-center" colspan="1" width="350px">
-                                                <input type="text" class="form-control w-100 my-2" name="inventorydetails[0][median_value]">
+                                                <input type="text" class="form-control w-100 my-2" id="median_value_0" name="inventorydetails[0][median_value]">
                                             </td>
                                             <td class="text-center">
                                                 <i class="mt-3 fas fa-times text-danger delete_row" data-id="0"
@@ -169,12 +169,12 @@
                                             <div class="d-flex align-content-center justify-content-between">
                                                 <label class="mt-3 ml-5 col-lg-4"> إضافة مهمة </label>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                    <input class="form-check-input" type="radio" 
                                                         id="flexRadioDefault1">
                                                     <label class="form-check-label" for="flexRadioDefault1"> مشروع </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                    <input class="form-check-input" type="radio" 
                                                         id="flexRadioDefault2" checked>
                                                     <label class="form-check-label" for="flexRadioDefault2"> مهمة </label>
                                                 </div>
@@ -234,7 +234,7 @@
                     `
                     <tr>
                         <td class="text-center" colspan="1">
-                            <select class="form-select py-2 w-80 my-2 form-select-lg " name="inventorydetails[${id}][product_id]">
+                            <select class="form-select py-2 w-80 my-2 form-select-lg " id="product_id_${id}" name="inventorydetails[${id}][product_id]">
                                 <option selected="">يرجى الاختيار</option>
                                 @foreach ($products as $product)
                                     <option value="{{ $product->id }}">{{ $product->name_ar }}</option>
@@ -242,16 +242,16 @@
                             </select>
                         </td>
                         <td class="text-center" colspan="1" width="350px">
-                            <input type="text" class="form-control w-100 my-2" name="inventorydetails[${id}][current_qty]">
+                            <input type="text" class="form-control w-100 my-2" id="current_qty_${id}" name="inventorydetails[${id}][current_qty]">
                         </td>
                         <td class="text-center" colspan="1" width="350px">
-                            <input type="text" class="form-control w-100 my-2" name="inventorydetails[${id}][actual_qty]">
+                            <input type="text" class="form-control w-100 my-2" id="actual_qty_${id}" name="inventorydetails[${id}][actual_qty]">
                         </td>
                         <td class="text-center" colspan="1" width="350px">
-                            <input type="text" class="form-control w-100 my-2" name="inventorydetails[${id}][troupes]">
+                            <input type="text" class="form-control w-100 my-2" id="troupes_${id}" name="inventorydetails[${id}][troupes]">
                         </td>
                         <td class="text-center" colspan="1" width="350px">
-                            <input type="text" class="form-control w-100 my-2" name="inventorydetails[${id}][median_value]">
+                            <input type="text" class="form-control w-100 my-2" id="median_value_${id}" name="inventorydetails[${id}][median_value]">
                         </td>
                         <td class="text-center">
                             <i class="mt-3 fas fa-times text-danger delete_row" data-id="${id}" style="width:30px"></i>
@@ -268,5 +268,20 @@
             });
 
         });
+
+        function getProductDetails(id)
+        {
+            var product_id  = document.getElementById('product_id_'+id).value;
+            var site_id     = document.getElementById('site_id').value; 
+            var ProductURL  = "/dashboard/Inventory/getProductDetails?product_id="+product_id +"&site_id="+site_id
+            var current_qty = document.getElementById('current_qty')
+            $.get(ProductURL, function (data) {
+                
+                
+
+            })
+        }
+
     </script>
+
 @endsection

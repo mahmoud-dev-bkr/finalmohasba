@@ -8,7 +8,7 @@ class AccountBanks extends Model
 {
     protected $table = 'account_banks';
     protected $fillable = [
-     'client_id',
+     'site_id',
      'name',
      'name_account',
      'country',
@@ -18,6 +18,6 @@ class AccountBanks extends Model
      'code',
      'address',
      'type',
-     'comapny_id',
+     'company_id',
     ];
 }

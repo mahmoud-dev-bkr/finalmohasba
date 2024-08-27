@@ -7,6 +7,7 @@ use App\Inventory;
 use App\InventoryDetails;
 use App\Product;
 use App\site;
+use App\Store;
 use Illuminate\Http\Request;
 
 class InventoryController extends Controller
@@ -14,7 +15,7 @@ class InventoryController extends Controller
 
     private $model;
 
-    public function __construct(Inventory $model)
+public function __construct(Inventory $model)
     {
         $this->model = $model;
     }
@@ -44,6 +45,12 @@ class InventoryController extends Controller
         return view('inventory.create', compact('accounts_plus', 'accounts_minus', 'sites', 'products'));
     }
 
+    public function getProductDetailsAjax( Request $request)
+    {
+        $store = Store::where("site_id", $request->site_id)->where("product_id", $request->product_id)->first(); // and get with company_id
+        return response()->json($store);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -51,8 +58,10 @@ class InventoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $data = $request->all();
+    {  
+        // without -token
+        
+        $data = $request->except('_token');        
         // dd($data);
         $inventory = $this->model::create($data);
 
@@ -123,9 +132,20 @@ class InventoryController extends Controller
 
         return $data = Datatables()->eloquent($Inventory->latest())
             ->addColumn('action', function ($Inventory) {
-                $premation = $Inventory->total == $Inventory->old_balance ? 'ok' : 'notEdit';
-                $is_done   = $Inventory->total == 0 ? 'notDeleted' : 'ok';
-                return view('inventory.actions', ['type' => 'action', 'Inventory' => $Inventory, 'premation' => $premation, 'is_done' => $is_done]);
+                
+                return view('inventory.actions', ['type' => 'action', 'Inventory' => $Inventory ]);
+            })
+            ->editColumn('account_id_plus', function ($Inventory) {
+
+                return $Inventory->account_plus->name;
+            })
+            ->editColumn('account_id_minus', function ($Inventory) {
+
+                return $Inventory->account_minus->name;
+            })
+            ->editColumn('site_id', function ($Inventory) {
+
+                return $Inventory->site->name_ar;
             })
         ->toJson();
     }

@@ -151,7 +151,7 @@ class ClientController extends Controller
             $infoUser['status'] = 0;
         }
         
-        
+        // dd($data);  
         $client = Client::create($infoUser);
         
         if ($request->name1) {
@@ -168,6 +168,7 @@ class ClientController extends Controller
                  'code' => $request->code1,
                  'address' => $request->address1,
                  'type' => 1,
+                 'company_id'    => 1,
                 ]    
             );
         }
@@ -187,6 +188,7 @@ class ClientController extends Controller
                  'code' => $request->code2,
                  'address' => $request->address2,
                  'type' => 2,
+                 'company_id'    => 1,
                 ]    
             );
         }

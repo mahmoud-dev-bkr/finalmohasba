@@ -23,7 +23,7 @@ class ProductUints extends Migration
             $table->string('is_sell_text')->nullable();
             $table->string('barcode')->nullable();
             $table->string('counter_of_unit')->nullable();
-            $table->integer('comapny_id')->nullable();
+            $table->integer('company_id')->nullable();
             $table->timestamps();
         });
     }

@@ -51,7 +51,7 @@ class SupplierController extends Controller
         if ($request->status == 2)
             $Supplier->where('status', 0);
 
-        $Supplier->where('comapny_id', auth()->user()->company_id);
+        $Supplier->where('company_id', 1);
         
         $data = Datatables()->eloquent($Supplier->latest('id'))
         ->addColumn('action' , function($Supplier){
@@ -142,7 +142,7 @@ class SupplierController extends Controller
         } else {
             $infoUser['status'] = 0;
         }
-        $infoUser['comapny_id'] = auth()->user()->company_id;
+        $infoUser['company_id'] = 1;
         // dd($infoUser);
         
         $client = Supplier::create($infoUser);
@@ -161,7 +161,7 @@ class SupplierController extends Controller
                  'code' => $request->code1,
                  'address' => $request->address1,
                  'type' => 3,
-                 'comapny_id'   => auth()->user()->company_id
+                 'company_id'   => 1
                 ]    
             );
         }
@@ -181,7 +181,7 @@ class SupplierController extends Controller
                  'code' => $request->code2,
                  'address' => $request->address2,
                  'type' => 4,
-                 'comapny_id'   => auth()->user()->company_id
+                 'company_id'   => 1
                 ]    
             );
         }

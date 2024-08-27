@@ -156,7 +156,7 @@ class SiteController extends Controller
 
     public function index()
     {
-        $Site = Site::where('type',0)->get();
+        $Site = Site::where('type',1)->get();
 
 
         // dd($Site);
@@ -168,7 +168,7 @@ class SiteController extends Controller
     }
     public function index2()
     {
-        $Site = Site::where('type',1)->get();
+        $Site = Site::where('type',0)->get();
         return view('Site.sub_site', compact(
             [
                 'Site'
@@ -211,53 +211,18 @@ class SiteController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $data = $request->all();
-
+        $data['type'] = 0;
         if ($request->pointsSite == 'on') {
             $data['pointsSite'] = 1;
         } else {
             $data['pointsSite'] = 0;
         }
-        $client = Site::create($data);
+        $site = Site::create($data);
 
 
 
 
-        if ($request->name1) {
-
-            AccountBanks::create(
-                [
-                 'client_id' => $client->id,
-                 'name' => $request->name1,
-                 'name_account' =>$request->name_account1 ,
-                 'country' => $request->country1,
-                 'currency' => $request->currency1,
-                 'number_statement' => $request->number_statement1,
-                 'number_account' => $request->number_account1,
-                 'code' => $request->code1,
-                 'address' => $request->address1,
-                 'type' => 3,
-                ]
-            );
-        }
-
-
-        if ($request->name2) {
-
-            AccountBanks::create(
-                [
-                 'client_id' => $client->id,
-                 'name' => $request->name2,
-                 'name_account' =>$request->name_account2 ,
-                 'country' => $request->country2,
-                 'currency' => $request->currency2,
-                 'number_statement' => $request->number_statement2,
-                 'number_account' => $request->number_account2,
-                 'code' => $request->code2,
-                 'address' => $request->address2,
-                 'type' => 4,
-                ]
-            );
-        }
+        
         // fill appointments em ployees
         return redirect()->route('sub_site.index')->with(['success' => 'تم الحفظ بنجاح']);
     }

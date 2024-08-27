@@ -19,10 +19,21 @@ use App\PurchaseInvoiceDetails;
 use App\PurchaseInvoices;
 use Illuminate\Http\Request;
 use App\Sales_invoices;
+use App\Services\InvoiceService;
 use Illuminate\Support\Facades\Validator;
+
 
 class sales_invoicesController extends Controller
 {
+    protected $invoiceService;
+    protected $model;
+    public function __construct(Sales_invoices  $model)
+    {
+        $this->invoiceService = new InvoiceService($model);
+        $this->model          = $model;
+    }
+    
+    
     /**
      * Display a listing of the resource.
      *
@@ -112,26 +123,14 @@ class sales_invoicesController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'code' => 'required',
-            'id_supplers' => 'required',
-            'Date_start' => 'required',
-            'Date_end' => 'required',
-            'Date_Groce_Period' => 'required',
-            'tax_value' => 'required',
-            'total' => 'required',
-            'total_with_tax' => 'required',
-        ];
-        // dd($request);
-        $messages = [
-            'required' => 'The :attribute field is required.',
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        
+        $data = $request->all();
+        $this->invoiceService->storeInvoice($data, 2, $this->model, 'sales_invoices.index');
+        return redirect()->route('sales_invoices.index')->with(['success' => 'تم الحفظ بنجاح']);
+    }
+    public function store1(Request $request)
+    {
+        
         $data = $request->all();
         $data['type'] = 2;
         $len  = count($data['test']) / 12;
@@ -377,7 +376,7 @@ class sales_invoicesController extends Controller
     {
 
         $data = $request->all();
-        dd($data);
+        // dd($data);
         $data['type'] = 2;
         $len  = count($data['test']) / 11;
         $end   = 0;
