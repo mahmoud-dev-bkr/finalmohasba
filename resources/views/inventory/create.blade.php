@@ -44,7 +44,8 @@
 
                             </div>
                             <div class="d-flex flex-lg-row flex-column align-content-center justify-content-between">
-                                <label class="mt-3 ml-5 col-lg-4"> حساب الإيراد للكميات الزائدة <span class="star">*</span>
+                                <label class="mt-3 ml-5 col-lg-4"> حساب الإيراد للكميات الزائدة <span
+                                        class="star">*</span>
                                 </label>
                                 <div class="d-flex  flex-column w-75  my-2  mb-3">
 
@@ -59,7 +60,8 @@
 
                             </div>
                             <div class="d-flex flex-lg-row flex-column align-content-center justify-content-between">
-                                <label class="mt-3 ml-5 col-lg-4"> حساب التكلفة للكميات الناقصة <span class="star">*</span>
+                                <label class="mt-3 ml-5 col-lg-4"> حساب التكلفة للكميات الناقصة <span
+                                        class="star">*</span>
                                 </label>
                                 <div class="d-flex  flex-column w-75  my-2  mb-3">
 
@@ -122,7 +124,8 @@
                                     <tbody>
                                         <tr>
                                             <td class="text-center" colspan="1" width="450px">
-                                                <select class="form-select py-2 w-80 my-2 form-select-lg" id="product_id_0" name="inventorydetails[0][product_id]" onchange="getProductDetails(0)">
+                                                <select class="form-select py-2 w-80 my-2 form-select-lg" id="product_id_0"
+                                                    name="inventorydetails[0][product_id]" onchange="getProductDetails(0)">
                                                     <option selected="">يرجى الاختيار</option>
                                                     @foreach ($products as $product)
                                                         <option value="{{ $product->id }}">{{ $product->name_ar }}</option>
@@ -130,16 +133,21 @@
                                                 </select>
                                             </td>
                                             <td class="text-center" colspan="1" width="350px">
-                                                <input type="text" class="form-control w-100 my-2" id="current_qty_0" name="inventorydetails[0][current_qty]">
+                                                <input type="text" class="form-control w-100 my-2 text-center"
+                                                    id="current_qty_0" name="inventorydetails[0][current_qty]" readonly>
                                             </td>
                                             <td class="text-center" colspan="1" width="350px">
-                                                <input type="text" class="form-control w-100 my-2" id="actual_qty_0" name="inventorydetails[0][actual_qty]">
+                                                <input type="text" class="form-control w-100 my-2 text-center"
+                                                    id="actual_qty_0" name="inventorydetails[0][actual_qty]"
+                                                    onfocusout="totalRealProduct(0)">
                                             </td>
                                             <td class="text-center" colspan="1" width="350px">
-                                                <input type="text" class="form-control w-100 my-2" id="troupes_0" name="inventorydetails[0][troupes]">
+                                                <input type="text" class="form-control w-100 my-2 text-center"
+                                                    id="troupes_0" name="inventorydetails[0][troupes]">
                                             </td>
                                             <td class="text-center" colspan="1" width="350px">
-                                                <input type="text" class="form-control w-100 my-2" id="median_value_0" name="inventorydetails[0][median_value]">
+                                                <input type="text" class="form-control w-100 my-2 text-center"
+                                                    id="median_value_0" name="inventorydetails[0][median_value]">
                                             </td>
                                             <td class="text-center">
                                                 <i class="mt-3 fas fa-times text-danger delete_row" data-id="0"
@@ -169,13 +177,14 @@
                                             <div class="d-flex align-content-center justify-content-between">
                                                 <label class="mt-3 ml-5 col-lg-4"> إضافة مهمة </label>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" 
+                                                    <input class="form-check-input" type="radio"
                                                         id="flexRadioDefault1">
-                                                    <label class="form-check-label" for="flexRadioDefault1"> مشروع </label>
+                                                    <label class="form-check-label" for="flexRadioDefault1"> مشروع
+                                                    </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" 
-                                                        id="flexRadioDefault2" checked>
+                                                    <input class="form-check-input" type="radio" id="flexRadioDefault2"
+                                                        checked>
                                                     <label class="form-check-label" for="flexRadioDefault2"> مهمة </label>
                                                 </div>
                                             </div>
@@ -233,8 +242,8 @@
                 row +=
                     `
                     <tr>
-                        <td class="text-center" colspan="1">
-                            <select class="form-select py-2 w-80 my-2 form-select-lg " id="product_id_${id}" name="inventorydetails[${id}][product_id]">
+                        <td class="text-center" colspan="1" width="450px">
+                            <select class="form-select py-2 w-80 my-2 form-select-lg" id="product_id_${id}" name="inventorydetails[${id}][product_id]" onchange="getProductDetails(${id})">
                                 <option selected="">يرجى الاختيار</option>
                                 @foreach ($products as $product)
                                     <option value="{{ $product->id }}">{{ $product->name_ar }}</option>
@@ -242,19 +251,20 @@
                             </select>
                         </td>
                         <td class="text-center" colspan="1" width="350px">
-                            <input type="text" class="form-control w-100 my-2" id="current_qty_${id}" name="inventorydetails[${id}][current_qty]">
+                            <input type="text" class="form-control w-100 my-2 text-center" id="current_qty_${id}" name="inventorydetails[${id}][current_qty]" readonly>
                         </td>
                         <td class="text-center" colspan="1" width="350px">
-                            <input type="text" class="form-control w-100 my-2" id="actual_qty_${id}" name="inventorydetails[${id}][actual_qty]">
+                            <input type="text" class="form-control w-100 my-2 text-center" id="actual_qty_${id}" name="inventorydetails[${id}][actual_qty]" onfocusout="totalRealProduct(${id})">
                         </td>
                         <td class="text-center" colspan="1" width="350px">
-                            <input type="text" class="form-control w-100 my-2" id="troupes_${id}" name="inventorydetails[${id}][troupes]">
+                            <input type="text" class="form-control w-100 my-2 text-center" id="troupes_${id}" name="inventorydetails[${id}][troupes]">
                         </td>
                         <td class="text-center" colspan="1" width="350px">
-                            <input type="text" class="form-control w-100 my-2" id="median_value_${id}" name="inventorydetails[${id}][median_value]">
+                            <input type="text" class="form-control w-100 my-2 text-center" id="median_value_${id}" name="inventorydetails[${id}][median_value]">
                         </td>
                         <td class="text-center">
-                            <i class="mt-3 fas fa-times text-danger delete_row" data-id="${id}" style="width:30px"></i>
+                            <i class="mt-3 fas fa-times text-danger delete_row" data-id="${id}"
+                                style="width:30px"></i>
                         </td>
 
                     </tr>
@@ -269,19 +279,36 @@
 
         });
 
-        function getProductDetails(id)
-        {
-            var product_id  = document.getElementById('product_id_'+id).value;
-            var site_id     = document.getElementById('site_id').value; 
-            var ProductURL  = "/dashboard/Inventory/getProductDetails?product_id="+product_id +"&site_id="+site_id
-            var current_qty = document.getElementById('current_qty')
-            $.get(ProductURL, function (data) {
-                
-                
-
+        function getProductDetails(id) {
+            var product_id = document.getElementById('product_id_' + id).value;
+            var site_id = document.getElementById('site_id').value;
+            var ProductURL = "/dashboard/Inventory/getProductDetails?product_id=" + product_id + "&site_id=" + site_id
+            var current_qty = document.getElementById('current_qty_' + id)
+            var actual_qty = document.getElementById('actual_qty_' + id)
+            var troupes = document.getElementById('troupes_' + id)
+            $.get(ProductURL, function(data) {
+                current_qty.value = data.qun
+                actual_qty.value = data.qun
+                troupes.value = 0
             })
         }
 
-    </script>
+        function totalRealProduct(id) {
+            var current_qty = document.getElementById('current_qty_' + id).value
+            var actual_qty = document.getElementById('actual_qty_' + id).value
+            var troupes = document.getElementById('troupes_' + id)
+            var result  = 0
+            result = current_qty - actual_qty
+            if (result < 0) {
+                result = result * -1 
+                troupes.value = result + "+";
+                return 
+            } else if(result > 0) {
+                troupes.value = result + "-"
+                return 
+            }
+            troupes.value = result 
 
+        }
+    </script>
 @endsection

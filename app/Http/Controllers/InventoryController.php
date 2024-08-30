@@ -48,6 +48,10 @@ public function __construct(Inventory $model)
     public function getProductDetailsAjax( Request $request)
     {
         $store = Store::where("site_id", $request->site_id)->where("product_id", $request->product_id)->first(); // and get with company_id
+        if (!$store) {
+            $data['qun'] = 0;
+            return response()->json($data);
+        } 
         return response()->json($store);
     }
 
@@ -65,7 +69,7 @@ public function __construct(Inventory $model)
         // dd($data);
         $inventory = $this->model::create($data);
 
-        $this->InsertInventoryDetails($inventory->id ,$data['inventorydetails']);
+        $this->InsertInventoryDetails($inventory->id ,$data['inventorydetails'], $data['site_id']);
         return redirect()->route('Inventory.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
 
@@ -150,12 +154,27 @@ public function __construct(Inventory $model)
         ->toJson();
     }
 
-    public function InsertInventoryDetails ($inventory_id ,$InventoryDetails)
+    public function InsertInventoryDetails ($inventory_id ,$InventoryDetails, $site_id)
     {
-
+        
+        
         foreach ($InventoryDetails as $index => $InD)  {
             $InD['inventory_id'] = $inventory_id;
             // dd($InD);
+            $store = Store::where("site_id", $site_id)->where("product_id", $InD['product_id'])->first();
+            if (!$store) {
+                $store = Store::create([
+                    'site_id' => $site_id,
+                    'qun' => $InD['actual_qty'],
+                    'product_id' => $InD['product_id'],
+                ]);
+                 
+            } else {
+                $store->update([
+                    'qun' => $InD['actual_qty']
+                ]);
+            }
+            // dd($store);
             InventoryDetails::create($InD);
         }
 

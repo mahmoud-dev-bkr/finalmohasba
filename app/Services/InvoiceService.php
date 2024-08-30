@@ -16,12 +16,12 @@ class InvoiceService
     protected $PurchaseInvoiceDetails;
     protected $classNameModel;
     protected $InvoicesSaveAccountEstriction;
-    public function __construct( $model)
+    public function __construct( $model, $InvoiceCategory)
     {
         $this->invoicesRepository = new InvoicesRepository($model);
         $this->model = $model;
         $this->classNameModel = basename(str_replace('\\', '/', get_class($this->model)));
-        $this->InvoicesSaveAccountEstriction = new InvoicesSaveAccountEstriction($model);
+        $this->InvoicesSaveAccountEstriction = new InvoicesSaveAccountEstriction($InvoiceCategory);
     }
 
 
@@ -100,6 +100,18 @@ class InvoiceService
         return $group;
     }
 
-    
+
+    public function getServiceInvoiceByName($name, $arguments)
+    {
+        // dd($name, $arguments);
+        $classNameModel = basename(str_replace('\\', '/', get_class($this->model)));
+        $className = "App\\Repositories\\AccountEstrictionRepository" . ucfirst($classNameModel);
+        if (class_exists($className)) {
+            return new $className(); // Instantiate the class and return the object
+        }
+
+        // Throw an exception if the class does not exist
+        throw new \Exception("Class $className does not exist");
+    }
 
 }

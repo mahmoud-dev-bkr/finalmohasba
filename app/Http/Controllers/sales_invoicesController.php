@@ -29,7 +29,7 @@ class sales_invoicesController extends Controller
     protected $model;
     public function __construct(Sales_invoices  $model)
     {
-        $this->invoiceService = new InvoiceService($model);
+        $this->invoiceService = new InvoiceService($model, 'SalesInvoice');
         $this->model          = $model;
     }
     

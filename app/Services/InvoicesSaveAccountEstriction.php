@@ -2,43 +2,61 @@
 
 namespace App\Services;
 
+use App\Repositories\AccountEstrictionRepositorySales_invoices;
 use App\Repositories\InvoicesRepository;
 use App\Sales_invoices;
+use MyCLabs\Enum\Enum;
 
 class InvoicesSaveAccountEstriction
 {
     protected $InvoicesRepository;
-    protected $model;
+    protected $InvoiceCategory;
+    const Enum = [
+        'SalesInvoice',
+        'PurchaseInvoice',
+        'ReturnsPurchaseInvoice',
+        'ReturnsSalesInvoice',
+        'Quotation',
+        'Order'
+    ];
     public function __construct($model)
     {
-        $this->model = $model;
+        $this->InvoiceCategory = $model;
     }
 
     public function storeFirstInvoiceAccountEstriction($invoice)
     {
-        $this->InvoicesRepository = $this->getServiceInvoiceByName(get_class());
+        $this->InvoicesRepository = $this->getServiceInvoiceByName();
         $this->InvoicesRepository->storeFirstInvoiceAccountEstriction($invoice);
         return true;
     }
 
     public function storeSecoundInvoiceAccountEstriction($invoice, $index)
     {
-        $this->InvoicesRepository = $this->getServiceInvoiceByName(get_class());
+        $this->InvoicesRepository = $this->getServiceInvoiceByName();
         $this->InvoicesRepository->storeSecoundInvoiceAccountEstriction($invoice, $index);
         return true;
     }
     
     public function getServiceInvoiceByName()
     {
-        
-        $classNameModel = basename(str_replace('\\', '/', get_class($this->model)));
-        $className = "App\\Repositories\\AccountEstrictionRepository" . ucfirst($classNameModel);
-        if (class_exists($className)) {
-            return new $className(); // Instantiate the class and return the object
+        switch ($this->InvoiceCategory) {
+            case "SalesInvoice":
+                return new AccountEstrictionRepositorySales_invoices();
+            case "PurchaseInvoice":
+                // return  new AccountEstrictionRepositorySales_invoices();
+                // return new AccountEstrictionRepositoryPurchase_invoices();
+            case "ReturnsPurchaseInvoice":
+                // return new AccountEstrictionRepositoryReturnsPurchase_invoices();
+            case "Order":
+                // return new AccountEstrictionRepositoryOrders();
+            case "ReturnsSalesInvoice":
+                // return new AccountEstrictionRepositoryReturnsSales_invoices();
+            case "Quotation":
+                // return new AccountEstrictionRepositoryQuotations();
+            default:
+                throw new \Exception("Invalid Invoice Category");
         }
-
-        // Throw an exception if the class does not exist
-        throw new \Exception("Class $className does not exist");
     }
     
 }
