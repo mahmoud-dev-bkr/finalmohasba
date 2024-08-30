@@ -57,7 +57,7 @@
                                 @endif
 
                                 @if (count($PurchaseInvoices) > 0)
-                                <li><i class="fa-solid fa-box-open"></i> <a href="{{ route('Purchase_Invoices.create') }}">              لديك {{ count($PurchaseInvoices)}} فاتورة مبشتريات اضغط هنا للمزيد</a></li>
+                                <li><i class="fa-solid fa-box-open"></i> <a href="{{ route('Purchase_Invoices.create') }}">              لديك {{ count($PurchaseInvoices)}} فاتورة مشتريات اضغط هنا للمزيد</a></li>
                                 @else
                                 <li><i class="fa-solid fa-file-circle-check"></i> <a href="{{ route('Purchase_Invoices.create') }}">ليس لديك أي فواتير مشتريات، اضغط هنا لإضافة فاتورة مشتريات</a></li>
                                 @endif
