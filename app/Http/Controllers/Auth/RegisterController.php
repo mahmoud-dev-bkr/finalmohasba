@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Company;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Services\CompanyService;
 use App\site;
 use App\User;
 use Companies;
@@ -66,21 +67,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $company = Company::create($data['company']);
-        $site    = site::create([
-            'name_ar'       => 'الرئيسية',
-            'name_en'       => 'main',
-            'Inventory_id'  => '37',
-            'type'          => '1',
-            'company_id' => $company->id,
-        ]);
-        return User::create([
-            'name_en'    => $data['user']['first_name'] . ' ' .$data['user']['last_name'],
-            'email'      => $data['user']['email'],
-            'password'   => Hash::make($data['user']['password']),
-            'company_id' => $company->id,
-            'role_id'    => 1,
-            'pos'        => 1,
-        ]);
+        // dd($data);
+        $service = new CompanyService();
+        $service->CompanyRegister($data);
     }
 }

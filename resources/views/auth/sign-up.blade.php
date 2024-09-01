@@ -169,7 +169,7 @@
                                             type="email" value name="user[email]" id="user_email" />
                                     </div>
                                     <div class="fields-wrap">
-                                        <input class="form-control mx-1 my-4" placeholder="كلمة السر" type="password" value name="user[password]" id="user_email" />                                  
+                                        <input class="form-control mx-1 my-4" placeholder="كلمة السر" type="password" value name="user[password]" id="user_email" />
                                     </div>
                                     <div class="fields-wrap">
                                         <input class="form-control mx-1 my-4" type="text" name="company[organization_name]"
