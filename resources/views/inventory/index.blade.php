@@ -115,14 +115,28 @@
                                 <thead class="table-head">
                                     <tr>
 
-                                        <th scope="col">حساب النقل المؤقت</th>
-                                        <th scope="col">من الموقع</th>
-                                        <th scope="col">الى الموقع</th>
-                                        <th scope="col">الحساب</th>
-                                        <th scope="col">الخيارات </th>
+                                        <th scope="col">
+                                            {{ __('inventory.site') }}
+                                        </th>
+                                        <th scope="col">
+                                            {{ __('inventory.account_id_plus') }}
+                                        </th>
+                                        <th scope="col">
+                                            {{ __('inventory.account_id_minus') }}
+                                        </th>            
+                                        <th scope="col">
+                                            {{ __('inventory.date') }}
+                                        </th>
+                                        <th scope="col">
+                                            {{ __('inventory.info_products') }}
+                                        </th>
+
+                                        <th scope="col">
+                                            {{ __('basic.options') }}
+                                        </th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody> 
 
 
                                 </tbody>
@@ -251,16 +265,19 @@
             // },
 
             columns: [{
-                    data: 'account_id_plus'
-                },
-                {
-                    data: 'account_id_plus'
-                },
-                {
                     data: 'site_id'
                 },
                 {
+                    data: 'account_id_plus'
+                },
+                {
+                    data: 'account_id_minus'
+                },
+                {
                     data: 'date'
+                },
+                {
+                    data: 'info_products'
                 },
                 {
                     data: 'action'

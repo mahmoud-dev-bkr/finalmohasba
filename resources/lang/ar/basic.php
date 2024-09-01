@@ -60,6 +60,7 @@ return [
 
     'inventory_and_transfer'    => 'المخزون و التحويل',
 
+    'options'   => 'الخيارات'
 
 
 

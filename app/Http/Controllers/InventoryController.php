@@ -79,9 +79,10 @@ public function __construct(Inventory $model)
      * @param  \App\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function show(Inventory $inventory)
+    public function show($id)
     {
-        //
+        $InventoryDetails = InventoryDetails::where('inventory_id', $id)->get();
+        return view('inventory.show', compact('InventoryDetails'));
     }
 
     /**
@@ -113,9 +114,10 @@ public function __construct(Inventory $model)
      * @param  \App\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inventory $inventory)
+    public function destroy($id)
     {
-        //
+        $inventory = Inventory::find($id)->delete();
+        return redirect()->route('Inventory.index')->with(['success' => 'تم الحذف بنجاح']);
     }
     public function getInventory(Request $request)
     {
@@ -150,6 +152,9 @@ public function __construct(Inventory $model)
             ->editColumn('site_id', function ($Inventory) {
 
                 return $Inventory->site->name_ar;
+            })
+            ->editColumn('info_products', function ($Inventory) {
+                return view('inventory.actions', ['type' => 'info_products', 'Inventory' => $Inventory ]);
             })
         ->toJson();
     }

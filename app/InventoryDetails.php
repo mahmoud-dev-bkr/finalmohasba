@@ -11,4 +11,9 @@ class InventoryDetails extends Model
     protected $table = 'inventory_details';
 
     protected $fillable = ['inventory_id', 'site_id', 'product_id', 'current_qty', 'actual_qty', 'troupes', 'median_value', 'created_by', 'updated_by'];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }

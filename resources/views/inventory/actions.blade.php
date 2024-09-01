@@ -15,6 +15,13 @@
             </ul>
         </div>
     @break
+    @case('info_products')
+    <div>
+        <ul>      
+            <a href="{{ route('Inventory.show',  $Inventory->id) }}"><li><i class="fa-solid fa-eye"></i></li></a>
+        </ul>
+    </div>
+    @break
 
     @default
 
