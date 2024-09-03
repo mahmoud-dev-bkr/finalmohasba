@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Repositories;
 
@@ -17,16 +17,8 @@ class AccountEstrictionRepositorySales_invoices implements EstrictionSalesInterf
         $this->accountClaint = Account::where('code', '1103')->first();
         $this->accountSales  = Account::where('code', '4101')->first();
     }
-    public function storeInvoiceAccountEstriction(array $data, $account1, $account2, $account3)
-    {   
-        
-    }
-    public function updateInvoiceAccountEstriction(array $data,$accountestriction_id, ...$model)
-    {
 
-    }
-
-    public function storeFirstInvoiceAccountEstriction ($invoice)
+    public  function storeFirstInvoiceAccountEstriction ($invoice)
     {
         // dd($invoice);
         $CcountEstrictions = [
@@ -44,7 +36,7 @@ class AccountEstrictionRepositorySales_invoices implements EstrictionSalesInterf
 
     }
 
-    public function storeSecoundInvoiceAccountEstriction($invoice, $index)
+    public  function storeSecoundInvoiceAccountEstriction($invoice, $index)
     {
         $CcountEstrictions = [
             'account_id' => $this->accountTax->id,
@@ -71,4 +63,5 @@ class AccountEstrictionRepositorySales_invoices implements EstrictionSalesInterf
         CcountEstrictions::create($CcountEstrictions);
         return true;
     }
+
 }

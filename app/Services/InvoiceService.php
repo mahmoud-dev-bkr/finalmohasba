@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Services;
 
@@ -20,7 +20,6 @@ class InvoiceService
     {
         $this->invoicesRepository = new InvoicesRepository($model);
         $this->model = $model;
-        $this->classNameModel = basename(str_replace('\\', '/', get_class($this->model)));
         $this->InvoicesSaveAccountEstriction = new InvoicesSaveAccountEstriction($InvoiceCategory);
     }
 
@@ -40,7 +39,7 @@ class InvoiceService
         $unit  = [];
 
         $group = $this->returnDataInvoiceDetails($data, $len, $start);
-        
+
         $data['old_balance'] = $request['final_total'];
         $data['total']       = $request['final_total'];
         $data['total_b']     = $request['total'];
@@ -49,7 +48,7 @@ class InvoiceService
         // dd($group);
         // 'descunt'                    => $index[3],
         foreach ($group as $index) {
-            
+
                 $arr = explode("-", $index[2]);
                 $store = Store::where("site_id", $data['site_id'])->where("product_id", $index[0])->first();
                 $this->InvoicesSaveAccountEstriction->storeSecoundInvoiceAccountEstriction($Invoices, $index);
@@ -57,13 +56,13 @@ class InvoiceService
                 $store->qun = $qunInstore; // Update the 'qun' field
                 $store->save();
                 $this->returnInvoiceDetails($index, $Invoices, $arr, $type);
-                
+
         }
-        
+
         return $route;
 
 
-        
+
     }
 
     public function returnInvoiceDetails($index, $Invoices, $arr, $type = NULL) {

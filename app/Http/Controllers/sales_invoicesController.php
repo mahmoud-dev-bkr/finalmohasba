@@ -9,6 +9,7 @@ use App\Clientbond;
 use App\Salesperson;
 use App\ReturnsSalesInvoices;
 use App\Client;
+use App\enum\InvoiceKey;
 use App\Site;
 use App\Store;
 use App\Journal;
@@ -29,11 +30,11 @@ class sales_invoicesController extends Controller
     protected $model;
     public function __construct(Sales_invoices  $model)
     {
-        $this->invoiceService = new InvoiceService($model, 'SalesInvoice');
+        $this->invoiceService = new InvoiceService($model, InvoiceKey::SALESINVOICE);
         $this->model          = $model;
     }
-    
-    
+
+
     /**
      * Display a listing of the resource.
      *
@@ -123,14 +124,14 @@ class sales_invoicesController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $data = $request->all();
         $this->invoiceService->storeInvoice($data, 2, $this->model, 'sales_invoices.index');
         return redirect()->route('sales_invoices.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
     public function store1(Request $request)
     {
-        
+
         $data = $request->all();
         $data['type'] = 2;
         $len  = count($data['test']) / 12;
@@ -227,7 +228,7 @@ class sales_invoicesController extends Controller
 
         // 'descunt'                    => $index[3],
         foreach ($group as $index) {
-            
+
                 $arr = explode("-", $index[2]);
                 $store = Store::where("site_id", $data['site_id'])->where("product_id", $index[0])->first();
 
@@ -261,7 +262,7 @@ class sales_invoicesController extends Controller
                 PurchaseInvoiceDetails::create($unit);
         }
         // dd($unit);
-        
+
         // fill appointments em ployees
         // dd("done");
         return redirect()->route('sales_invoices.index')->with(['success' => 'تم الحفظ بنجاح']);

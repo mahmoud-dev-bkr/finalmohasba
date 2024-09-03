@@ -9,8 +9,10 @@ use App\Services\CompanyService;
 use App\site;
 use App\User;
 use Companies;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -33,7 +35,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -69,6 +71,9 @@ class RegisterController extends Controller
     {
         // dd($data);
         $service = new CompanyService();
-        $service->CompanyRegister($data);
+        $company =  $service->CompanyRegister($data);
+        // dd(request()->url());
+        return redirect("http://".$company->domain."localhost:8000/dashboard");
+
     }
 }

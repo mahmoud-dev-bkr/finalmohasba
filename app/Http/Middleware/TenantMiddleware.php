@@ -13,11 +13,12 @@ class TenantMiddleware
     {
         // Extract the subdomain from the request
         $host = $request->getHost();
-        // dd($host);
+        // dd($request);
         $segments = explode('.', $host);
-        
+        // dd($segments);
         // Check if there is a subdomain (assuming the host includes 'localhost' or similar)
-        if (count($segments) > 1) {
+        if (count($segments) >= 2) {
+            // dd($segments);
             $subdomain = $segments[0];
 
             // Find the company by the subdomain in the 'domain' column
@@ -33,6 +34,7 @@ class TenantMiddleware
                 Config::set('database.default', 'tenant');
 
                 // Reconnect to apply the new settings
+                DB::purge('mysql');
                 DB::purge('tenant');
                 DB::reconnect('tenant');
             } else {
@@ -46,6 +48,7 @@ class TenantMiddleware
 
             // Purge and reconnect to the default 'mysql' connection
             DB::purge('mysql');
+            DB::purge('tenant');
             DB::reconnect('mysql');
         }
 

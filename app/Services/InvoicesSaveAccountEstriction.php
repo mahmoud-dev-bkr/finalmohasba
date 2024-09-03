@@ -1,7 +1,9 @@
-<?php 
+<?php
 
 namespace App\Services;
 
+use App\enum\InvoiceKey;
+use App\Factory\AccountEstrictionFactory;
 use App\Repositories\AccountEstrictionRepositorySales_invoices;
 use App\Repositories\InvoicesRepository;
 use App\Sales_invoices;
@@ -11,53 +13,27 @@ class InvoicesSaveAccountEstriction
 {
     protected $InvoicesRepository;
     protected $InvoiceCategory;
-    const Enum = [
-        'SalesInvoice',
-        'PurchaseInvoice',
-        'ReturnsPurchaseInvoice',
-        'ReturnsSalesInvoice',
-        'Quotation',
-        'Order'
-    ];
-    public function __construct($model)
+
+    public function __construct($InvoiceKey)
     {
-        $this->InvoiceCategory = $model;
+        $this->InvoiceCategory = $InvoiceKey;
     }
 
     public function storeFirstInvoiceAccountEstriction($invoice)
     {
-        $this->InvoicesRepository = $this->getServiceInvoiceByName();
-        $this->InvoicesRepository->storeFirstInvoiceAccountEstriction($invoice);
+        $InvoicesRepository = AccountEstrictionFactory::dailyEntry($this->InvoiceCategory);
+        $InvoicesRepository->storeFirstInvoiceAccountEstriction($invoice);
         return true;
     }
 
     public function storeSecoundInvoiceAccountEstriction($invoice, $index)
     {
-        $this->InvoicesRepository = $this->getServiceInvoiceByName();
-        $this->InvoicesRepository->storeSecoundInvoiceAccountEstriction($invoice, $index);
+        $InvoicesRepository = AccountEstrictionFactory::dailyEntry($this->InvoiceCategory);
+        $InvoicesRepository->storeSecoundInvoiceAccountEstriction($invoice, $index);
         return true;
     }
-    
-    public function getServiceInvoiceByName()
-    {
-        switch ($this->InvoiceCategory) {
-            case "SalesInvoice":
-                return new AccountEstrictionRepositorySales_invoices();
-            case "PurchaseInvoice":
-                // return  new AccountEstrictionRepositorySales_invoices();
-                // return new AccountEstrictionRepositoryPurchase_invoices();
-            case "ReturnsPurchaseInvoice":
-                // return new AccountEstrictionRepositoryReturnsPurchase_invoices();
-            case "Order":
-                // return new AccountEstrictionRepositoryOrders();
-            case "ReturnsSalesInvoice":
-                // return new AccountEstrictionRepositoryReturnsSales_invoices();
-            case "Quotation":
-                // return new AccountEstrictionRepositoryQuotations();
-            default:
-                throw new \Exception("Invalid Invoice Category");
-        }
-    }
-    
+
+
+
 }
 
