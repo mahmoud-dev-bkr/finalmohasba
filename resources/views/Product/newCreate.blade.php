@@ -33,10 +33,10 @@
 
         </div>
     </section>
-    
+
     <section>
         <div class="d-flex justify-content-sm-end mx-5"> <a
-                    href="{{ route('Product.index') }}" class="btn btn-primary mx-2"> رجوع</a> 
+                    href="{{ route('Product.index') }}" class="btn btn-primary mx-2"> رجوع</a>
         </div>
         <div class="container my-3 max-con">
             <div class="row">
@@ -58,19 +58,19 @@
             <form action="{{ route('Product.create.post') }}" method="post">
                 @csrf
                 <div class="row bg-light pb-4 brdr">
-                   
-                    
+
+
                     <div class="row form mt-5">
-                        
+
                        <input type="number" value="{{ $product_id }}" name="type" id="" hidden>
-                 
+
                        <div class="d-flex justify-content-start">
                             <!--<h4 class="text-primary my-5">-->
                             <!--    ملاحظة: اضغط على "الخطوة الأولى" لاختيار نوع قيد مختلف-->
                             <!--</h4>-->
                         </div>
-                        
-                      
+
+
                        <div class="modal fade" id="exampleModal" tabindex="-1"aria-labelledby="exampleModalLabel" aria-hidden="true">
                            <div class="modal-dialog">
                                <div class="modal-content">
@@ -81,22 +81,22 @@
                                            aria-label="Close"></button>
                                    </div>
                                    <div class="modal-body">
-                       
+
                                        <div class="modal-form">
-                       
+
                                            <div class="d-flex alig-content-center justify-content-around">
                                                <label class="mt-3 ml-5"> وحدة القياس</label><input
                                                    type="text" name="name" id="name"
                                                    class="form-control w-50 my-2">
                                            </div>
-                       
+
                                            <div class="d-flex align-content-center justify-content-around">
                                                <label class="mt-3 ml-5"> طريقة العرض</label><input
                                                    type="text" id="description" name="description"
                                                    class="form-control w-50 my-2">
                                            </div>
                                        </div>
-                       
+
                                    </div>
                                    <div class="modal-footer">
                                        <button type="button" class="btn btn-secondary"
@@ -107,7 +107,7 @@
                                </div>
                            </div>
                        </div>
-                       
+
                        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                            <div class="modal-dialog">
                                <div class="modal-content">
@@ -117,25 +117,25 @@
                                            aria-label="Close"></button>
                                    </div>
                                    <div class="modal-body">
-                       
+
                                        <div class="modal-form">
-                       
+
                                            <div class="d-flex align-content-center justify-content-around">
                                                <label class="mt-3 "> اسم الصنف</label><input type="text"
                                                    name="name" class="form-control w-50 my-2" id="name_item">
                                            </div>
-                       
+
                                            <div class="d-flex align-content-center justify-content-around">
                                                <label class="mt-3 "> الوصف</label><input type="text"
                                                    name="description" class="form-control w-50 my-2"
                                                    id="description_item">
                                            </div>
-                       
-                       
-                       
-                       
+
+
+
+
                                        </div>
-                       
+
                                    </div>
                                    <div class="modal-footer">
                                        <button type="button" class="btn btn-secondary"
@@ -146,7 +146,7 @@
                                </div>
                            </div>
                        </div>
-                       
+
                        <div class="responsive-scroll">
                            <table class="table text-center clint_">
                              <tbody>
@@ -157,7 +157,7 @@
                                        </label>
                                    </th>
                                    <td>
-                                       <input class="form-control" name="name_ar" type="text">  
+                                       <input class="form-control" name="name_ar" type="text">
                                    </td>
                                    <th>
                                        <label for="name_en">
@@ -168,12 +168,12 @@
                                        <input class="form-control" name="name_en" type="text">
                                    </td>
                                </tr>
-                               
+
                                <tr>
                                    <th>
                                        <label for="serial_number">
                                            الرقم التسلسلي
-                                       </label> 
+                                       </label>
                                    </th>
                                    <td>
                                        <div class="row p-0 m-0 ">
@@ -212,9 +212,9 @@
                                            </div>
                                        </div>
                                    </td>
-                                   
+
                                </tr>
-                               
+
                                <tr>
                                    <th>
                                      <label for="set_Unit"> وحدة القياس </label>
@@ -226,7 +226,7 @@
                                                    <optgroup>
                                                        @foreach ($units as $uint )
                                                        <option value="{{ $uint->id }}">{{ $uint->name }}</option>
-                                                       @endforeach 
+                                                       @endforeach
                                                    </optgroup>
                                                </select>
                                            </div>
@@ -251,7 +251,7 @@
                                        </select>
                                    </td>
                                </tr>
-                               
+
                                <tr>
                                    <th>
                                       <label for="Tex_Number"> لضريبة %</label>
@@ -277,16 +277,16 @@
                                        </select>
                                    </td>
                                </tr>
-                              
+
                              </tbody>
                            </table>
                        </div>
-                        
-                        
-<!--                        
+
+
+<!--
                       <div class="col-12 col-md-6">
                           <div class="row">
-                            
+
                             <div class="col-4">
                               <label for="name_ar">
                               الاسم العربي
@@ -295,7 +295,7 @@
                             <div class="col-8 mb-3">
                               <input class="form-control" name="name_ar" type="text">
                             </div>
-                            
+
                             <div class="col-4">
                               <label for="">
                               الرقم التسلسلي
@@ -304,13 +304,13 @@
                             <div class="col-8 mb-3">
                               <input class="form-control" name="serial_number" type="text" id="serial_number">
                             </div>
-                            
+
                             <div class="col-12 mb-3">
                               <div class="pull-right">
                                   <a onclick="genSerial_number()" class="btn btn-primary">توليد رقم تسلسلي</a>
                               </div>
                             </div>
-                            
+
                             <div class="col-4">
                                 <label for="set_Unit"> وحدة القياس </label>
                             </div>
@@ -319,7 +319,7 @@
                                     <optgroup>
                                      @foreach ($units as $uint )
                                         <option value="{{ $uint->id }}">{{ $uint->name }}</option>
-                                      @endforeach 
+                                      @endforeach
                                     </optgroup>
                                 </select>
                             </div>
@@ -329,7 +329,7 @@
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
                             </div>
-                            
+
                            <div class="col-4">
                                 <label for="Tex_Number"> لضريبة %</label>
                             </div>
@@ -341,10 +341,10 @@
                                     </optgroup>
                                 </select>
                             </div>
-                            
+
                           </div>
                       </div>
-                      
+
                       <div class="modal fade" id="exampleModal" tabindex="-1"aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog">
                               <div class="modal-content">
@@ -355,22 +355,22 @@
                                           aria-label="Close"></button>
                                   </div>
                                   <div class="modal-body">
-  
+
                                       <div class="modal-form">
-  
+
                                           <div class="d-flex alig-content-center justify-content-around">
                                               <label class="mt-3 ml-5"> وحدة القياس</label><input
                                                   type="text" name="name" id="name"
                                                   class="form-control w-50 my-2">
                                           </div>
-  
+
                                           <div class="d-flex align-content-center justify-content-around">
                                               <label class="mt-3 ml-5"> طريقة العرض</label><input
                                                   type="text" id="description" name="description"
                                                   class="form-control w-50 my-2">
                                           </div>
                                       </div>
-  
+
                                   </div>
                                   <div class="modal-footer">
                                       <button type="button" class="btn btn-secondary"
@@ -384,7 +384,7 @@
 
                       <div class="col-12 col-md-6">
                         <div class="row">
-                          
+
                           <div class="col-4">
                             <label for="name_en">
                             الاسم الانجليزي
@@ -393,7 +393,7 @@
                           <div class="col-8 mb-3">
                             <input class="form-control" name="name_en" type="text">
                           </div>
-                          
+
                           <div class="col-4">
                             <label for="id_des"> الصنف</label>
                           </div>
@@ -413,7 +413,7 @@
                                 <i class="fa-solid fa-plus"></i>
                             </button>
                           </div>
-                          
+
                           <div class="col-4">
                               <label for="account_buy"> حساب الايرادات</label>
                           </div>
@@ -426,7 +426,7 @@
                                   </optgroup>
                               </select>
                           </div>
-                    
+
                           <div class="col-4">
                               <label for="account_sel"> حساب المصروفات</label>
                           </div>
@@ -439,7 +439,7 @@
                                   </optgroup>
                               </select>
                           </div>
-                          
+
                           <div class="modal fade" id="exampleModal2" tabindex="-1"
                               aria-labelledby="exampleModalLabel" aria-hidden="true">
                               <div class="modal-dialog">
@@ -480,12 +480,12 @@
                               </div>
                           </div>
 
-                          
+
                         </div>
                       </div>
--->             
+-->
                         <div class="col-md-12">
-                            
+
                             <div class="col-md-12 table-responsive-lg responsive-scroll">
                               <div class="w-100 my-5 ">
                                 <table  class="table text-center table-bordered inventary-table ct" style="width:100%;">
@@ -498,7 +498,7 @@
                                         <th class="text-center" scope="col">سعر البيع يشمل الضريبة؟</th>
                                             @foreach($sites as $si)
                                                 @if($si->id != 10)
-                                                    <th scope="col">{{ $si->name_ar }} سعر بيع   </th>
+                                                    <th scope="col">{{ $si->name_en }} سعر بيع   </th>
                                                 @endif
                                             @endforeach
                                         <th class="text-center" scope="col">الباركود </th>
@@ -511,7 +511,7 @@
                                     <!--            @foreach ($units as $uint )-->
                                     <!--                <option value="{{ $uint->id }}">{{ $uint->name  }}</option>-->
                                     <!--            @endforeach-->
-                            
+
                                     <!--        </optgroup>-->
                                     <!--    </select>-->
                                     <!--</td>-->
@@ -527,7 +527,7 @@
                                     <!--            @foreach ($units as $uint )-->
                                     <!--                <option value="{{ $uint->id }}">{{ $uint->name  }}</option>-->
                                     <!--            @endforeach-->
-                            
+
                                     <!--        </optgroup>-->
                                     <!--    </select>-->
                                     <!--</td>-->
@@ -562,7 +562,7 @@
                             <br>
                             <br>
                             <br>
-                            <h3 style="color:red;">تحويل الوحدات</h3> 
+                            <h3 style="color:red;">تحويل الوحدات</h3>
                             <div class="col-md-12">
                               <div class="w-100 my-5 table-responsive-lg responsive-scroll">
                                 <table id="add_table" class="table  text-center table-bordered inventary-table ct">
@@ -578,7 +578,7 @@
                                         <th class="text-center" scope="col">سعر البيع يشمل الضريبة؟</th>
                                             @foreach($sites as $si)
                                                 @if($si->id != 10)
-                                                    <th scope="col">{{ $si->name_ar }} سعر بيع   </th>
+                                                    <th scope="col">{{ $si->name_en }} سعر بيع   </th>
                                                 @endif
                                             @endforeach
                                         <th class="text-center" scope="col">الباركود </th>
@@ -586,18 +586,18 @@
                                     </tr>
                                   </thead>
                                   <tbody id="t-body">
-                                    
+
                                   </tbody>
                                 </table>
                                 <a class="btn btn-primary " id="add_row">اضافةالمزيد</a>
                               </div>
                             </div>
-                            
+
                             <div class="my-5">
                                 <h6 class="my-2 ">صوره المنتج</h6>
                                 <input type="file" class="form-control w-50 my-3">
                                 <div class="btn-holder">
-                                    <button class="btn btn-primary submit">حفظ </button> 
+                                    <button class="btn btn-primary submit">حفظ </button>
                                     <a href="{{ route('Product.index') }}"
                                        >
                                         <button class="btn btn-dark re-submit">
@@ -609,7 +609,7 @@
 
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </form>
@@ -632,14 +632,14 @@
           // Add row
           var row = '';
           row += `
-          <tr> 
+          <tr>
                 <td class="text-center" colspan="1">
                     <select name="test[]" class="form-select my-2 form-select-lg " style="display: initial; width: 90%; height: 40px;">
                         <optgroup>
                             @foreach ($units as $uint )
                                 <option value="{{ $uint->id }}" class="units">{{ $uint->name  }}</option>
                             @endforeach
-        
+
                         </optgroup>
                     </select>
                 </td>
@@ -655,7 +655,7 @@
                             @foreach ($units as $uint )
                                 <option value="{{ $uint->id }}" >{{ $uint->name  }}</option>
                             @endforeach
-        
+
                         </optgroup>
                     </select>
                 </td>
@@ -676,8 +676,8 @@
                     @if($sit->id != 10)
                         <td class="text-center" colspan="1" >
                             <input type="text" class="form-custom-2 my-2"  name="price[]"           style="width: 125px;" id="price_${counter}" onfocusout="result(${counter})">
-                            <input type="text" class="form-custom-2 my-2"  value="{{ $sit->id }}"   style="width: 125px;" id="ids_${counter}" hidden > 
-                            <input type="text" class="form-custom-2 my-2"  name="ids[]" value="{{ $sit->id }}"   style="width: 125px;"  id="result_${counter}" hidden > 
+                            <input type="text" class="form-custom-2 my-2"  value="{{ $sit->id }}"   style="width: 125px;" id="ids_${counter}" hidden >
+                            <input type="text" class="form-custom-2 my-2"  name="ids[]" value="{{ $sit->id }}"   style="width: 125px;"  id="result_${counter}" hidden >
                         </td>
                      @endif
                 @endforeach
@@ -686,41 +686,41 @@
                 </td>
                 <td class="text-center" colspan="1" >
                     <i class="mt-3 fas fa-times text-danger delete_row" data-id="${id}" style="width:30px"></i>
-                </td> 
-                
+                </td>
+
           </tr>`;
-          
+
           $("#t-body").append(row);
-          
-          
+
+
           var valueToSet = $('#set_Unit option:selected').text();
           $('.units').each(function(){
             if ($(this).text() === valueToSet) {
               $(this).prop('selected', true);
             }
           });
-          
-          
-        //   Total_value[id] = 0; 
+
+
+        //   Total_value[id] = 0;
         //   Total_before[id] = 0;
         //   Total_Tax[id] = 0;
         //   getSum();
           id += 1;
-         
+
         });
-    
+
         $("#t-body").on("click", ".delete_row", function() {
           var deleteId = $(this).data("id");
           $(this).closest('tr').remove();
         });
-    
-    
+
+
     function genSerial_number() {
 
         document.getElementById("serial_number").value = Math.random().toString().slice(2, 14);
 
     }
-    
+
     function change_unit() {
         var valueToSet = $('#set_Unit option:selected').text();
           $('.units').each(function(){
@@ -729,7 +729,7 @@
             }
           });
     }
-    
+
     function submit_unit() {
         var description = document.getElementById('description').value
         var set_Unit      = $('#set_Unit');
@@ -754,7 +754,7 @@
                 $.each(data, function(key, value) {
                     set_Unit.append('<option value="' + value.id + '">' + value.name + '</option>');
                 });
-           
+
             set_Unit.val(set_Unitvalue);
 
             }
@@ -788,16 +788,16 @@
 
     function myFunction(id) {
         var x = document.getElementById("product_"+id).value;
-        
+
     }
     function result(id) {
         var price      = document.getElementById("price_"+id).value;
         var Inputprice = document.getElementById("price_"+id);
         var ids   = document.getElementById("ids_"+id).value;
         var inputIds =  document.getElementById("result_"+id);
-        
+
         if (Inputprice.value.trim() === '') {
-            Inputprice.focus(); 
+            Inputprice.focus();
         }
         inputIds.value = "";
         inputIds.value = ids  + "-" + price
@@ -811,10 +811,10 @@
         var inputIds =  document.getElementById("result_main_"+id);
 
         if (Inputprice.value.trim() === '') {
-            Inputprice.focus(); 
-        } 
+            Inputprice.focus();
+        }
         inputIds.value = "";
-        inputIds.value = ids  + "-" + price 
+        inputIds.value = ids  + "-" + price
     }
 
 </script>

@@ -39,28 +39,28 @@ class ProductController extends Controller
 
     public function getProduct(Request $request){
         $Product = Product::query();
-        
+
         if ($request->code > 0)
            $Product->where('serial_number', 'like', '%'. $request->code . '%');
 
-        
+
         if ($request->name_id)
             // dd(request()->name_id);
             $Product->where('name_ar', 'like', '%'.$request->name_id.'%')->orWhere('name_en', 'like', '%' . $request->name_id . '%');
-            
 
-        
+
+
         if ($request->barcode_id > 0)
             $Product->where('barCode','like','%'. $request->barcode_id."%");
 
-        
+
         if ($request->item > 0)
             $Product->where('id_des', request()->item );
 
-        
-        
-        
-        
+
+
+
+
         $data = Datatables()->eloquent($Product->latest())
         ->addColumn('action' , function($Product){
             return view('Product.actions' , ['type' => 'action' , 'Product' => $Product]);
@@ -100,7 +100,7 @@ class ProductController extends Controller
     }
     public function getItemDataTable(Request $request){
         $Product = Item::query();
-        
+
         $data = Datatables()->eloquent($Product->latest())
         // ->addColumn('action' , function($Product){
         //     return view('Product.actions' , ['type' => 'action' , 'Product' => $Product]);
@@ -113,11 +113,11 @@ class ProductController extends Controller
 
         return $data;
     }
-    
-    
+
+
     public function getUnitDataTable(Request $request){
         $Product = Uint::query();
-        
+
         $data = Datatables()->eloquent($Product->latest())
         // ->addColumn('action' , function($Product){
         //     return view('Product.actions' , ['type' => 'action' , 'Product' => $Product]);
@@ -130,9 +130,9 @@ class ProductController extends Controller
 
         return $data;
     }
-    
-    
-    
+
+
+
     public function index()
     {
         $Product = Product::all();
@@ -155,7 +155,7 @@ class ProductController extends Controller
             ]
         ));
     }
-    
+
     public function unitIndex()
     {
         $Product = Uint::all();
@@ -167,7 +167,7 @@ class ProductController extends Controller
             ]
         ));
     }
-    
+
     public function createUnit()
     {
         $Product = Uint::all();
@@ -234,9 +234,9 @@ class ProductController extends Controller
     {
 
         $data = $request->all();
-        
+
         // dd($data);
-        
+
         $count_site = Site::where("id", "!=", 10)->get();
         $len  = count($data['test']) / 6;
         $lenSite =  count($data['ids']) /count($count_site);
@@ -244,7 +244,7 @@ class ProductController extends Controller
         $startsite  = 0;
         $unitsites  = [];
         $groupsite  = [];
-        
+
         $end        = 0;
         $start      = 0;
         $group      = [];
@@ -254,22 +254,22 @@ class ProductController extends Controller
         $counter_of_unit[] = 1;
         $unitS[] = $data['id_unit'];
         for ($i=0; $i < $lenSite; $i++) {
-    
+
            $groupsite[] = array_slice($data['ids'],$startsite , count($count_site), false);
            $startsite += count($count_site);
-    
+
         }
         // dd($groupsite);
        for ($i=0; $i < $len; $i++) {
 
            $group[] = array_slice($data['test'],$start , 6, false);
-    
+
            $start += 6;
-    
+
        }
         // dd($group);
         $product = Product::create($data);
-    
+
 
         foreach ($group as $index) {
             // if (count($index) >= 7) {
@@ -285,29 +285,29 @@ class ProductController extends Controller
             // }
             $unitS[] = $index[0];
             $counter_of_unit[] = $index[1];
-        } 
+        }
         // dd($unitS);
         $countunit = 0;
         foreach ($groupsite as $index) {
             foreach ($index as $in) {
-                
+
                 $arr = explode("-", $in);
-            
+
                 $unitsites[] = [
                     'unit_id'           => $unitS[$countunit],
                     'counter_of_unit'   => $counter_of_unit[$countunit],
                     'site_id'           => $arr[0],
-                    'price'             => $arr[1],                
+                    'price'             => $arr[1],
                     'product_id'        => $product->id,
                 ];
                 // create
             }
             $countunit += 1;
-            
-        } 
-        
-        
-    
+
+        }
+
+
+
         ProductUint::insert($unit);
         ProductUintPrices::insert($unitsites);
         // dd($unitsites);
@@ -337,8 +337,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $Product = Product::FindOrFail($id);
-      
-    
+
+
           $product_id = $id;
         $title      = "";
         if ($product_id == 1) {
@@ -376,7 +376,7 @@ class ProductController extends Controller
         $Product = Product::findOrFail($id);
         $data = $request->all();
         dd($data);
-        
+
 
         $Product->update($data);
         return redirect()->route('Product.index')->with(['success' => 'تم تحديث بيانات العميل بنجاح']);
@@ -401,13 +401,13 @@ class ProductController extends Controller
             return redirect()->route('Product.index')->with(['error' => 'هناك خطأ برجاء المحاولة ثانيا']);
         }
     }
-    
-    
+
+
     public function copy($id)
     {
          $Product = Product::FindOrFail($id);
-      
-    
+
+
           $product_id = $id;
         $title      = "";
         if ($product_id == 1) {
@@ -431,10 +431,10 @@ class ProductController extends Controller
         $ProductUintPricesMain     = ProductUintPrices::where('product_id', $id)->where('unit_id',  $Product->id_unit)->get();
         // dd($ProductUintPricesMain);
         return view('Product.copy' , compact('product_id','Product', 'units', 'items', 'title', 'account1', 'account2', 'sites','ProductUint','ProductUintPrices', 'ProductUintPricesMain'));
-        
-        
+
+
     }
-    
-    
-    
+
+
+
 }

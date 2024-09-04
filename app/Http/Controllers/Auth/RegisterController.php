@@ -35,17 +35,17 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    // protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('guest');
+    // }
 
     /**
      * Get a validator for an incoming registration request.
@@ -71,9 +71,13 @@ class RegisterController extends Controller
     {
         // dd($data);
         $service = new CompanyService();
-        $company =  $service->CompanyRegister($data);
-        // dd(request()->url());
-        return redirect("http://".$company->domain."localhost:8000/dashboard");
+        $data =  $service->CompanyRegister($data);
+        // Construct the URL with the company's domain
+        $companyDomain = $data['company']['domain'];
+        $this->redirectTo = "http://{$companyDomain}.localhost:8000/dashboard";
+        return $data['user'];
+        // return redirect("http://"");
+
 
     }
 }

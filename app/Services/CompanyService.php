@@ -35,8 +35,16 @@ class CompanyService
 
         $this->AccountSeeder();
 
+        $user = User::create([
+            'name'       => "superadmin",
+            'email'      => "superadmin@" . $data['company']['organization_name'] . ".com",
+            'password'   => Hash::make("123456"),
+            'company_id' => $company->id,
+            'role_id'    => 1,
+            'pos'        => 1,
+        ]);
 
-        return $company;
+        return $data = compact('company', 'user');
         // dd("Database, user created and migrations run successfully.");
     }
 
@@ -52,14 +60,7 @@ class CompanyService
 
         // Create the company record in the database
         $company = Company::create($data['company']);
-        $user = User::create([
-            'name'       => "superadmin",
-            'email'      => "superadmin@" . $data['company']['organization_name'] . ".com",
-            'password'   => Hash::make("123456"),
-            'company_id' => $company->id,
-            'role_id'    => 1,
-            'pos'        => 1,
-        ]);
+
         // Create the new database
         DB::statement("CREATE DATABASE IF NOT EXISTS `$database`");
 
