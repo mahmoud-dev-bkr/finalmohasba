@@ -23,7 +23,7 @@ class InvoicesRepository implements InvoicesRepositoryInterface
 
     }
     public function findAndUpdateInvoice($id, array $data, $type = NULL) {
-
+        return $this->model->find($id)->update($data);
     }
     public function returnsInvoice($id) {
 

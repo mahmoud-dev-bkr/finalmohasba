@@ -525,6 +525,13 @@ class sales_invoicesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $data = $request->all();
+        $this->invoiceService->update($id, $data , 2,'sales_invoices.index');
+
+        return redirect()->route('sales_invoices.index')->with(['success' => 'تم تحديث بيانات  بنجاح']);
+    }
+    public function update2(Request $request, $id)
+    {
         $PurchaseInvoices = Sales_invoices::findOrFail($id);
         $data = $request->all();
         $data['old_balance'] = $request->final_total;

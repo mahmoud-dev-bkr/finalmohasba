@@ -2,9 +2,8 @@
 
 use App\Product;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
-class DatabaseSeeder extends Seeder
+class ProductsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,10 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
-        $this->call([
-            ProductsTableSeeder::class,
-        ]);
-
+        $products = factory('App\Product', 100)->create();
     }
 }

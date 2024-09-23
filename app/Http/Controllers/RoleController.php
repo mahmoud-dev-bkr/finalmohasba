@@ -35,7 +35,7 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        
+
         // dd($request);
         $role = Role::create(
             array(
@@ -72,17 +72,17 @@ class RoleController extends Controller
                 return null;
             }
         //update in db
-     
+
             $role -> update($request->except('_token'));
             $role->permission()->sync(array_filter((array)$request->permission_id));
-            
+
             dd("done");
 
         }catch(\Exception $ex){
             return redirect()->route('admin.roles.index')->with(['error' => 'هناك خطأ برجاء المحاولة ثانيا']);
 
         }
-       
+
 
     }
 
@@ -90,7 +90,7 @@ class RoleController extends Controller
     public function destroy(Request $request)
     {
         $role = DB::table('roles')->where('id', $request->role_id)->first();
-        
+
         $role->delete();
         session()->flash('success', __('site.deleted_successfully'));
         return redirect()->route('dashboard.roles.index');
@@ -98,7 +98,7 @@ class RoleController extends Controller
     public function getPermissions(){
         $permissions_data = [];
         $permissions = ProjectFunction::all();
-        
+
         $numItems = count($permissions);
         foreach ($permissions as $p) {
             $permissions_data[] = Permission::where('function_id', $p->id)->get();
@@ -106,12 +106,12 @@ class RoleController extends Controller
         // dd($permissions_data);
         return $permissions_data;
     }
-    
+
     public function getPermissions1(){
         $permissions_data = [];
 
         $permissions = Permission::all();
-
+        dd($permissions);
         $current_name = null;
         $collection = [];
 

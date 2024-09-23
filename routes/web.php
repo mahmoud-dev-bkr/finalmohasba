@@ -45,6 +45,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Laratrust\Http\Controllers\RolesController;
 
 Route::get('/view', function () {
     return view('view');
@@ -253,10 +254,10 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
     Route::get('/ReturnsPurchase_Invoices/show/{id}',        [ReturnsPurchaseInvoicesController::class, 'show'])->name('ReturnsPurchase_Invoices.show');
 
 
+    Route::get('roles',                [RoleController::class, "index"])->name('roles.index');
     Route::get('/roles/create',        [RoleController::class, 'create'])->name('roles.create');
     Route::post('roles/update/{id}',   [RoleController::class, 'update'])->name('roles.update');
     Route::post('roles/store',         [RoleController::class, 'store'])->name('roles.create.post');
-
 
 
 

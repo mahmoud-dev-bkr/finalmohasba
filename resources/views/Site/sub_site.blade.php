@@ -140,12 +140,12 @@
                     </section>
                 @else
                     <div class="row bg-light pb-4 brdr">
-                        <div class="col-md-12 Suppliers ">
+                        <div class="col-md-12 Suppliers text-center">
                             <div>
                                 <img src="{{ URL('images/Suppliers-img.svg') }}"  alt="">
                                 <h1 class="my-3">ليس لديك أي موقع</h1>
                                 <p class="text-secondary my-5">يوفر قيود صفحة خاصة بالعملاء للمساهمة في تسهيل التعاملات مع العملاء وملخص لبياناتهم.</p>
-                                <button class="btn btn-primary mx-2 "> <a href="{{ URL('dashboard/Site/create') }}" class="text-light">اضافة موق</a>  <i class="fa-solid fa-plus"></i></button> <button class="btn btn-primary">استيراد قائمة الموقع  <i class="fa-solid fa-right-to-bracket mx-1"></i></button>
+                                <button class="btn btn-primary mx-2 "> <a href="{{ URL('dashboard/Site/create') }}" class="text-light">اضافة موقع</a>  <i class="fa-solid fa-plus"></i></button> <button class="btn btn-primary">استيراد قائمة الموقع  <i class="fa-solid fa-right-to-bracket mx-1"></i></button>
                             </div>
                         </div>
                     </div>
@@ -223,12 +223,12 @@
                     }); //end of delete
                 },
 
-                
+
                 paginate: {
                     "previous": "<i class='mdi mdi-chevron-left'>",
                     "next": "<i class='mdi mdi-chevron-right'>"
                 },
-                
+
 
                 columns: [{
                         data: 'name_ar'

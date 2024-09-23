@@ -47,7 +47,7 @@ class Product extends Model
     {
         if (auth()->user()->site_id == 1) {
             return $this->hasMany(ProductUintPrices::class, 'product_id', 'id');
-        } 
+        }
         return $this->hasMany(ProductUintPrices::class, 'product_id', 'id')
             ->where('site_id', auth()->user()->site_id); // Filter prices by site_id
     }

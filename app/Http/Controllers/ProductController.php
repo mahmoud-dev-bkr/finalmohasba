@@ -216,8 +216,8 @@ class ProductController extends Controller
         }  elseif ($product_id == 5) {
             $title = "مصروف";
         }
-        $units      = Uint::all();
-        $items      = Item::all();
+        $units      = Uint::pluck('name', 'id')->toArray();
+        $items      = Item::pluck('name', 'id')->toArray();
         $sites      = Site::where('type', '!=', 1)->get();
         $account1     = Account::where('type', 4)->get();
         $account2     = Account::where('type', 5)->get();
@@ -235,82 +235,125 @@ class ProductController extends Controller
 
         $data = $request->all();
 
-        // dd($data);
+        if (isset($data['ids'])) {
+            // dd($data);
+            $count_site = Site::where("type", "!=", 1)->get();
+            $len  = count($data['test']) / 6;
+            $lenSite =  count($data['ids']) /count($count_site);
+            // dd($lenSite);
+            $startsite  = 0;
+            $unitsites  = [];
+            $groupsite  = [];
 
-        $count_site = Site::where("id", "!=", 10)->get();
-        $len  = count($data['test']) / 6;
-        $lenSite =  count($data['ids']) /count($count_site);
-        // dd($lenSite);
-        $startsite  = 0;
-        $unitsites  = [];
-        $groupsite  = [];
+            $end        = 0;
+            $start      = 0;
+            $group      = [];
+            $unit       = [];
+            $uintS = [];
+            $counter_of_unit = [];
+            $counter_of_unit[] = 1;
+            $unitS[] = $data['id_unit'];
+            for ($i=0; $i < $lenSite; $i++) {
 
-        $end        = 0;
-        $start      = 0;
-        $group      = [];
-        $unit       = [];
-        $uintS = [];
-        $counter_of_unit = [];
-        $counter_of_unit[] = 1;
-        $unitS[] = $data['id_unit'];
-        for ($i=0; $i < $lenSite; $i++) {
+            $groupsite[] = array_slice($data['ids'],$startsite , count($count_site), false);
+            $startsite += count($count_site);
 
-           $groupsite[] = array_slice($data['ids'],$startsite , count($count_site), false);
-           $startsite += count($count_site);
-
-        }
-        // dd($groupsite);
-       for ($i=0; $i < $len; $i++) {
-
-           $group[] = array_slice($data['test'],$start , 6, false);
-
-           $start += 6;
-
-       }
-        // dd($group);
-        $product = Product::create($data);
-
-
-        foreach ($group as $index) {
-            // if (count($index) >= 7) {
-                $unit[] = [
-                    'id_unit'           => $index[0],
-                    'counter_of_unit'   => $index[1],
-                    'price_buy'         => $index[2],
-                     'is_buy_tex'       => $index[3],
-                    'price_sell'        => $index[4],
-                    'barcode'           => $index[5],
-                    'id_product'        => $product->id
-                ];
-            // }
-            $unitS[] = $index[0];
-            $counter_of_unit[] = $index[1];
-        }
-        // dd($unitS);
-        $countunit = 0;
-        foreach ($groupsite as $index) {
-            foreach ($index as $in) {
-
-                $arr = explode("-", $in);
-
-                $unitsites[] = [
-                    'unit_id'           => $unitS[$countunit],
-                    'counter_of_unit'   => $counter_of_unit[$countunit],
-                    'site_id'           => $arr[0],
-                    'price'             => $arr[1],
-                    'product_id'        => $product->id,
-                ];
-                // create
             }
-            $countunit += 1;
+            // dd($groupsite);
+        for ($i=0; $i < $len; $i++) {
+
+            $group[] = array_slice($data['test'],$start , 6, false);
+
+            $start += 6;
 
         }
+            // dd($group);
+            $product = Product::create($data);
+
+
+            foreach ($group as $index) {
+                    $unit[] = [
+                        'id_unit'           => $index[0],
+                        'counter_of_unit'   => $index[1],
+                        'price_buy'         => $index[2],
+                        'is_buy_tex'       => $index[3],
+                        'price_sell'        => $index[4],
+                        'barcode'           => $index[5],
+                        'id_product'        => $product->id
+                    ];
+                $unitS[] = $index[0];
+                $counter_of_unit[] = $index[1];
+            }
+            // dd($unitS);
+            $countunit = 0;
+            foreach ($groupsite as $index) {
+                foreach ($index as $in) {
+
+                    $arr = explode("-", $in);
+
+                    $unitsites[] = [
+                        'unit_id'           => $unitS[$countunit],
+                        'counter_of_unit'   => $counter_of_unit[$countunit],
+                        'site_id'           => $arr[0],
+                        'price'             => $arr[1],
+                        'product_id'        => $product->id,
+                    ];
+                    // create
+                }
+                $countunit += 1;
+
+            }
 
 
 
-        ProductUint::insert($unit);
-        ProductUintPrices::insert($unitsites);
-        // dd($unitsites);
+            ProductUint::insert($unit);
+            ProductUintPrices::insert($unitsites);
+            // dd($unitsites);
+        } else {
+
+            $start      = 0;
+            $group      = [];
+            $unit       = [];
+            // dd($data);
+            for ($i=0; $i < 1; $i++) {
+
+                $group[] = array_slice($data['test'],$start , 6, false);
+
+                $start += 6;
+
+            }
+
+            $product = Product::create($data);
+
+
+
+            foreach ($group as $index) {
+                    $unit[] = [
+                        'id_unit'           => $index[0],
+                        'counter_of_unit'   => $index[1],
+                        'price_buy'         => $index[2],
+                        'is_buy_tex'       => $index[3],
+                        'price_sell'        => $index[4],
+                        'barcode'           => $index[5],
+                        'id_product'        => $product->id
+                    ];
+                    $unitsites[] = [
+                        'unit_id'           => $index[0],
+                        'counter_of_unit'   => $index[1],
+                        'site_id'           => 1,
+                        'price'             => $index[4],
+                        'product_id'        => $product->id,
+                    ];
+                    // create
+
+                    ProductUint::insert($unit);
+                    ProductUintPrices::insert($unitsites);
+
+
+
+            }
+        }
+
         return redirect()->route('Product.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
 

@@ -198,8 +198,8 @@
                                                <select class="form-control w-100" name="id_des" id="id_des">
                                                    <optgroup>
                                                        <option value="0">الصنف الاساسي</option>
-                                                       @foreach ($items as $item )
-                                                           <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                       @foreach ($items as $id => $name )
+                                                           <option value="{{ $id }}">{{ $name }}</option>
                                                        @endforeach
                                                    </optgroup>
                                                </select>
@@ -224,8 +224,8 @@
                                            <div class="col-11 p-0 m-0">
                                                <select name="id_unit" class="form-control" id="set_Unit" onchange="change_unit()">
                                                    <optgroup>
-                                                       @foreach ($units as $uint )
-                                                       <option value="{{ $uint->id }}">{{ $uint->name }}</option>
+                                                       @foreach ($units as $id => $name )
+                                                       <option value="{{ $id }}">{{ $name }}</option>
                                                        @endforeach
                                                    </optgroup>
                                                </select>
@@ -317,9 +317,7 @@
                             <div class="col-6">
                                 <select name="id_unit" class="form-control" id="set_Unit" onchange="change_unit()">
                                     <optgroup>
-                                     @foreach ($units as $uint )
-                                        <option value="{{ $uint->id }}">{{ $uint->name }}</option>
-                                      @endforeach
+
                                     </optgroup>
                                 </select>
                             </div>
@@ -401,9 +399,7 @@
                             <select class="form-control w-100" name="id_des" id="id_des">
                                 <optgroup>
                                     <option value="0">الصنف الاساسي</option>
-                                    @foreach ($items as $item )
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
+
                                 </optgroup>
                             </select>
                           </div>
@@ -420,9 +416,7 @@
                           <div class="col-8 mb-3">
                               <select class="form-control" name="account_buy" id="account_buy">
                                   <optgroup>
-                                    @foreach ($account1 as $account )
-                                      <option {{ $account->code == '4101' ? 'selected' : ''  }} value="{{ $account->id }}">{{ $account->name }}</option>
-                                    @endforeach
+
                                   </optgroup>
                               </select>
                           </div>
@@ -433,9 +427,7 @@
                           <div class="col-8 mb-3">
                               <select class="form-control" name="account_sel" id="account_sel">
                                   <optgroup>
-                                  @foreach ($account2 as $account )
-                                    <option {{ $account->code == '5101' ? 'selected' : ''  }} value="{{ $account->id }}">{{ $account->name }}</option>
-                                  @endforeach
+
                                   </optgroup>
                               </select>
                           </div>
@@ -497,7 +489,7 @@
                                         <th class="text-center" scope="col">سعر بيع الوحدة</th>
                                         <th class="text-center" scope="col">سعر البيع يشمل الضريبة؟</th>
                                             @foreach($sites as $si)
-                                                @if($si->id != 10)
+                                                @if($si->id != 1)
                                                     <th scope="col">{{ $si->name_en }} سعر بيع   </th>
                                                 @endif
                                             @endforeach
@@ -505,32 +497,7 @@
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <!--<td class="text-center" colspan="1">-->
-                                    <!--    <select name="test[]" class="form-select my-2 form-select-lg" style="display: initial; width: 90%; height: 40px;">-->
-                                    <!--        <optgroup>-->
-                                    <!--            @foreach ($units as $uint )-->
-                                    <!--                <option value="{{ $uint->id }}">{{ $uint->name  }}</option>-->
-                                    <!--            @endforeach-->
 
-                                    <!--        </optgroup>-->
-                                    <!--    </select>-->
-                                    <!--</td>-->
-                                    <!--<td class="text-center"  style="width: 30px;">-->
-                                    <!--    =-->
-                                    <!--</td>-->
-                                    <!--<td class="text-center" style="width: 30px;">-->
-                                    <!--    <input type="text" class="form-custom-2 my-2"  name="test[]"   style="width: 125px;">-->
-                                    <!--</td>-->
-                                    <!--<td class="text-center" colspan="1">-->
-                                    <!--    <select name="" class="form-select my-2 form-select-lg" style="display: initial; width: 90%; height: 40px;">-->
-                                    <!--        <optgroup>-->
-                                    <!--            @foreach ($units as $uint )-->
-                                    <!--                <option value="{{ $uint->id }}">{{ $uint->name  }}</option>-->
-                                    <!--            @endforeach-->
-
-                                    <!--        </optgroup>-->
-                                    <!--    </select>-->
-                                    <!--</td>-->
                                     <td class="text-center" colspan="1" >
                                         <input type="text" class="form-custom-2 my-2"  name="buy"   style="width: 125px;">
                                     </td>
@@ -577,7 +544,7 @@
                                         <th class="text-center" scope="col">سعر بيع الوحدة</th>
                                         <th class="text-center" scope="col">سعر البيع يشمل الضريبة؟</th>
                                             @foreach($sites as $si)
-                                                @if($si->id != 10)
+                                                @if($si->id != 1)
                                                     <th scope="col">{{ $si->name_en }} سعر بيع   </th>
                                                 @endif
                                             @endforeach
@@ -634,10 +601,10 @@
           row += `
           <tr>
                 <td class="text-center" colspan="1">
-                    <select name="test[]" class="form-select my-2 form-select-lg " style="display: initial; width: 90%; height: 40px;">
+                    <select class="form-select my-2 form-select-lg " style="display: initial; width: 90%; height: 40px;">
                         <optgroup>
-                            @foreach ($units as $uint )
-                                <option value="{{ $uint->id }}" class="units">{{ $uint->name  }}</option>
+                            @foreach ($units as $id => $name )
+                                <option value="{{ $id }}" class="units">{{ $name  }}</option>
                             @endforeach
 
                         </optgroup>
@@ -650,10 +617,10 @@
                     <input type="text" class="form-custom-2 my-2"  name="test[]"   style="width: 125px;">
                 </td>
                 <td class="text-center" colspan="1">
-                    <select name="" class="form-select my-2 form-select-lg" style="display: initial; width: 90%; height: 40px;">
+                    <select name="test[]"  class="form-select my-2 form-select-lg" style="display: initial; width: 90%; height: 40px;">
                         <optgroup>
-                            @foreach ($units as $uint )
-                                <option value="{{ $uint->id }}" >{{ $uint->name  }}</option>
+                            @foreach ($units as $id => $name )
+                                <option value="{{ $id }}" >{{ $name  }}</option>
                             @endforeach
 
                         </optgroup>
@@ -673,7 +640,7 @@
                 </td>
                 @foreach($sites as $sit)
                     ${counter += 1}
-                    @if($sit->id != 10)
+                    @if($sit->id != 1)
                         <td class="text-center" colspan="1" >
                             <input type="text" class="form-custom-2 my-2"  name="price[]"           style="width: 125px;" id="price_${counter}" onfocusout="result(${counter})">
                             <input type="text" class="form-custom-2 my-2"  value="{{ $sit->id }}"   style="width: 125px;" id="ids_${counter}" hidden >
@@ -734,7 +701,7 @@
         var description = document.getElementById('description').value
         var set_Unit      = $('#set_Unit');
         var set_Unitvalue = $('#set_Unit').val();
-        alert(set_Unitvalue)
+        // alert(set_Unitvalue)
         var name = document.getElementById('name').value
         $.ajax({
             headers: {

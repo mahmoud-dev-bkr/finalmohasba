@@ -14,10 +14,10 @@
 <div class="container-fluid">
     <section id="content-wrapper" class="content-header">
         <div class="row">
-    
+
             <div class="col-lg-12 mt-3">
                 <ul class="d-flex align-content-center">
-    
+
                     <li><span class="text-dark ml-3">الصفحة الرئيسية</span></li>
                     <li><span class="text-dark ml-3"><i class="fa fa-angle-double-left mx-2 "></i>الاعدادات</span></li>
                     <li class="text-primary">
@@ -25,11 +25,11 @@
                     </li>
                 </ul>
             </div>
-    
-    
+
+
         </div>
     </section>
-    
+
     <section>
         <div class="d-flex justify-content-sm-end mx-2">
             <button class="btn btn-primary btn-sm mx-2">
@@ -54,7 +54,7 @@
                                   اسم المنصب
                               </span>
                               <span class="text-danger" style="font-size: 25px;margin-right:5px;">*</span>
-                            </label>  
+                            </label>
                             <input name="name" id="" class="form-control" style="width:300px;margin-right:20px;">
                         </div>
                         <h5 class="mt-3 text-primary text-right">
@@ -73,9 +73,9 @@
                                                 </h5>
                                               </label>
                                             </div>
-                                            
+
                                             @foreach ($collection as $p)
-                                            
+
                                             <div class="form-check d-flex">
                                               <input class="form-check-input checkbox-c-{{$c_numer}}" type="checkbox" name="permission_id[]" id="p-{{$p->id}}" value="{{ $p->id }}" style="margin-left:20px;">
                                               <label class="form-check-label" for="">
@@ -108,6 +108,7 @@
 <script src="https://mohsba2.taelim.net/assets/js/bootstrap.bundle.min.js"></script>
 <script src="https://mohsba2.taelim.net/js/main.js"></script>
   <!-- Plugins js-->
+  <script src="{{ URL('js/main.js') }}"></script>
 <script src="https://mohsba2.taelim.net/assets/libs/datatables/datatables.min.js"></script>
 <script src="https://mohsba2.taelim.net/assets/libs/pdfmake/pdfmake.min.js"></script>
 <script>

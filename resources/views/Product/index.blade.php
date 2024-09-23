@@ -44,10 +44,10 @@
 
                                     <div class="d-flex justify-content-sm-center Product-form">
 
-                                    <input id="code" class="form-control w-25 mx-2 code-product" type="text" placeholder="الرقم التسلسلي"   >  
+                                    <input id="code" class="form-control w-25 mx-2 code-product" type="text" placeholder="الرقم التسلسلي"   >
                                     <input id="name_product" class="form-control w-25 mx-2 name-product" type="text" placeholder="اسم المنتج">
                                     <input id="barcode" class="form-control w-25 mx-2 barcode-product" type="text" placeholder="الباركود">
-                                    
+
                                     <select class="form-control w-25 item-product" name="" id="">
                                         <optgroup>
                                             <option value="">اختبار الصنف</option>
@@ -77,7 +77,7 @@
                                     <div class="col-md-5">
                                         <div  class="d-flex justify-content-sm-start my-3 mx-4 Product-form">
 
-                                           
+
 
                                         <button onclick="reloadData($('.code-product').val(),$('.name-product').val(),$('.barcode-product').val(), $('.item-product').val())"
                                         class="btn btn-primary mx-1"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
@@ -135,7 +135,7 @@
                                 <img src="{{ URL('images/Products.svg') }}"  alt="">
                                 <h1 class="my-3">ليس لديك أي المنتجات والتكاليف</h1>
                                 <p class="text-secondary my-5">يوفر محاسبة صفحة خاصة بالمنتجات والتكاليف للمساهمة في تسهيل التعاملات مع المنتجات والتكاليف وملخص لبياناتهم.</p>
-                                <button class="btn btn-primary mx-2 "> <a href="{{ route('Product.tenant') }}" class="text-light">اضافة المنتجات والتكاليف</a>  <i class="fa-solid fa-plus"></i></button> <button class="btn btn-primary">استيراد قائمة المنتجات والتكاليف  <i class="fa-solid fa-right-to-bracket mx-1"></i></button>
+                                <button class="btn btn-primary mx-2 "> <a href="{{ route('Product.create', 1) }}" class="text-light">اضافة المنتجات والتكاليف</a>  <i class="fa-solid fa-plus"></i></button> <button class="btn btn-primary">استيراد قائمة المنتجات والتكاليف  <i class="fa-solid fa-right-to-bracket mx-1"></i></button>
                             </div>
                         </div>
                     </div>
@@ -266,7 +266,7 @@
         $(function() {
             setProductsDatatable();
         });
-    
+
     </script>
 
 @endsection

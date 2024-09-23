@@ -17,10 +17,10 @@
             <section>
                <div class="d-flex justify-content-sm-end mx-5">
                    @can('create_salesinvoices')
-                    <button class="btn btn-primary mx-2">  
-                        <a href="{{ route('sales_invoices.create') }}"  class="text-light">إنشاء فاتورة</a> 
+                    <button class="btn btn-primary mx-2">
+                        <a href="{{ route('sales_invoices.create') }}"  class="text-light">إنشاء فاتورة</a>
                         <i class="fa-solid fa-plus"></i>
-                    </button> 
+                    </button>
                     @endcan
                     <button onclick="downloadExcel($('.code').val(), $('.name').val(), $('.status').val(), $('.date').val(), $('.start-date').val(), $('.end-date').val(), $('.site').val())" class="btn btn-primary mx-2" id="exportButton">
                         <!--<a href="{{ route('ExportSalesinvoices') }}" class="text-light"> تصدير </a>-->
@@ -89,7 +89,7 @@
 
                                             </optgroup>
                                         </select>
-                                                                       
+
                                         <input type="date" class="form-control w-30 mx-2 select-fillter  start-date" onfocus="(this.type='date')"  placeholder="من">
                                         <input type="date" class="form-control w-30 mx-2 select-fillter end-date" onfocus="(this.type='date')"  placeholder="الي">
                                         <select style="height:40px" class="form-control select-fillter  site" name="" id="">
@@ -101,9 +101,9 @@
                                             </optgroup>
                                         </select>
 
-    
+
                                         <br><br>
-                                        
+
                                     </div>
 
                                     </div>
@@ -171,9 +171,9 @@
                                 <p class="text-secondary my-5">
                                     يتيح لك محاسبة خاصية إنشاء فواتير المبيعات وهي وثائق تجارية صادرة من البائع للمشتري، تبين المنتجات أو الخدمات المقدمة, وكمياتها, وأسعارها.
                                 </p>
-                                <button class="btn btn-primary mx-2 "> <a href="{{ route('sales_invoices.create') }}" class="text-light">إنشاء فاتورة</a>  <i class="fa-solid fa-plus"></i></button> 
-                                
-                                
+                                <button class="btn btn-primary mx-2 "> <a href="{{ route('sales_invoices.create') }}" class="text-light">إنشاء فاتورة</a>  <i class="fa-solid fa-plus"></i></button>
+
+
                             </div>
                         </div>
                     </div>
@@ -214,7 +214,7 @@
                                     <label class="mt-3 ml-5">العميل</label>
                                     <select  class="form-control w-75" name="id_customers" id="id_customers">
                                         <optgroup>
-                                           
+
                                         </optgroup>
                                     </select>
                                 </div>
@@ -228,7 +228,7 @@
                                     <select  class="form-control w-75" name="id_Account" id="account">
                                         <optgroup>
                                             <option value="">اختار الحساب</option>
-                                           
+
                                         </optgroup>
                                     </select>
                                 </div>
@@ -244,13 +244,13 @@
 
                             <div class="d-flex align-content-center justify-content-sm-between">
                                 <label class="mt-3 ml-5">القيمة</label>
-                                <input type="text" name="Amount" id="Amount" 
+                                <input type="text" name="Amount" id="Amount"
                                     class="form-control w-75 my-2" onfocusout="calculator()">
-                                   
+
                             </div>
                             <div class="d-flex align-content-center justify-content-sm-between">
                                 <label class="mt-3 ml-5">المتبقي</label><input type="text" readonly id="total" value="0"
-                                    class="form-control w-75 my-2"   name="total"> 
+                                    class="form-control w-75 my-2"   name="total">
                             </div>
 
 
@@ -265,17 +265,17 @@
 
 
                     <div class="btn-holder mt-3">
-                       
+
 
                     </div>
-                </form> 
+                </form>
               </div>
               <div class="modal-footer">
                    <button class="btn btn-primary submit" id="submitButton">حفظ وموافقة</button>
-                   
+
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
-              
+
             </div>
           </div>
         </div>
@@ -289,7 +289,7 @@
     <script src="{{ asset('assets/libs/pdfmake/pdfmake.min.js') }}"></script>
     <script>
     function reloadData(code,name, status,date,start_date,end_date, site) {
-            // end-date start-date date status name code 
+            // end-date start-date date status name code
             // alert(site)
             var url = "{{ route('getsales_invoicessData') }}?code=" + code+"&name="+ name +"&status="+ status +"&date="+ date +"&start_date="+ start_date+"&end_date="+ end_date+"&site="+ site;
             PurchaseInvoicesTable.ajax.url(url).load();
@@ -364,7 +364,7 @@
 
                     }); //end of delete
                 },
-                
+
 
                 // language: {
                 paginate: {
@@ -377,7 +377,7 @@
                     data: 'code'
                 },
                 {
-                  data: 'id_supplers'  
+                  data: 'id_supplers'
                 },
                 {
                     data: 'Date_start'
@@ -390,27 +390,27 @@
                 },
                 {
                     data: 'total',
-                    
+
                 },
                 {
-                    data: 'status'  
+                    data: 'status'
                 },
                 {
-                  data: 'returns'  
+                  data: 'returns'
                 },
                 {
                     data: 'action',
-                    
+
                 }
 
                 ],
             });
         }
-        
+
         $(function() {
             setPurchaseInvoicesDatatable();
         });
-        
+
         // function exportTableToExcel(filename) {
         //     var table = document.getElementById("PurchaseInvoicesTable");
         //     var html = table.outerHTML;
@@ -429,13 +429,13 @@
         // document.getElementById("exportButton").addEventListener("click", function () {
         //     exportTableToExcel("data.xlsx");
         // });
-        
+
         function downloadExcel(code,name, status,date,start_date,end_date, site) {
-            
+
             const url = '{{ route("ExportSalesinvoices") }}?code=' + code+"&name="+ name +"&status="+ status +"&date="+ date +"&start_date="+ start_date+"&end_date="+ end_date+"&site="+ site;
-            
+
             alert("يتم التحميل")
-        
+
             fetch(url, {
                 method: 'GET',
             })
@@ -446,66 +446,66 @@
                 link.href = URL.createObjectURL(blob);
                 link.download = 'filename.xlsx';
                 document.body.appendChild(link);
-        
+
                 // Trigger the click event to start the download
                 link.click();
-        
+
                 // Remove the temporary anchor element
                 document.body.removeChild(link);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
-        }        
-        
+        }
+
          const formElement = document.getElementById('myForm');
       const submitButton = document.getElementById('submitButton');
-      
+
       submitButton.addEventListener('click', function(event) {
         event.preventDefault(); // Prevent the default form submission
           var inputElement = document.getElementById('id_customers');
           var state        = "yes"
           var account       = document.getElementById('account');
-          // Date_Groce_Period product_$ site-id date_end_id Date_start_id 
-         
+          // Date_Groce_Period product_$ site-id date_end_id Date_start_id
+
           var code                      = document.getElementById('code');
           var date                      = document.getElementById('date');
           var Amount                    = document.getElementById('Amount');
-    
+
           if (inputElement.value.trim() === '') {
             inputElement.classList.add('error-border');
             state = "no";
-          } 
+          }
           if (account.value.trim() === '') {
             account.classList.add('error-border');
             state = "no";
-          } 
-          
+          }
+
           if (code.value.trim() === '') {
             code.classList.add('error-border');
             state = "no";
-          } 
+          }
           if (date.value.trim() === '') {
             date.classList.add('error-border');
             state = "no";
-          } 
+          }
           if (Amount.value.trim() === '') {
             Amount.classList.add('error-border');
             state = "no";
-          } 
-          
-        
-        
+          }
+
+
+
           if (state == "yes") {
               formElement.submit();
           } else {
               alert("يجب ادخال جميع الحقول")
           }
-            
+
         // Perform any additional actions or validation if needed
-        
+
         // Submit the form programmatically
-        
+
       });
     </script>
 
