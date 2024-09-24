@@ -13,25 +13,28 @@ class AjaxController extends Controller
     {
         // get a products with item_id return with ajax
         $products = Product::where('id_des', $request->id)->get();
-        
+
         return response()->json(
             [
                 'products' => view('POS.include.products', compact('products'))->render()
             ]
         );
     }
-    
+
     public function addCart(Request $request)
     {
         $cart = Cart::where('product_id',$request->product_id)->where('user_id', auth()->user()->id)->first();
+        dd($cart);
         if (!$cart) {
             $cart = Cart::create([
                 'product_id'   => $request->product_id,
                 'user_id'      => auth()->user()->id,
-                'quantity'     => 1
-            ]);    
+                'quantity'     => 1,
+                'price'        => $request->price,
+                'uint_id'      => $request->uint_id
+            ]);
         }
-        
+
         $carts = Cart::where('user_id', auth()->user()->id)->get();
         $total = $total  = Cart::where('user_id', auth()->user()->id)->sum('price');
         $count = 0;
@@ -53,7 +56,7 @@ class AjaxController extends Controller
     }
     public function removeCart(Request $request)
     {
-        
+
         $cart = Cart::find($request->id);
         $cart->delete();
         $carts  = Cart::where('user_id', auth()->user()->id)->get() ?? [];

@@ -36,6 +36,7 @@
                                 @php
                                     // GEt Unit in the products
                                     $productUnits = $get->product->prices;
+                                    // dd($productUnits);
                                     // Get first unit in the product
                                     $first_prices = $productUnits->first();
                                     $count += 1;
@@ -73,11 +74,11 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <h5 class="mb-2 price-{{ $get->id }}" style="margin-top: -1px;">    
+                                <h5 class="mb-2 price-{{ $get->id }}" style="margin-top: -1px;">
                                     {{ $get->price }}</h5>
                                 <span>SAR</span>
                                 <input type="text" class="price-input-{{ $get->id }}"
-                                    value="{{ $first_prices->price }}" hidden name="test[{{ $count }}][price]">
+                                    value="{{ $first_prices->price ?? ''}}" hidden name="test[{{ $count }}][price]">
                                 <input type="text" value="{{ $get->product_id }}" hidden
                                     name="test[{{ $count }}][product_id]">
                                 <input type="text" value="{{ $get->id }}" hidden

@@ -45,7 +45,7 @@ class Product extends Model
 
     public function prices()
     {
-        if (auth()->user()->site_id == 1) {
+        if (auth()->user()->site_id == 10) {
             return $this->hasMany(ProductUintPrices::class, 'product_id', 'id');
         }
         return $this->hasMany(ProductUintPrices::class, 'product_id', 'id')

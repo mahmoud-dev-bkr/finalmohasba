@@ -314,7 +314,7 @@ class ProductController extends Controller
             ProductUintPrices::insert($unitsites);
             // dd($unitsites);
         } else {
-
+ 
             $start      = 0;
             $group      = [];
             $unit       = [];
@@ -456,7 +456,7 @@ class ProductController extends Controller
             $start += 6;
 
         }
-            
+
 
 
             foreach ($group as $index) {
@@ -497,7 +497,7 @@ class ProductController extends Controller
 
             ProductUint::insert($unit);
             ProductUintPrices::insert($unitsites);
-            // dd($unitsites);  
+            // dd($unitsites);
         } else {
 
             $start      = 0;
@@ -546,7 +546,7 @@ class ProductController extends Controller
 
         $product->update($data);
 
-        return redirect()->route('Product.index')->with(['success' => 'تم تحديث بيانات العميل بنجاح']);  
+        return redirect()->route('Product.index')->with(['success' => 'تم تحديث بيانات العميل بنجاح']);
     }
 
     /**
