@@ -511,7 +511,7 @@
                                         <input  class="form-check-input mt-3" type="checkbox" >
                                     </td>
                                     @foreach($sites as $sit)
-                                        @if($sit->id != 10)
+                                        @if($sit->id != 1 )
                                             <td class="text-center" colspan="1" >
                                                 <input type="text" class="form-custom-2 my-2"  name="price[]"           style="width: 125px;" id="price_main_{{ $sit->id }}" onfocusout="resultmain({{$sit->id}})" >
                                                 <input type="text" class="form-custom-2 my-2"  value="{{ $sit->id }}"   style="width: 125px;"   id="ids_main_{{ $sit->id }}" hidden >
