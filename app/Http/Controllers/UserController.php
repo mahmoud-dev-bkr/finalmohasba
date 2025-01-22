@@ -36,45 +36,45 @@ class UserController extends Controller
         // Return the Client as a JSON response
         return response()->json($Client);
     }
-    public function getClients(Request $request){
-        $Clients = Client::query();
+    public function getUsers(Request $request){
+        $Users = User::query();
         
         if($request->name) 
-            $Clients->where('name', 'like', '%'. $request->name . '%');
+            $Users->where('name', 'like', '%'. $request->name . '%');
          
         if ($request->email)
-            $Clients->where('email', 'like', '%'. $request->email .'%');
+            $Users->where('email', 'like', '%'. $request->email .'%');
             
         if ($request->phone)
-            $Clients->where('phon', 'like', '%'.$request->phone. '%');
+            $Users->where('phon', 'like', '%'.$request->phone. '%');
             
         if ($request->status == 1)
-            $Clients->where('status', 1);
+            $Users->where('status', 1);
             
         if ($request->status == 2)
-            $Clients->where('status', 0);
+            $Users->where('status', 0);
 
         
         
-        $data = Datatables()->eloquent($Clients->latest('id'))
-        ->addColumn('action' , function($Client){
-            return view('Sales.Clients.actions' , ['type' => 'action' , 'Client' => $Client]);
+        $data = Datatables()->eloquent($Users->latest('id'))
+        ->addColumn('action' , function($User){
+            return view('Users.actions' , ['type' => 'action' , 'Client' => $User]);
         })
         
-        ->addColumn('bonds' , function($Client){
-            return Clientbond::where('id_customers', $Client->id)->sum('Amount');
-        })
-        ->addColumn('Salesinvoices' , function($Client){
-            return Sales_invoices::where('id_supplers', $Client->id)->sum('total');
-        })
+        // ->addColumn('bonds' , function($Client){
+        //     return Clientbond::where('id_customers', $Client->id)->sum('Amount');
+        // })
+        // ->addColumn('Salesinvoices' , function($Client){
+        //     return Sales_invoices::where('id_supplers', $Client->id)->sum('total');
+        // })
         
-        ->editColumn('status', function ($Client){
-            if ($Client->status == 1) {
-                return "مفعل";
-            } else {
-                return "غير مفعل";
-            }
-        })
+        // ->editColumn('status', function ($Client){
+        //     if ($Client->status == 1) {
+        //         return "مفعل";
+        //     } else {
+        //         return "غير مفعل";
+        //     }
+        // })
         ->toJson();
 
 

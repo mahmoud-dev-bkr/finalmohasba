@@ -228,7 +228,7 @@ class ProductController extends Controller
         $sites      = Site::where('type', '!=', 1)->get();
         $account1     = Account::where('type', 4)->get();
         $account2     = Account::where('type', 5)->get();
-        return view('Product.newCreate', compact('product_id', 'units', 'items', 'title', 'account1', 'account2', 'sites'));
+        return view('Product.newCreateTest', compact('product_id', 'units', 'items', 'title', 'account1', 'account2', 'sites'));
     }
 
     /**
@@ -314,43 +314,47 @@ class ProductController extends Controller
             ProductUintPrices::insert($unitsites);
             // dd($unitsites);
         } else {
- 
+
             $start      = 0;
             $group      = [];
             $unit       = [];
             // dd($data);
-            for ($i = 0; $i < 1; $i++) {
-
-                $group[] = array_slice($data['test'], $start, 6, false);
-
-                $start += 6;
-            }
-
             $product = Product::create($data);
+            if (isset($data['test'])) {
+
+                for ($i = 0; $i < 1; $i++) {
+
+                    $group[] = array_slice($data['test'], $start, 6, false);
+
+                    $start += 6;
+                }
 
 
 
-            foreach ($group as $index) {
-                $unit[] = [
-                    'id_unit'           => $index[1],
-                    'counter_of_unit'   => $index[0],
-                    'price_buy'         => $index[2],
-                    'is_buy_tex'       => $index[3],
-                    'price_sell'        => $index[4],
-                    'barcode'           => $index[5],
-                    'id_product'        => $product->id
-                ];
-                $unitsites[] = [
-                    'unit_id'           => $index[1],
-                    'counter_of_unit'   => $index[0],
-                    'site_id'           => 1,
-                    'price'             => $index[4],
-                    'product_id'        => $product->id,
-                ];
-                // create
 
-                ProductUint::insert($unit);
-                ProductUintPrices::insert($unitsites);
+
+                foreach ($group as $index) {
+                    $unit[] = [
+                        'id_unit'           => $index[1],
+                        'counter_of_unit'   => $index[0],
+                        'price_buy'         => $index[2],
+                        'is_buy_tex'       => $index[3],
+                        'price_sell'        => $index[4],
+                        'barcode'           => $index[5],
+                        'id_product'        => $product->id
+                    ];
+                    $unitsites[] = [
+                        'unit_id'           => $index[1],
+                        'counter_of_unit'   => $index[0],
+                        'site_id'           => 1,
+                        'price'             => $index[4],
+                        'product_id'        => $product->id,
+                    ];
+                    // create
+
+                    ProductUint::insert($unit);
+                    ProductUintPrices::insert($unitsites);
+                }
             }
         }
 
@@ -428,7 +432,7 @@ class ProductController extends Controller
             // dd("daa");
             $count_site = Site::where("type", "!=", 1)->get();
             $len  = count($data['test']) / 6;
-            $lenSite =  count($data['ids']) /count($count_site);
+            $lenSite =  count($data['ids']) / count($count_site);
             // dd($lenSite);
             $startsite  = 0;
             $unitsites  = [];
@@ -442,33 +446,31 @@ class ProductController extends Controller
             $counter_of_unit = [];
             $counter_of_unit[] = 1;
             $unitS[] = $data['id_unit'];
-            for ($i=0; $i < $lenSite; $i++) {
+            for ($i = 0; $i < $lenSite; $i++) {
 
-            $groupsite[] = array_slice($data['ids'],$startsite , count($count_site), false);
-            $startsite += count($count_site);
-
+                $groupsite[] = array_slice($data['ids'], $startsite, count($count_site), false);
+                $startsite += count($count_site);
             }
             // dd($groupsite);
-        for ($i=0; $i < $len; $i++) {
+            for ($i = 0; $i < $len; $i++) {
 
-            $group[] = array_slice($data['test'],$start , 6, false);
+                $group[] = array_slice($data['test'], $start, 6, false);
 
-            $start += 6;
-
-        }
+                $start += 6;
+            }
 
 
 
             foreach ($group as $index) {
-                    $unit[] = [
-                        'id_unit'           => $index[0],
-                        'counter_of_unit'   => $index[1],
-                        'price_buy'         => $index[2],
-                        'is_buy_tex'       => $index[3],
-                        'price_sell'        => $index[4],
-                        'barcode'           => $index[5],
-                        'id_product'        => $product->id
-                    ];
+                $unit[] = [
+                    'id_unit'           => $index[0],
+                    'counter_of_unit'   => $index[1],
+                    'price_buy'         => $index[2],
+                    'is_buy_tex'       => $index[3],
+                    'price_sell'        => $index[4],
+                    'barcode'           => $index[5],
+                    'id_product'        => $product->id
+                ];
                 $unitS[] = $index[0];
                 $counter_of_unit[] = $index[1];
             }
@@ -490,7 +492,6 @@ class ProductController extends Controller
                     // create
                 }
                 $countunit += 1;
-
             }
 
 
@@ -504,12 +505,11 @@ class ProductController extends Controller
             $group      = [];
             $unit       = [];
             // dd($data);
-            for ($i=0; $i < 1; $i++) {
+            for ($i = 0; $i < 1; $i++) {
 
-                $group[] = array_slice($data['test'],$start , 6, false);
+                $group[] = array_slice($data['test'], $start, 6, false);
 
                 $start += 6;
-
             }
 
             $product = Product::create($data);
@@ -517,29 +517,26 @@ class ProductController extends Controller
 
 
             foreach ($group as $index) {
-                    $unit[] = [
-                        'id_unit'           => $index[0],
-                        'counter_of_unit'   => $index[1],
-                        'price_buy'         => $index[2],
-                        'is_buy_tex'       => $index[3],
-                        'price_sell'        => $index[4],
-                        'barcode'           => $index[5],
-                        'id_product'        => $product->id
-                    ];
-                    $unitsites[] = [
-                        'unit_id'           => $index[0],
-                        'counter_of_unit'   => $index[1],
-                        'site_id'           => 1,
-                        'price'             => $index[4],
-                        'product_id'        => $product->id,
-                    ];
-                    // create
+                $unit[] = [
+                    'id_unit'           => $index[0],
+                    'counter_of_unit'   => $index[1],
+                    'price_buy'         => $index[2],
+                    'is_buy_tex'       => $index[3],
+                    'price_sell'        => $index[4],
+                    'barcode'           => $index[5],
+                    'id_product'        => $product->id
+                ];
+                $unitsites[] = [
+                    'unit_id'           => $index[0],
+                    'counter_of_unit'   => $index[1],
+                    'site_id'           => 1,
+                    'price'             => $index[4],
+                    'product_id'        => $product->id,
+                ];
+                // create
 
-                    ProductUint::insert($unit);
-                    ProductUintPrices::insert($unitsites);
-
-
-
+                ProductUint::insert($unit);
+                ProductUintPrices::insert($unitsites);
             }
         }
 
@@ -598,5 +595,19 @@ class ProductController extends Controller
         $ProductUintPricesMain     = ProductUintPrices::where('product_id', $id)->where('unit_id',  $Product->id_unit)->get();
         // dd($ProductUintPricesMain);
         return view('Product.copy', compact('product_id', 'Product', 'units', 'items', 'title', 'account1', 'account2', 'sites', 'ProductUint', 'ProductUintPrices', 'ProductUintPricesMain'));
+    }
+
+    public function postUnit(Request $request)
+    {
+        $input = $request->all();
+        $unit = Uint::create($input);
+        return redirect()->route('unit.index')->with(['success' => 'تم الحفظ بنجاح']);
+    }
+
+    public function postItem(Request $request)
+    {
+        $input = $request->all();
+        $unit = Item::create($input);
+        return redirect()->route('item.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
 }

@@ -51,9 +51,28 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
+
+
+        'public_images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images'), // Store files in the storage directory
+            'url' => env('APP_URL') . '/storage/images', // URL to access the files
+            'visibility' => 'public',
+            'permissions' => [
+                'file' => [
+                    'public' => 0644, // More secure file permissions
+                    'private' => 0600,
+                ],
+                'dir' => [
+                    'public' => 0755, // More secure directory permissions
+                    'private' => 0700,
+                ],
+            ],
+        ],
+
 
         's3' => [
             'driver' => 's3',

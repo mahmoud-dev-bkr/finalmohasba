@@ -29,7 +29,7 @@
 
                     <li><span class="text-dark ml-3">المشنريات</span></li>
                     <li class="text-dark">
-                        <i class="fa fa-angle-double-left mx-2 "></i><a href="{{ route('Purchase_Invoices.index') }}"> فاتورة مشنريات</a>
+                        <i class="fa fa-angle-double-left mx-2 "></i><a href="{{ route('sales_invoices.index') }}"> فاتورة مشنريات</a>
                     </li>
                     <li class="text-primary">
                         <i class="fa fa-angle-double-left mx-2 "></i>  فاتورة مشنريات 
@@ -57,7 +57,7 @@
             </div>
             <!--<div class="row bg-light pb-4 brdr">-->
 
-                <form id="myForm" class="row  pb-4 brdr" action="{{ route('Purchase_Invoices.create.post') }}" method="post">
+                <form id="myForm" class="row  pb-4 brdr" action="{{ route('sales_invoices.create.post') }}" method="post">
                     
                     @csrf
                     <div class="row table-3 pb-4">
@@ -78,7 +78,7 @@
                         
                                   </td>
                                   <td class="px-2 td-ftora">        
-                                    <input name="code"type="text" class="form-control  my-2 tab-input" value="BIL {{ $count }}"  id="code">
+                                    <input name="code"type="text" class="form-control  my-2 tab-input" value="INV {{ $count }}"  id="code">
                                     <input name="done" type="text" class="form-control w-75 my-2 tab-input" value="1" id="done" hidden>
                                   </td>
                                 </tr>
@@ -453,7 +453,7 @@
                     </div>
                     <div class="btn-holder">
                         <button class="btn btn-primary submit" id="submitButton">حفظ وموافقة</button>
-                        <button class="btn btn-dark mx-2"> <a href="{{ route('Purchase_Invoices.index') }}" class="text-light">رجوع</a></button>
+                        <button class="btn btn-dark mx-2"> <a href="{{ route('sales_invoices.index') }}" class="text-light">رجوع</a></button>
                         
 
                     </div>

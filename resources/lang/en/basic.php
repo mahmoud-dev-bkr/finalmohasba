@@ -65,9 +65,29 @@ return [
 
     'inventory_and_transfer'     => 'Inventory And Transfer',
 
+    'settings_main'          => 'Settings Main',
+    'company_email'          => 'Company Email',
+    'company_phone'          => 'Company Phone',
+    'company_address'        => 'Company Address',
+    'company_name'           => 'Company Name',   
+    'company_logo'           => 'Company Logo',   
+    'company_favicon'        => 'Company Favicon',   
+    'company_website'        => 'Company Website',   
+    'company_currency'       => 'Company Currency',
+    'company_language'       => 'Company Language',
 
-
-
+    'jan'               => 'January',
+    'feb'               => 'February',
+    'mar'               => 'March',
+    'apr'               => 'April',
+    'may'               => 'May',
+    'jun'               => 'June',
+    'jul'               => 'July',
+    'aug'               => 'August',
+    'sep'               => 'September',
+    'oct'               => 'October',
+    'nov'               => 'November',
+    'dec'               => 'December',
 
 
 

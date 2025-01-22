@@ -36,6 +36,7 @@ use App\Http\Controllers\SettingSalaryController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ReturnsSalesInvoicesController;
 use App\Http\Controllers\ReturnsPurchaseInvoicesController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Stocktakingcontroller;
 use App\Http\Controllers\UserController;
 use App\SettingSalary;
@@ -77,7 +78,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
     Route::get('/user/update/{id}',        [UserController::class, 'edit'])->name('user.update');
     Route::post('/user/edit/{id}',        [UserController::class, 'update'])->name('user.edit');
     Route::post('/user/create/post',  [UserController::class, 'store'])->name('user.create.post');
-    Route::get('/user/data',          [UserController::class, 'getusers'])->name('getusersData');
+    Route::get('/user/data',          [UserController::class, 'getUsers'])->name('getusersData');
     Route::post('/user/destroy/{id}',   [UserController::class, 'destroy'])->name('user.destroy');
     Route::post('/user/status/{id}',   [UserController::class, 'status'])->name('user.status');
 
@@ -114,52 +115,52 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
     Route::get('/Supplier/get/info',      [SupplierController::class, 'getInfoSupplier'])->name('getInfoSupplierData');
     // -------------------------------------------------< End Supplier >--------------------------------
 
-   //----------------------------------------------------<start Services>----------------------------
+    //----------------------------------------------------<start Services>----------------------------
 
-   Route::get('/services',              [ServicesController::class, 'index'])->name('Services.index');
-   Route::get('/services/show/{id}',          [ServicesController::class, 'show'])->name('Services.show');
-   Route::get('/services/create',        [ServicesController::class, 'create'])->name('Services.create');
-   Route::get('/services/update/{id}',        [ServicesController::class, 'edit'])->name('Services.update');
-   Route::post('/services/edit/{id}',        [ServicesController::class, 'update'])->name('Services.edit');
-   Route::post('/services/create/post',  [ServicesController::class, 'store'])->name('Services.create.post');
-   Route::get('/services/data',          [ServicesController::class, 'getServicess'])->name('getServicessData');
-   Route::post('/services/destroy/{id}',   [ServicesController::class, 'destroy'])->name('Services.destroy');
-   Route::get('/services/get/info',      [ServicesController::class, 'getInfoServices'])->name('getInfoServicesData');
+    Route::get('/services',              [ServicesController::class, 'index'])->name('Services.index');
+    Route::get('/services/show/{id}',          [ServicesController::class, 'show'])->name('Services.show');
+    Route::get('/services/create',        [ServicesController::class, 'create'])->name('Services.create');
+    Route::get('/services/update/{id}',        [ServicesController::class, 'edit'])->name('Services.update');
+    Route::post('/services/edit/{id}',        [ServicesController::class, 'update'])->name('Services.edit');
+    Route::post('/services/create/post',  [ServicesController::class, 'store'])->name('Services.create.post');
+    Route::get('/services/data',          [ServicesController::class, 'getServicess'])->name('getServicessData');
+    Route::post('/services/destroy/{id}',   [ServicesController::class, 'destroy'])->name('Services.destroy');
+    Route::get('/services/get/info',      [ServicesController::class, 'getInfoServices'])->name('getInfoServicesData');
 
-   //----------------------------------------------------<End Services>------------------------------
-
-
-
-   //----------------------------------------------------<start PaymentTerms>----------------------------
-
-   Route::get('/PaymentTerms',              [PaymentTermsController::class, 'index'])->name('PaymentTerms.index');
-   Route::get('/PaymentTerms/show/{id}',          [PaymentTermsController::class, 'show'])->name('PaymentTerms.show');
-   Route::get('/PaymentTerms/create',        [PaymentTermsController::class, 'create'])->name('PaymentTerms.create');
-   Route::get('/PaymentTerms/update/{id}',        [PaymentTermsController::class, 'edit'])->name('PaymentTerms.update');
-   Route::post('/PaymentTerms/edit/{id}',        [PaymentTermsController::class, 'update'])->name('PaymentTerms.edit');
-   Route::post('/PaymentTerms/create/post',  [PaymentTermsController::class, 'store'])->name('PaymentTerms.create.post');
-   Route::get('/PaymentTerms/data',          [PaymentTermsController::class, 'getPaymentTermss'])->name('getPaymentTermssData');
-   Route::post('/PaymentTerms/destroy/{id}',   [PaymentTermsController::class, 'destroy'])->name('PaymentTerms.destroy');
-   Route::get('/PaymentTerms/get/info',      [PaymentTermsController::class, 'getInfoPaymentTerms'])->name('getInfoPaymentTermsData');
-
-   //----------------------------------------------------<End PaymentTerms>------------------------------
+    //----------------------------------------------------<End Services>------------------------------
 
 
 
+    //----------------------------------------------------<start PaymentTerms>----------------------------
 
-   //----------------------------------------------------<start tax>----------------------------
+    Route::get('/PaymentTerms',              [PaymentTermsController::class, 'index'])->name('PaymentTerms.index');
+    Route::get('/PaymentTerms/show/{id}',          [PaymentTermsController::class, 'show'])->name('PaymentTerms.show');
+    Route::get('/PaymentTerms/create',        [PaymentTermsController::class, 'create'])->name('PaymentTerms.create');
+    Route::get('/PaymentTerms/update/{id}',        [PaymentTermsController::class, 'edit'])->name('PaymentTerms.update');
+    Route::post('/PaymentTerms/edit/{id}',        [PaymentTermsController::class, 'update'])->name('PaymentTerms.edit');
+    Route::post('/PaymentTerms/create/post',  [PaymentTermsController::class, 'store'])->name('PaymentTerms.create.post');
+    Route::get('/PaymentTerms/data',          [PaymentTermsController::class, 'getPaymentTermss'])->name('getPaymentTermssData');
+    Route::post('/PaymentTerms/destroy/{id}',   [PaymentTermsController::class, 'destroy'])->name('PaymentTerms.destroy');
+    Route::get('/PaymentTerms/get/info',      [PaymentTermsController::class, 'getInfoPaymentTerms'])->name('getInfoPaymentTermsData');
 
-   Route::get('/tax',              [taxController::class, 'index'])->name('tax.index');
-   Route::get('/tax/show/{id}',          [taxController::class, 'show'])->name('tax.show');
-   Route::get('/tax/create',        [taxController::class, 'create'])->name('tax.create');
-   Route::get('/tax/update/{id}',        [taxController::class, 'edit'])->name('tax.update');
-   Route::post('/tax/edit/{id}',        [taxController::class, 'update'])->name('tax.edit');
-   Route::post('/tax/create/post',  [taxController::class, 'store'])->name('tax.create.post');
-   Route::get('/tax/data',          [taxController::class, 'gettaxs'])->name('gettaxsData');
-   Route::post('/tax/destroy/{id}',   [taxController::class, 'destroy'])->name('tax.destroy');
-   Route::get('/tax/get/info',      [taxController::class, 'getInfotax'])->name('getInfotaxData');
+    //----------------------------------------------------<End PaymentTerms>------------------------------
 
-   //----------------------------------------------------<End tax>------------------------------
+
+
+
+    //----------------------------------------------------<start tax>----------------------------
+
+    Route::get('/tax',              [taxController::class, 'index'])->name('tax.index');
+    Route::get('/tax/show/{id}',          [taxController::class, 'show'])->name('tax.show');
+    Route::get('/tax/create',        [taxController::class, 'create'])->name('tax.create');
+    Route::get('/tax/update/{id}',        [taxController::class, 'edit'])->name('tax.update');
+    Route::post('/tax/edit/{id}',        [taxController::class, 'update'])->name('tax.edit');
+    Route::post('/tax/create/post',  [taxController::class, 'store'])->name('tax.create.post');
+    Route::get('/tax/data',          [taxController::class, 'gettaxs'])->name('gettaxsData');
+    Route::post('/tax/destroy/{id}',   [taxController::class, 'destroy'])->name('tax.destroy');
+    Route::get('/tax/get/info',      [taxController::class, 'getInfotax'])->name('getInfotaxData');
+
+    //----------------------------------------------------<End tax>------------------------------
 
 
 
@@ -290,11 +291,11 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
     Route::post('/Inventory/destroy/{id}',      [InventoryController::class, 'destroy'])->name('Inventory.destroy');
 
     // -------------------------------------------------------------------------------------< pallrole >-----------------------------------------------------------
-    Route::get('/payroll/create',[PayRollController::class, 'create'])->name('payroll.create');
-    Route::post('/payroll/create/step2',[PayRollController::class, 'createStep2'])->name('payroll.step2');
-    Route::post('/payroll/create/step3',[PayRollController::class, 'createStep3'])->name('payroll.step3');
-    Route::post('/payroll/create/step4',[PayRollController::class, 'createStep4'])->name('payroll.step4');
-    Route::get('/get/employes/with/site',[PayRollController::class, 'getEmployesWithSiteId'])->name('getEmployesWithSiteId');
+    Route::get('/payroll/create', [PayRollController::class, 'create'])->name('payroll.create');
+    Route::post('/payroll/create/step2', [PayRollController::class, 'createStep2'])->name('payroll.step2');
+    Route::post('/payroll/create/step3', [PayRollController::class, 'createStep3'])->name('payroll.step3');
+    Route::post('/payroll/create/step4', [PayRollController::class, 'createStep4'])->name('payroll.step4');
+    Route::get('/get/employes/with/site', [PayRollController::class, 'getEmployesWithSiteId'])->name('getEmployesWithSiteId');
     // -------------------------------------------------------------------------------------< End inventory >-----------------------------------------------------------
 
     Route::get('/Supplierbond',              [SupplierbondController::class, 'index'])->name('Supplierbond.index');
@@ -314,7 +315,9 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
     Route::get('/Product/Unit/home',        [ProductController::class, 'unitIndex'])->name('unit.index');
     Route::get('/Product/create/{type}',    [ProductController::class, 'create'])->name('Product.create');
     Route::get('/unit/create',              [ProductController::class, 'createUnit'])->name('Product.create.unit');
+    Route::post('/unit/post',               [ProductController::class, 'postUnit'])->name('Product.post.unit');
     Route::get('/item/create',              [ProductController::class, 'createItem'])->name('Product.create.item');
+    Route::post('/item/post',                [ProductController::class, 'postItem'])->name('Product.post.item');
     Route::get('/tenant/products',          [ProductController::class, 'tenant'])->name('Product.tenant');
     Route::get('/Product/update/{id}',      [ProductController::class, 'edit'])->name('Product.update');
     Route::post('/Product/edit/{id}',       [ProductController::class, 'update'])->name('Product.edit');
@@ -457,6 +460,13 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
 
     // -----------------------------------------------< Reports >-----------------
 
+
+    // settings
+
+    Route::get('/settings',              [SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings/update',  [SettingController::class, 'update'])->name('settings.update');
+
+    // end settings
     Route::group(['prefix' => 'Reports'], function () {
         Route::get('/', [ReportController::class, 'index'])->name('report.index');
         Route::get('/Restriction', [ReportController::class, 'ReportRestriction'])->name('EasyRestriction.report');

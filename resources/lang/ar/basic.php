@@ -60,11 +60,30 @@ return [
 
     'inventory_and_transfer'    => 'المخزون و التحويل',
 
-    'options'   => 'الخيارات'
+    'options'   => 'الخيارات',
 
 
-
-
-
-
+    'settings_main'          => 'الاعدادات الرئيسية',
+    'company_email'          => 'البريد الالكتروني للشركة',
+    'company_phone'          => 'رقم الهاتف للشركة',
+    'company_address'        => 'العنوان للشركة',
+    'company_name'           => 'اسم الشركة',
+    'company_logo'           => 'شعار الشركة',
+    'company_favicon'        => 'ايقونة الشركة',
+    'company_website'        => 'الموقع الالكتروني للشركة',
+    'company_currency'       => 'عملة الشركة',
+    'company_language'       => 'لغة الشركة',
+    
+    'jan'               => 'يناير',
+    'feb'               => 'فبراير',
+    'mar'               => 'مارس',
+    'apr'               => 'ابريل',
+    'may'               => 'مايو',
+    'jun'               => 'يونيو',
+    'jul'               => 'يوليو',
+    'aug'               => 'اغسطس',
+    'sep'               => 'سبتمبر',
+    'oct'               => 'اغكتوبر',
+    'nov'               => 'نوفمبر',
+    'dec'               => 'ديسمبر',
 ];

@@ -31,13 +31,23 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
+        // dd($role);
         if(is_string($role)) {
             return $this->role->contains('name' , $role);
         }
 
         return !! $role->intersect($this->role)->count();
     }
-
+    public static function canPerission($permission)
+    {
+        $role_user = RoleUser::where('user_id', auth()->user()->id)->first();
+        $role = Role::where('id', $role_user->role_id)->first();
+        $permations =  $role->permission()->where('name', $permission)->first();
+        if ($permations) {
+            return true;
+        }
+        return false;
+    }
     public function branch()
     {
         return $this->belongsTo(Branch::class);

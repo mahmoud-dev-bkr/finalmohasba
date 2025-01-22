@@ -103,7 +103,7 @@
                                 <img src="{{ URL('images/Products.svg') }}"  alt="">
                                 <h1 class="my-3">ليس لديك أي الوحدات</h1>
                                 <p class="text-secondary my-5">يوفر محاسبة صفحة خاصة بالوحدات للمساهمة في تسهيل التعاملات مع الوحدات وملخص لبياناتهم.</p>
-                                <button class="btn btn-primary mx-2 "> <a href="{{ route('Product.tenant') }}" class="text-light">اضافة الوحدات</a>  <i class="fa-solid fa-plus"></i></button> <button class="btn btn-primary">استيراد قائمة الوحدات  <i class="fa-solid fa-right-to-bracket mx-1"></i></button>
+                                <button class="btn btn-primary mx-2 "> <a href="{{ route('Product.create.unit') }}" class="text-light">اضافة الوحدات</a>  <i class="fa-solid fa-plus"></i></button> <button class="btn btn-primary">استيراد قائمة الوحدات  <i class="fa-solid fa-right-to-bracket mx-1"></i></button>
                             </div>
                         </div>
                     </div>

@@ -74,7 +74,7 @@ class RegisterController extends Controller
         $data =  $service->CompanyRegister($data);
         // Construct the URL with the company's domain
         $companyDomain = $data['company']['domain'];
-        $this->redirectTo = "http://{$companyDomain}.localhost:8000/dashboard";
+        $this->redirectTo = "http://{$companyDomain}.localhost:8000/auth/login";
         return $data['user'];
         // return redirect("http://"");
 

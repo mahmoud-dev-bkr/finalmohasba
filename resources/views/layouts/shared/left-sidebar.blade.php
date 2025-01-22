@@ -641,7 +641,7 @@
             </a>
             <ul class="collapse  nav flex-column ms-1 content_nav" id="submenu8" data-bs-parent="#menu">
                 <li class="w-100">
-                    <a href="" class="nav-link px-0">
+                    <a href="{{ route('settings.index') }}  " class="nav-link px-0">
                         <div class="space">
                             <span class="ml-4 d-sm-inline text">
                                 <i class="fa-solid fa-gear side-icon"></i>

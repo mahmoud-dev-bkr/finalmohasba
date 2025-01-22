@@ -4,7 +4,7 @@
 <script src="{{ asset('assets/js/notyf.min.js') }}"></script>
 @yield('script')
 <!-- App js -->
-<script src="{{ asset('assets/js/app.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/js/app.min.js') }}"></script> --}}
 
 <script>
     const green = document.querySelectorAll('.js-switch')
