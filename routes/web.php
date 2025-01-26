@@ -462,9 +462,14 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
 
 
     // settings
+    Route::group(['prefix' => 'settings'], function () {
+        Route::get('/',              [SettingController::class, 'index'])->name('settings.index');
+        Route::post('/update',  [SettingController::class, 'update'])->name('settings.update');
+        Route::post('/update/sales/invoices',[SettingController::class, 'updateSalesInvoices'])->name('settings.update.sales.invoices');
+    
+    });
 
-    Route::get('/settings',              [SettingController::class, 'index'])->name('settings.index');
-    Route::post('/settings/update',  [SettingController::class, 'update'])->name('settings.update');
+
 
     // end settings
     Route::group(['prefix' => 'Reports'], function () {

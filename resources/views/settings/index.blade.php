@@ -28,6 +28,9 @@
             margin: unset !important;
             display: none !important;
         }
+        .border-check {
+            border: 1px solid #043760;
+        }
     </style>
 @endsection
 
@@ -40,14 +43,14 @@
                     role="tab">{{ __('basic.settings_main') }}</a>
             </li>
             <li class="nav-item border" role="presentation">
-                <a style="color: #32355D;" class="nav-link" data-bs-toggle="tab" href="#menu1" aria-selected="false"
-                    role="tab" tabindex="-1">{{ __('basic.settings_main') }}</a>
+                <a style="color: #32355D;" class="nav-link " data-bs-toggle="tab" href="#menu1" aria-selected="false"
+                    role="tab" tabindex="-1">{{ __('basic.sales_invoice_settings') }}</a>
             </li>
         </ul>
 
         <!-- Tab panes -->
         <div class=" tab-content mt-5">
-            <div id="home" class=" container tab-pane active show" role="tabpanel"><br>
+            <div id="home" class=" container tab-pane  card p-5" role="tabpanel"><br>
                 <h2 style="color:#1B97DF;text-align: center">{{ __('basic.settings_main') }}</h2>
                 <form action="{{ route('settings.update') }}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -169,8 +172,9 @@
                             <select name="month_fiscal_year_start" id=""
                                 class="form-control form-select  form-select-lg">
                                 @foreach ($months as $key => $value)
-                                    <option value="{{ $loop->index + 1 }}" {{ $settings->month_fiscal_year_start == $loop->index + 1 ? 'selected' : '' }}>
-                                        {{ __('basic.' . $value ) }}
+                                    <option value="{{ $loop->index + 1 }}"
+                                        {{ $settings->month_fiscal_year_start == $loop->index + 1 ? 'selected' : '' }}>
+                                        {{ __('basic.' . $value) }}
                                     </option>
                                 @endforeach
                             </select>
@@ -181,14 +185,166 @@
                     </div>
                 </form>
             </div>
-            <div id="menu1" class="container tab-pane fade" role="tabpanel"><br>
-                <p class="text-muted">Menu 2</p>
-                <div class="form-group {{ $errors->has('en.description') ? 'has-error' : '' }}">
-                    <label for="description">Description <span class="required">*</span></label>
-                    <textarea rows="5"  class="form-control tinymce" ></textarea>
-                </div>
+            <div id="menu1" class="container tab-pane fade active show  card p-5" role="tabpanel"><br>
+                <h2 class="mb-5" style="color:#1B97DF;text-align: center">{{ __('basic.sales_invoice_settings') }}</h2>
+                <br>
+                <hr>
+                <form action="{{ route('settings.update.sales.invoices') }}" method="post">
+                    @csrf
+                    <div class="row p-0 mt-5 mb-4">
+                        <div class="col-2">
+                            <label for="">
+                                {{ __('basic.numbering_sales_invoices') }}
+                            </label>
+                        </div>
+                        <div class="col-4 m-0">
+                            <div class="row custom-width">
+                                <div class="col-6">
+                                    <input type="radio" id="adjustable" name="numbering_sales_invoices" value="1"
+                                        checked>
+                                    <label for="adjustable">
+                                        {{ __('basic.adjustable') }}
+                                    </label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="radio" id="non_adjustable" name="numbering_sales_invoices"
+                                        value="0">
+                                    <label for="non_adjustable">
+                                        {{ __('basic.non_adjustable') }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-0 mt-5 mb-4">
+                        <div class="col-2">
+                            <label for="code">
+                                {{ __('basic.id_number') }}
+                            </label>
+                        </div>
+                        <div class="col-6 m-0">
+                            <div class="row custom-width">
+                                <div class="col-6">
+                                    <input type="text" id="code" class="form-control w-100" name="code"
+                                        value="{{ $salesInvoices->code ?? 'INV' }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-0 mt-5 mb-4">
+                        <div class="col-2">
+                            <label for="starting_sequence_number">
+                                {{ __('basic.starting_sequence_number') }}
+                            </label>
+                        </div>
+                        <div class="col-6 m-0">
+                            <div class="row custom-width">
+                                <div class="col-6">
+                                    <input type="text" id="starting_sequence_number" class="form-control w-100"
+                                        name="starting_sequence_number"
+                                        value="{{ $salesInvoices->starting_sequence_number ?? '1' }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="observations">
+                            {{ __('basic.observations') }}
+                        </label>
+                        <textarea rows="7" class="form-control tinymce" name="description">
+                            {{ $salesInvoices->description ?? '' }}
+                        </textarea>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label for="terms_conditions">
+                            {{ __('basic.terms_conditions') }}
+                        </label>
+                        <textarea rows="7" class="form-control tinymce" name="terms_conditions">
+                            {{ $salesInvoices->terms_conditions ?? '' }}
+                        </textarea>
+                    </div>
+                    <br><br>
+                    <div class="row p-0 mt-5 mb-4">
+                        <div class="col-2">
+                            <label for="day_pay_before_due_date">
+                                {{ __('basic.day_pay_before_due_date') }}
+                            </label>
+                        </div>
+                        <div class="col-6 m-0">
+                            <div class="row custom-width">
+                                <div class="col-6">
+                                    <input type="number" id="day_pay_before_due_date" class="form-control w-100"
+                                        name="day_pay_before_due_date"
+                                        value="{{ $salesInvoices->day_pay_before_due_date ?? '1' }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-0 mt-5 mb-4">
+                        <div class="col-2">
+                            <label for="automatic_email">
+                                {{ __('basic.automatic_email') }}
+                            </label>
+                        </div>
+                        <div class="col m-0">
+                            <div class="row custom-width">
+                                <div class="col-6">
+                                    <input type="checkbox" id="automatic_email" class="form-check-input border-check"
+                                        name="automatic_email"
+                                        value="1" 
+                                        {{ $salesInvoices->automatic_email == 1 ? 'checked' : '' }} 
+                                        >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-0 mt-5 mb-4">
+                        <div class="col-2">
+                            <label for="services_and_non_stocked">
+                                {{ __('basic.services_and_non_stocked') }}
+                            </label>
+                        </div>
+                        <div class="col m-0">
+                            <div class="row custom-width">
+                                <div class="col-6">
+                                    <input type="checkbox" id="services_and_non_stocked" class="form-check-input border-check"
+                                        name="services_and_non_stocked"
+                                        value="1" 
+                                        {{ $salesInvoices->services_and_non_stocked == 1 ? 'checked' : '' }} 
+                                        >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-0 mt-5 mb-4">
+                        <div class="col-2">
+                            <label for="good_execution_guarantee">
+                                {{ __('basic.good_execution_guarantee') }}
+                            </label>
+                        </div>
+                        <div class="col m-0">
+                            <div class="row custom-width">
+                                <div class="col-6">
+                                    <input type="checkbox" id="good_execution_guarantee" class="form-check-input border-check"
+                                        name="good_execution_guarantee"
+                                        value="1" 
+                                        {{ $salesInvoices->good_execution_guarantee == 1 ? 'checked' : '' }} 
+                                        >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="m-auto text-center col-md-12 mt-5">
+                        <button class="btn btn-primary submit">حفظ </button>
+                    </div>
+                </form>
             </div>
-        </div>  
+
+
+        </div>
+    </div>
     </div>
 @endsection
 
