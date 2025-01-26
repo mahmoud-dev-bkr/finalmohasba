@@ -24,8 +24,8 @@ class CreateSettingSaleInvoicTable extends Migration
             $table->integer('automatic_email')->default('0');
             $table->integer('services_and_non_stocked')->default('0');
             $table->integer('good_execution_guarantee')->default('0');
-            // print_settings
             $table->integer('print_settings')->default('0');
+            $table->longText('print_settings_details')->nullable();
             $table->timestamps();
         });
     }
