@@ -466,7 +466,7 @@
                             <select name="test[]" class="form-select my-2 form-select-lg" style="display: initial; width: 90%; height: 40px;">
                                 <optgroup>
                                     @foreach ($units as $uint)
-                                        <option value="{{ $uint->id }}" {{ $uint->id == $PU->id ? 'selected' : '' }}>{{ $uint->name }}</option>
+                                        <option value="{{ $uint->id }}" {{ $uint->id == $PU->id_unit ? 'selected' : '' }}>{{ $uint->name }}</option>
                                     @endforeach
                 
                                 </optgroup>

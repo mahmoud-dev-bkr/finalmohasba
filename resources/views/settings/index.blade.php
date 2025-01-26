@@ -183,8 +183,12 @@
             </div>
             <div id="menu1" class="container tab-pane fade" role="tabpanel"><br>
                 <p class="text-muted">Menu 2</p>
+                <div class="form-group {{ $errors->has('en.description') ? 'has-error' : '' }}">
+                    <label for="description">Description <span class="required">*</span></label>
+                    <textarea rows="5"  class="form-control tinymce" ></textarea>
+                </div>
             </div>
-        </div>
+        </div>  
     </div>
 @endsection
 
