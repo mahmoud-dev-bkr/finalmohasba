@@ -50,7 +50,7 @@
 
         <!-- Tab panes -->
         <div class=" tab-content mt-5">
-            <div id="home" class=" container tab-pane  card p-5" role="tabpanel"><br>
+            <div id="home" class=" container tab-pane active show  card p-5" role="tabpanel"><br>
                 <h2 style="color:#1B97DF;text-align: center">{{ __('basic.settings_main') }}</h2>
                 <form action="{{ route('settings.update') }}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -185,7 +185,7 @@
                     </div>
                 </form>
             </div>
-            <div id="menu1" class="container tab-pane fade active show  card p-5" role="tabpanel"><br>
+            <div id="menu1" class="container tab-pane fade  card p-5" role="tabpanel"><br>
                 <h2 class="mb-5" style="color:#1B97DF;text-align: center">{{ __('basic.sales_invoice_settings') }}</h2>
                 <br>
                 <hr>
@@ -292,8 +292,8 @@
                                 <div class="col-6">
                                     <input type="checkbox" id="automatic_email" class="form-check-input border-check"
                                         name="automatic_email"
-                                        value="1" 
-                                        {{ $salesInvoices->automatic_email == 1 ? 'checked' : '' }} 
+                                        value="1"
+                                        {{ $salesInvoices->automatic_email == 1 ? 'checked' : '' }}
                                         >
                                 </div>
                             </div>
@@ -310,8 +310,8 @@
                                 <div class="col-6">
                                     <input type="checkbox" id="services_and_non_stocked" class="form-check-input border-check"
                                         name="services_and_non_stocked"
-                                        value="1" 
-                                        {{ $salesInvoices->services_and_non_stocked == 1 ? 'checked' : '' }} 
+                                        value="1"
+                                        {{ $salesInvoices->services_and_non_stocked == 1 ? 'checked' : '' }}
                                         >
                                 </div>
                             </div>
@@ -328,14 +328,14 @@
                                 <div class="col-6">
                                     <input type="checkbox" id="good_execution_guarantee" class="form-check-input border-check"
                                         name="good_execution_guarantee"
-                                        value="1" 
-                                        {{ $salesInvoices->good_execution_guarantee == 1 ? 'checked' : '' }} 
+                                        value="1"
+                                        {{ $salesInvoices->good_execution_guarantee == 1 ? 'checked' : '' }}
                                         >
                                 </div>
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="m-auto text-center col-md-12 mt-5">
                         <button class="btn btn-primary submit">حفظ </button>
                     </div>
