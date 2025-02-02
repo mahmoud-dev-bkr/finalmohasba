@@ -59,21 +59,53 @@ class SettingController extends Controller
         $data = $request->all();
         if (!is_numeric($request->numbering_sales_invoices)) {
             return redirect()->route('settings.index')->with(['error' => 'يرجى ادخال رقم صحيح']);
-        } 
+        }
 
 
         $settingInvoice = SaleInvoiceSetting::first();
         if (empty($settingInvoice)) {
             $settingInvoice = new SaleInvoiceSetting();
             $settingInvoice->create($data);
-
         } else {
             $settingInvoice->update($data);
         }
-       
+
         return redirect()->route('settings.index')->with(['success' => 'تم تحديث بيانات العميل بنجاح']);
     }
 
 
-    
+    public function teplateSalesInvoices()
+    {
+        return view('settings.template_sales_invoices');
+    }
+
+
+    public function getTeplateSales(Request $request)
+    {
+        if ($request->has('template') && $request->template == 1) {
+            // Render the view to a string
+            $viewContent = view('settings.template.template1')->render();
+
+            // Return the rendered HTML as a JSON response
+            return response()->json([
+                'success' => true,
+                'content' => $viewContent
+            ]);
+        } else if ($request->has('template') && $request->template == 2) {
+            // Render the view to a string
+            $viewContent = view('settings.template.template2')->render();
+
+            // Return the rendered HTML as a JSON response
+            return response()->json([
+                'success' => true,
+                'content' => $viewContent
+            ]);
+        }
+
+        // Handle invalid or missing template
+        return response()->json([
+            'success' => false,
+            'message' => 'Template not found'
+        ], 404);
+    }
 }

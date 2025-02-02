@@ -466,7 +466,10 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
         Route::get('/',              [SettingController::class, 'index'])->name('settings.index');
         Route::post('/update',  [SettingController::class, 'update'])->name('settings.update');
         Route::post('/update/sales/invoices',[SettingController::class, 'updateSalesInvoices'])->name('settings.update.sales.invoices');
-    
+        Route::get('/teplate/sales/invoices', [SettingController::class, 'teplateSalesInvoices'])->name('settings.templates.create.sales.invoice');
+        //create this route nameing setting.getTemplate.sales
+        Route::get('/teplate/sales', [SettingController::class, 'getTeplateSales'])->name('settings.templates.sales');
+
     });
 
 
