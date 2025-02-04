@@ -16,7 +16,7 @@
         .invoice-box {
             max-width: 800px;
             margin: auto;
-            padding: 30px;
+            padding: 15px;
             border: 1px solid #eee;
             /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); */
             font-size: 16px;
@@ -82,8 +82,17 @@
         .invoice-box img {
             max-width: 100px;
         }
+
         .text-center {
-            text-align: center!important;
+            text-align: center !important;
+        }
+
+        @media print {
+
+            .invoice-box table td {
+                padding: 5px;
+                vertical-align: top;
+            }
         }
     </style>
 </head>
@@ -91,7 +100,7 @@
 <body>
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
-            <tr class="top  ">
+            <tr class="top invoice-box ">
                 <td colspan="2">
                     <table>
                         <tr>
@@ -173,7 +182,7 @@
                 </td>
             </tr>
         </table>
-        <div  style="margin-top: 10px!important;">
+        <div class="invoice-box" style="margin-top: 10px!important;">
             <table>
                 <tr class="information">
                     <td colspan="2">
@@ -236,23 +245,29 @@
                                         {{ $PurchaseInvoiceDetail->qun }}
                                     </td>
                                     <td class="text-align-locale text-center">{{ $product->sel }} ر.س</td>
-                                    <td class="text-align-locale text-center"> {{  $PurchaseInvoiceDetail->discount ?? 0}} </td>
-                                    <td class="text-align-locale text-center">{{ $PurchaseInvoiceDetail->price_before }} ر.س</td>
+                                    <td class="text-align-locale text-center">
+                                        {{ $PurchaseInvoiceDetail->discount ?? 0 }} </td>
+                                    <td class="text-align-locale text-center">
+                                        {{ $PurchaseInvoiceDetail->price_before }} ر.س</td>
                                     <td class="text-align-locale text-center">{{ $PurchaseInvoiceDetail->tax }} </td>
-                                    <td class="text-align-locale text-center">{{ $PurchaseInvoiceDetail->tax_value }} ر.س</td>
-                                    <td class="text-align-locale text-center">{{ $PurchaseInvoiceDetail->price_after }} ر.س</td>
+                                    <td class="text-align-locale text-center">{{ $PurchaseInvoiceDetail->tax_value }}
+                                        ر.س</td>
+                                    <td class="text-align-locale text-center">{{ $PurchaseInvoiceDetail->price_after }}
+                                        ر.س</td>
                                 </tr>
                             @endforeach
                         </table>
                     </td>
                 </tr>
                 <tr class="total">
-                    <td>
+                    {{-- <td>
                         <br>
                         <p>Thanks for the business.</p>
-                    </td>
-                    <td style="background-color: #F7F7F7;"> Subtotal: {{ $Sales_invoices->total_with_tax }}<br> Tax : {{ $Sales_invoices->tax_value }}<br> Total:
-                        {{ $Sales_invoices->total }}  </td>
+                    </td> --}}
+                    <td style="background-color: #F7F7F7;">
+                        Subtotal: {{ $Sales_invoices->total_with_tax }}<br> Tax :
+                        {{ $Sales_invoices->tax_value }}<br> Total:
+                        {{ $Sales_invoices->total }} </td>
                 </tr>
             </table>
         </div>
