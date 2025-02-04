@@ -23,8 +23,8 @@ class TenantMiddleware
 
             // Find the company by the subdomain in the 'domain' column
             $company = Company::where('domain', $subdomain)->first();
-
             if ($company) {
+
                 // Set the tenant connection details
                 Config::set('database.connections.tenant.database', 'database_' . $company->organization_name);
                 Config::set('database.connections.tenant.username', 'user_' . $company->organization_name);

@@ -18,9 +18,11 @@ use App\Item;
 use App\Product;
 use App\PurchaseInvoiceDetails;
 use App\PurchaseInvoices;
+use App\SaleInvoiceSetting;
 use Illuminate\Http\Request;
 use App\Sales_invoices;
 use App\Services\InvoiceService;
+use App\Setting;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -28,10 +30,13 @@ class sales_invoicesController extends Controller
 {
     protected $invoiceService;
     protected $model;
+    protected $setting;
     public function __construct(Sales_invoices  $model)
     {
         $this->invoiceService = new InvoiceService($model, InvoiceKey::SALESINVOICE);
         $this->model          = $model;
+        // $this->setting = $this->getSettingsSalesInvoices();
+        // $this->middleware('tenant');
     }
 
 
@@ -96,6 +101,7 @@ class sales_invoicesController extends Controller
         $sites = Site::all();
         $PurchaseInvoices = Sales_invoices::latest()->first();
         // dd($PurchaseInvoices);
+        $settings = $this->getSettingsSalesInvoices();
         if ($PurchaseInvoices) {
             $count = $PurchaseInvoices->id + 1; // 52
         } else {
@@ -113,7 +119,7 @@ class sales_invoicesController extends Controller
         $items      = Item::all();
         $account1     = Account::where('type', 4)->get();
         $account2     = Account::where('type', 5)->get();
-        return view('Sales.Sales_invoices.NewCreate', compact('Clients', 'products', 'count', 'sites', 'salespersons',  'units', 'items',  'account1', 'account2'));
+        return view('Sales.Sales_invoices.NewCreate', compact('Clients', 'products', 'count', 'sites', 'salespersons',  'units', 'items',  'account1', 'account2','settings'));
     }
 
     /**
@@ -307,9 +313,15 @@ class sales_invoicesController extends Controller
         $Clientbond     = Clientbond::where('PurchaseInvoices_id', $id)->get();
         // dd($Clientbond);
         $PurchaseInvoiceDetails = PurchaseInvoiceDetails::where('type', 2)->where('purchase_invoice_id', $id)->get();
-
+        $settings = $this->getSettingsSalesInvoices();
+        $setting  = Setting::first();
+        if ($settings->template == 1) {
+            return view('Sales.Sales_invoices.print1', compact(['Client', 'Sales_invoices', 'PurchaseInvoiceDetails', 'Clientbond','setting']));
+        } else if ($settings->template == 2) {
+            return view('Sales.Sales_invoices.print2', compact(['Client', 'Sales_invoices', 'PurchaseInvoiceDetails', 'Clientbond','setting']));
+        }
         // dd($Sales_invoices);
-        return view('Sales.Sales_invoices.print', compact(['Client', 'Sales_invoices', 'PurchaseInvoiceDetails', 'Clientbond']));
+        return view('Sales.Sales_invoices.print', compact(['Client', 'Sales_invoices', 'PurchaseInvoiceDetails', 'Clientbond','setting']));
     }
     public function pdf($id)
     {
@@ -319,9 +331,15 @@ class sales_invoicesController extends Controller
         $Clientbond     = Clientbond::where('PurchaseInvoices_id', $id)->get();
         // dd($Clientbond);
         $PurchaseInvoiceDetails = PurchaseInvoiceDetails::where('type', 2)->where('purchase_invoice_id', $id)->get();
-
+        $settings = $this->getSettingsSalesInvoices();
+        $setting  = Setting::first();
+        if ($settings->template == 1) {
+            return view('Sales.Sales_invoices.print1', compact(['Client', 'Sales_invoices', 'PurchaseInvoiceDetails', 'Clientbond','setting']));
+        } else if ($settings->template == 2) {
+            return view('Sales.Sales_invoices.print2', compact(['Client', 'Sales_invoices', 'PurchaseInvoiceDetails', 'Clientbond','setting']));
+        }
         // dd($Sales_invoices);
-        return view('Sales.Sales_invoices.pdf', compact(['Client', 'Sales_invoices', 'PurchaseInvoiceDetails', 'Clientbond']));
+        return view('Sales.Sales_invoices.pdf', compact(['Client', 'Sales_invoices', 'PurchaseInvoiceDetails', 'Clientbond', 'setting']));
     }
 
     /**
@@ -882,5 +900,19 @@ class sales_invoicesController extends Controller
         ];
         CcountEstrictions::create($CcountEstrictions);
         return true;
+    }
+
+    public function getSettingsSalesInvoices()
+    {
+        $data    = SaleInvoiceSetting::first();
+        $oldData = [
+            'code' => 'INV',
+            'counter' => 1
+        ];
+        if (empty($data)) {
+            return $oldData;
+        }
+
+        return $data;
     }
 }

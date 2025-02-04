@@ -16,22 +16,30 @@
                 <label for="observations">
                     {{ __('basic.observations') }}
                 </label>
-                <textarea rows="7" class="form-control tinymce" name="description" id="teplate-view"></textarea>
+                <textarea rows="7" class="form-control tinymce" name="description" id="teplate-view">
+                    {!! $viewContent !!}
+                </textarea>
             </div>
         </div>
         <div class="col-4">
             <div class="header"> {{ __('basic.actions') }} </div>
             <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Templates</label>
-                <select name="" id="templates" class="form-control" onchange="changeTemplate(this.value)">
-                    <option value="">{{ __('basic.select') }}</option>
-                    <option value="1">
-                        template 1
-                    </option>
-                    <option value="2">
-                        template 2
-                    </option>
-                </select>
+                <form action="{{ route('settings.templates.store.sales') }}" method="post">
+                    @csrf
+                    <label for="templates" class="form-label">Templates</label>
+                    <select name="template" id="templates" class="form-control" onchange="changeTemplate(this.value)">
+                        <option value="0">{{ __('basic.select') }}</option>
+                        <option value="1" {{ $template->template == 1 ? 'selected' : '' }}>
+                            template 1
+                        </option>
+                        <option value="2" {{ $template->template == 2 ? 'selected' : '' }}>
+                            template 2
+                        </option>
+                    </select>
+                    <div class="m-auto text-center col-md-12 mt-5">
+                        <button class="btn btn-primary submit">حفظ </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

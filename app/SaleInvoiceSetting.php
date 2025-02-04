@@ -20,5 +20,6 @@ class SaleInvoiceSetting extends Model
         'good_execution_guarantee',
         'print_settings',
         'print_settings_details',
+        'template',
     ];
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\SaleInvoiceSetting;
 use App\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
 {
@@ -76,7 +77,14 @@ class SettingController extends Controller
 
     public function teplateSalesInvoices()
     {
-        return view('settings.template_sales_invoices');
+        $template = SaleInvoiceSetting::first();
+        $viewContent = "";
+        if ($template->template == 1) {
+            $viewContent = view('settings.template.template1')->render();
+        } else if ($template->template == 2) {
+            $viewContent = view('settings.template.template2')->render();
+        }
+        return view('settings.template_sales_invoices', compact('viewContent', 'template'));
     }
 
 
@@ -107,5 +115,19 @@ class SettingController extends Controller
             'success' => false,
             'message' => 'Template not found'
         ], 404);
+    }
+
+    public function storeTeplateSales(Request $request)
+    {
+
+        $settingInvoice = SaleInvoiceSetting::first();
+        $data           = $request->all();
+        if (empty($settingInvoice)) {
+            $settingInvoice = new SaleInvoiceSetting();
+            $settingInvoice->create($data);
+        } else {
+            $settingInvoice->update($data);
+        }
+        return redirect()->route('settings.index')->with(['success' => 'تم تحديث بيانات التصميم بنجاح']);
     }
 }

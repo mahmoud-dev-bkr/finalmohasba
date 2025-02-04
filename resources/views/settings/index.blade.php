@@ -337,7 +337,7 @@
                     </div>
 
                     <div class="m-auto text-center col-md-12 mt-5">
-                        <button class="btn btn-primary submit">حفظ </button>
+                        <button class="btn btn-primary submit p-3">حفظ </button>
                         <a class="btn btn-secondary p-3" href="{{ route('settings.templates.create.sales.invoice') }}">
                             تصميم القوالب
                         </a>

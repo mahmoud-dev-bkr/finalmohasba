@@ -469,6 +469,8 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
         Route::get('/teplate/sales/invoices', [SettingController::class, 'teplateSalesInvoices'])->name('settings.templates.create.sales.invoice');
         //create this route nameing setting.getTemplate.sales
         Route::get('/teplate/sales', [SettingController::class, 'getTeplateSales'])->name('settings.templates.sales');
+        // Template store
+        Route::post('/teplate/sales/store', [SettingController::class, 'storeTeplateSales'])->name('settings.templates.store.sales'); 
 
     });
 
