@@ -61,7 +61,7 @@ class SiteController extends Controller
             $today = \Carbon\Carbon::today()->format('Y-m-d');
             if($Site->Municipality_number_data < $today)
                  $color = "red";
-            elseif($Site->Municipality_number_data > $today)
+            elseif($Site->Municipality_number_data >= $today)
                  $color = "green";
             else
                 $color = "yellow";
@@ -74,7 +74,7 @@ class SiteController extends Controller
             $today = \Carbon\Carbon::today()->format('Y-m-d');
             if($Site->Commercial_Record_data < $today)
                  $color = "red";
-            elseif($Site->Commercial_Record_data > $today)
+            elseif($Site->Commercial_Record_data >= $today)
                  $color = "green";
             else
                 $color = "yellow";
@@ -87,7 +87,7 @@ class SiteController extends Controller
             $today = \Carbon\Carbon::today()->format('Y-m-d');
             if($Site->Human_Resources_License_data < $today)
                  $color = "red";
-            elseif($Site->Human_Resources_License_data > $today)
+            elseif($Site->Human_Resources_License_data >= $today)
                  $color = "green";
             else
                 $color = "yellow";
@@ -100,7 +100,7 @@ class SiteController extends Controller
             $today = \Carbon\Carbon::today()->format('Y-m-d');
             if($Site->Tex_Number_data < $today)
                  $color = "red";
-            elseif($Site->Tex_Number_data > $today)
+            elseif($Site->Tex_Number_data >= $today)
                  $color = "green";
             else
                 $color = "yellow";
@@ -113,7 +113,7 @@ class SiteController extends Controller
             $today = \Carbon\Carbon::today()->format('Y-m-d');
             if($Site->FDA_license_data < $today)
                  $color = "red";
-            elseif($Site->FDA_license_data > $today)
+            elseif($Site->FDA_license_data >= $today)
                  $color = "green";
             else
                 $color = "yellow";
@@ -126,7 +126,7 @@ class SiteController extends Controller
             $today = \Carbon\Carbon::today()->format('Y-m-d');
             if($Site->Social_Insurance_data < $today)
                  $color = "red";
-            elseif($Site->Social_Insurance_data > $today)
+            elseif($Site->Social_Insurance_data >= $today)
                  $color = "green";
             else
                 $color = "yellow";
@@ -139,7 +139,7 @@ class SiteController extends Controller
             $today = \Carbon\Carbon::today()->format('Y-m-d');
             if($Site->Chamber_Commerce_data < $today)
                  $color = "red";
-            elseif($Site->Chamber_Commerce_data > $today)
+            elseif($Site->Chamber_Commerce_data >= $today)
                  $color = "green";
             else
                 $color = "yellow";
@@ -196,7 +196,7 @@ class SiteController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required',
+            'name_ar' => 'required',
             'name_en' => 'required',
 
         ];
@@ -217,12 +217,13 @@ class SiteController extends Controller
         } else {
             $data['pointsSite'] = 0;
         }
+        $data['Inventory_id']  = 37;
         $site = Site::create($data);
 
 
 
 
-        
+
         // fill appointments em ployees
         return redirect()->route('sub_site.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
@@ -269,6 +270,7 @@ class SiteController extends Controller
             $data['pointsSite'] = 0;
         }
         //update in db
+        $data['Inventory_id']  = 37;
         $Site->update($data);
         return redirect()->route('sub_site.index')->with(['success' => 'تم تحديث بيانات العميل بنجاح']);
     }

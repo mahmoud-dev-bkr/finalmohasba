@@ -14,44 +14,44 @@
 
     {{-- if data > now == yellow  elseif data < now == red elseif data == now == green --}}
     @case('municipal_license')
-        <div 
+        <div
             style="background-color: {{ $color }}; color: {{ $color == 'yellow' ? 'black' : 'white' }}; margin:auto!important;  width:90%;">
             {{ $Site->Municipality_number_data }}
         </div>
     @break
 
     @case('Commercial_Record')
-        <div 
+        <div
             style="background-color: {{ $color }}; color: {{ $color == 'yellow' ? 'black' : 'white' }}; margin:auto!important; width:90%;">
             {{ $Site->Commercial_Record_data }}
         </div>
     @break
     @case('Human_Resources_License')
-        <div 
+        <div
             style="background-color: {{ $color }}; color: {{ $color == 'yellow' ? 'black' : 'white' }}; margin:auto!important; width:90%;">
             {{ $Site->Human_Resources_License_data }}
         </div>
     @break
     @case('Tex_Number')
-        <div 
+        <div
             style="background-color: {{ $color }}; color: {{ $color == 'yellow' ? 'black' : 'white' }}; margin:auto!important; width:90%;">
             {{ $Site->Tex_Number_data }}
         </div>
     @break
     @case('FDA_license')
-        <div 
+        <div
             style="background-color: {{ $color }}; color: {{ $color == 'yellow' ? 'black' : 'white' }}; margin:auto!important; width:90%;">
             {{ $Site->FDA_license_data }}
         </div>
     @break
     @case('Social_Insurance')
-        <div 
+        <div
             style="background-color: {{ $color }}; color: {{ $color == 'yellow' ? 'black' : 'white' }}; margin:auto!important; width:90%;">
             {{ $Site->Social_Insurance_data }}
         </div>
     @break
     @case('Chamber_Commerce')
-        <div 
+        <div
             style="background-color: {{ $color }}; color: {{ $color == 'yellow' ? 'black' : 'white' }}; margin:auto!important; width:90%;">
             {{ $Site->Chamber_Commerce_data }}
         </div>
