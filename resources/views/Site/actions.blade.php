@@ -2,7 +2,9 @@
     @case('action')
         <div>
             <ul>
-                <li><i class="fa-solid fa-eye"></i></li>
+                <a href="{{ route('sub_site.show',  $Site->id) }}">
+                    <li><i class="fa-solid fa-eye"></i></li>
+                </a>
                 <a href="{{ route('Site.update', $Site->id) }}">
                     <li><i class="fa-solid fa-pen-to-square"></i></li>
                 </a>

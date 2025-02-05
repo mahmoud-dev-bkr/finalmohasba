@@ -1333,7 +1333,7 @@ function QunChek(data, qunInput, qunWithUnit, errorMessage, qunMessage, index, i
     PriceUnitProduct = document.getElementById('price_unit_product_'+iderror);
     var price            = 0;
     employeeSelect.empty();
-    client_select.empty();
+    // client_select.empty();
     // alert(iderror);
     
 

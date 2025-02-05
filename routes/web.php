@@ -361,6 +361,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
 
     Route::get('/Site',              [SiteController::class, 'index'])->name('Site.index');
     Route::get('/sub_site',              [SiteController::class, 'index2'])->name('sub_site.index');
+    Route::get('/show/{id}',              [SiteController::class, 'show'])->name('sub_site.show');
     Route::get('/Site/create',        [SiteController::class, 'create'])->name('Site.create');
     Route::get('/Site/update/{id}',        [SiteController::class, 'edit'])->name('Site.update');
     Route::post('/Site/edit/{id}',        [SiteController::class, 'update'])->name('Site.edit');

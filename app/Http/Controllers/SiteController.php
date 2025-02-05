@@ -269,9 +269,30 @@ class SiteController extends Controller
      * @param  \App\Site  $Site
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $Site)
+    public function show($id)
     {
-        return $_GET;
+        // Get the current year
+        $currentYear = now()->year;
+
+        // Get monthly sales total for the current year
+        $monthlySales = DB::table('SalesInvoices')
+            ->selectRaw('MONTH(Date_start) as month, SUM(total) as total_sales')
+            ->whereYear('Date_start', $currentYear) // Get only current year's data
+            ->groupBy('month')
+            ->orderBy('month')
+            ->where('Site_id', $id)
+            ->get()
+            ->toArray();
+        $monthlyPurchases = DB::table('purchase_invoices')
+            ->selectRaw('MONTH(Date_start) as month, SUM(total) as total_purchases')
+            ->whereYear('Date_start', $currentYear) // Get only current year's data
+            ->groupBy('month')
+            ->orderBy('month')
+            ->where('Site_id', $id)
+            ->get()
+            ->toArray();
+            // dd($monthlyPurchases);
+            return view('Site.show', compact( 'monthlySales', 'currentYear','monthlyPurchases'));   
     }
 
     /**
