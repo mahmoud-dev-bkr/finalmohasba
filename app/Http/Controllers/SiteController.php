@@ -10,145 +10,149 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+
 class SiteController extends Controller
 {
-   /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
 
-    function getSite(Request $request){
+    function getSite(Request $request)
+    {
         $Site = Site::query();
         $Site->where('type', 1);
-        if($request->name)
-            $Site->where('name', 'like', '%'. $request->name . '%')
-            ->orWhere('name_ar', 'like', '%' . $request->name . '%');
+        if ($request->name)
+            $Site->where('name', 'like', '%' . $request->name . '%')
+                ->orWhere('name_ar', 'like', '%' . $request->name . '%');
 
         $data = Datatables()->eloquent($Site->latest('id'))
-        ->addColumn('action' , function($Site){
-            return view('Site.actions' , ['type' => 'action' , 'Site' => $Site]);
-        })
-        ->editColumn('Inventory_id', function ($Site){
-            $Inventory = Account::where('id', $Site->Inventory_id)->first();
-            return $Inventory->name;
-        })
-        ->toJson();
+            ->addColumn('action', function ($Site) {
+                return view('Site.actions', ['type' => 'action', 'Site' => $Site]);
+            })
+            ->editColumn('Inventory_id', function ($Site) {
+                $Inventory = Account::where('id', $Site->Inventory_id)->first();
+                return $Inventory->name;
+            })
+            ->toJson();
 
 
         return $data;
     }
 
-    function getSubSite(Request $request){
+    function getSubSite(Request $request)
+    {
         $Site = Site::query();
         $Site->where('type', 0);
-        if($request->name)
-            $Site->where('name', 'like', '%'. $request->name . '%')
-            ->orWhere('name_ar', 'like', '%' . $request->name . '%');
+        if ($request->name)
+            $Site->where('name', 'like', '%' . $request->name . '%')
+                ->orWhere('name_ar', 'like', '%' . $request->name . '%');
 
         $data = Datatables()->eloquent($Site->latest('id'))
-        ->addColumn('action' , function($Site){
-            return view('Site.actions' , ['type' => 'action' , 'Site' => $Site]);
-        })
-        ->editColumn('Inventory_id', function ($Site){
-            $Inventory = Account::where('id', $Site->Inventory_id)->first();
-            return optional($Inventory)->name;
-        })
-        ->addColumn('municipal_license', function($Site){
-            $color = "";
-            // Get today's date without time in the desired format
-            $today = \Carbon\Carbon::today()->format('Y-m-d');
-            if($Site->Municipality_number_data < $today)
-                 $color = "red";
-            elseif($Site->Municipality_number_data >= $today)
-                 $color = "green";
-            else
-                $color = "yellow";
+            ->addColumn('action', function ($Site) {
+                return view('Site.actions', ['type' => 'action', 'Site' => $Site]);
+            })
+            ->editColumn('Inventory_id', function ($Site) {
+                $Inventory = Account::where('id', $Site->Inventory_id)->first();
+                return optional($Inventory)->name;
+            })
+            ->addColumn('municipal_license', function ($Site) {
+                $color = "";
+                // Get today's date without time in the desired format
+                $today = \Carbon\Carbon::today()->format('Y-m-d');
+                if ($Site->Municipality_number_data < $today)
+                    $color = "red";
+                elseif ($Site->Municipality_number_data >= $today)
+                    $color = "green";
+                else
+                    $color = "yellow";
 
-            return view('Site.actions', ['type' => 'municipal_license', 'Site' => $Site, 'color' => $color]);
-        })
-        ->addColumn('commercial_registration', function($Site){
-            $color = "";
-            // Get today's date without time in the desired format
-            $today = \Carbon\Carbon::today()->format('Y-m-d');
-            if($Site->Commercial_Record_data < $today)
-                 $color = "red";
-            elseif($Site->Commercial_Record_data >= $today)
-                 $color = "green";
-            else
-                $color = "yellow";
+                return view('Site.actions', ['type' => 'municipal_license', 'Site' => $Site, 'color' => $color]);
+            })
+            ->addColumn('commercial_registration', function ($Site) {
+                $color = "";
+                // Get today's date without time in the desired format
+                $today = \Carbon\Carbon::today()->format('Y-m-d');
+                if ($Site->Commercial_Record_data < $today)
+                    $color = "red";
+                elseif ($Site->Commercial_Record_data >= $today)
+                    $color = "green";
+                else
+                    $color = "yellow";
 
-            return view('Site.actions', ['type' => 'Commercial_Record', 'Site' => $Site, 'color' => $color]);
-        })
-        ->addColumn('Human_Resources_License', function($Site){
-            $color = "";
-            // Get today's date without time in the desired format
-            $today = \Carbon\Carbon::today()->format('Y-m-d');
-            if($Site->Human_Resources_License_data < $today)
-                 $color = "red";
-            elseif($Site->Human_Resources_License_data >= $today)
-                 $color = "green";
-            else
-                $color = "yellow";
+                return view('Site.actions', ['type' => 'Commercial_Record', 'Site' => $Site, 'color' => $color]);
+            })
+            ->addColumn('Human_Resources_License', function ($Site) {
+                $color = "";
+                // Get today's date without time in the desired format
+                $today = \Carbon\Carbon::today()->format('Y-m-d');
+                if ($Site->Human_Resources_License_data < $today)
+                    $color = "red";
+                elseif ($Site->Human_Resources_License_data >= $today)
+                    $color = "green";
+                else
+                    $color = "yellow";
 
-            return view('Site.actions', ['type' => 'Human_Resources_License', 'Site' => $Site, 'color' => $color]);
-        })
-        ->addColumn('Tex_Number', function($Site){
-            $color = "";
-            // Get today's date without time in the desired format
-            $today = \Carbon\Carbon::today()->format('Y-m-d');
-            if($Site->Tex_Number_data < $today)
-                 $color = "red";
-            elseif($Site->Tex_Number_data >= $today)
-                 $color = "green";
-            else
-                $color = "yellow";
+                return view('Site.actions', ['type' => 'Human_Resources_License', 'Site' => $Site, 'color' => $color]);
+            })
+            ->addColumn('Tex_Number', function ($Site) {
+                $color = "";
+                // Get today's date without time in the desired format
+                $today = \Carbon\Carbon::today()->format('Y-m-d');
+                if ($Site->Tex_Number_data < $today)
+                    $color = "red";
+                elseif ($Site->Tex_Number_data >= $today)
+                    $color = "green";
+                else
+                    $color = "yellow";
 
-            return view('Site.actions', ['type' => 'Tex_Number', 'Site' => $Site, 'color' => $color]);
-        })
-        ->addColumn('FDA_license', function($Site){
-            $color = "";
-            // Get today's date without time in the desired format
-            $today = \Carbon\Carbon::today()->format('Y-m-d');
-            if($Site->FDA_license_data < $today)
-                 $color = "red";
-            elseif($Site->FDA_license_data >= $today)
-                 $color = "green";
-            else
-                $color = "yellow";
+                return view('Site.actions', ['type' => 'Tex_Number', 'Site' => $Site, 'color' => $color]);
+            })
+            ->addColumn('FDA_license', function ($Site) {
+                $color = "";
+                // Get today's date without time in the desired format
+                $today = \Carbon\Carbon::today()->format('Y-m-d');
+                if ($Site->FDA_license_data < $today)
+                    $color = "red";
+                elseif ($Site->FDA_license_data >= $today)
+                    $color = "green";
+                else
+                    $color = "yellow";
 
-            return view('Site.actions', ['type' => 'FDA_license', 'Site' => $Site, 'color' => $color]);
-        })
-        ->addColumn('Social_Insurance', function($Site){
-            $color = "";
-            // Get today's date without time in the desired format
-            $today = \Carbon\Carbon::today()->format('Y-m-d');
-            if($Site->Social_Insurance_data < $today)
-                 $color = "red";
-            elseif($Site->Social_Insurance_data >= $today)
-                 $color = "green";
-            else
-                $color = "yellow";
+                return view('Site.actions', ['type' => 'FDA_license', 'Site' => $Site, 'color' => $color]);
+            })
+            ->addColumn('Social_Insurance', function ($Site) {
+                $color = "";
+                // Get today's date without time in the desired format
+                $today = \Carbon\Carbon::today()->format('Y-m-d');
+                if ($Site->Social_Insurance_data < $today)
+                    $color = "red";
+                elseif ($Site->Social_Insurance_data >= $today)
+                    $color = "green";
+                else
+                    $color = "yellow";
 
-            return view('Site.actions', ['type' => 'Social_Insurance', 'Site' => $Site, 'color' => $color]);
-        })
-        ->addColumn('Chamber_Commerce', function($Site){
-            $color = "";
-            // Get today's date without time in the desired format
-            $today = \Carbon\Carbon::today()->format('Y-m-d');
-            if($Site->Chamber_Commerce_data < $today)
-                 $color = "red";
-            elseif($Site->Chamber_Commerce_data >= $today)
-                 $color = "green";
-            else
-                $color = "yellow";
+                return view('Site.actions', ['type' => 'Social_Insurance', 'Site' => $Site, 'color' => $color]);
+            })
+            ->addColumn('Chamber_Commerce', function ($Site) {
+                $color = "";
+                // Get today's date without time in the desired format
+                $today = \Carbon\Carbon::today()->format('Y-m-d');
+                if ($Site->Chamber_Commerce_data < $today)
+                    $color = "red";
+                elseif ($Site->Chamber_Commerce_data >= $today)
+                    $color = "green";
+                else
+                    $color = "yellow";
 
-            return view('Site.actions', ['type' => 'Chamber_Commerce', 'Site' => $Site, 'color' => $color]);
-        })
+                return view('Site.actions', ['type' => 'Chamber_Commerce', 'Site' => $Site, 'color' => $color]);
+            })
 
 
-        ->toJson();
+            ->toJson();
 
 
         return $data;
@@ -156,7 +160,7 @@ class SiteController extends Controller
 
     public function index()
     {
-        $Site = Site::where('type',1)->get();
+        $Site = Site::where('type', 1)->get();
 
 
         // dd($Site);
@@ -166,15 +170,38 @@ class SiteController extends Controller
             ]
         ));
     }
+    // public function index2()
+    // {
+    //     $Site = Site::where('type',0)->get();
+
+    //     return view('Site.sub_site', compact(
+    //         [
+    //             'Site'
+    //         ]
+    //     ));
+    // }
+
+
     public function index2()
     {
-        $Site = Site::where('type',0)->get();
-        return view('Site.sub_site', compact(
-            [
-                'Site'
-            ]
-        ));
+        $Site = Site::where('type', 0)->get();
+
+        // Get the current year
+        $currentYear = now()->year;
+
+        // Get monthly sales total for the current year
+        $monthlySales = DB::table('SalesInvoices')
+            ->selectRaw('MONTH(Date_start) as month, SUM(total) as total_sales')
+            ->whereYear('Date_start', $currentYear) // Get only current year's data
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->toArray();
+        // dd($monthlySales);
+        return view('Site.sub_site', compact('Site', 'monthlySales', 'currentYear'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -249,7 +276,7 @@ class SiteController extends Controller
     {
         $Site = Site::FindOrFail($id);
         $Inventorys = Inventory::all();
-        return view('Site.update', compact(['Inventorys','Site']));
+        return view('Site.update', compact(['Inventorys', 'Site']));
     }
 
     /**
@@ -294,7 +321,4 @@ class SiteController extends Controller
             return redirect()->route('sub_site.index')->with(['error' => 'هناك خطأ برجاء المحاولة ثانيا']);
         }
     }
-
-
-
 }

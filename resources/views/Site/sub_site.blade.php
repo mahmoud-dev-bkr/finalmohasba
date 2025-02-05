@@ -44,7 +44,7 @@
 
                             <div class="bg-light col-md-12 p-3">
 
-                                <div class="my-3 d-flex chart_circle container ">
+                                <div class="my-3 d-flex chart_circle container " id="chart_th_data" data-monthlysales="{{ json_encode($monthlySales) }}">
                                     <span class="mt-5" style="width:100%;height:100vh;text-align:center;">
                                         <canvas id="chart_th" style="width:100%;"></canvas>
                                     </span>
