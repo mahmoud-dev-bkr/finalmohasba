@@ -44,7 +44,8 @@
 
                             <div class="bg-light col-md-12 p-3">
 
-                                <div class="my-3 d-flex chart_circle container " id="chart_th_data" data-monthlysales="{{ json_encode($monthlySales) }}">
+                                <div class="my-3 d-flex chart_circle container " id="chart_th_data"
+                                    data-monthlysales="{{ json_encode($monthlySales) }}">
                                     <span class="mt-5" style="width:100%;height:100vh;text-align:center;">
                                         <canvas id="chart_th" style="width:100%;"></canvas>
                                     </span>
@@ -139,6 +140,10 @@
                                         </div>
                                     </div>
 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </section>
             @else
@@ -147,19 +152,18 @@
                         <div>
                             <img src="{{ URL('images/Suppliers-img.svg') }}" alt="">
                             <h1 class="my-3">ليس لديك أي موقع</h1>
-                            <p class="text-secondary my-5">يوفر قيود صفحة خاصة بالعملاء للمساهمة في تسهيل التعاملات مع
-                                العملاء وملخص لبياناتهم.</p>
-                            <button class="btn btn-primary mx-2 "> <a href="{{ URL('dashboard/Site/create') }}"
-                                    class="text-light">اضافة موقع</a> <i class="fa-solid fa-plus"></i></button> <button
-                                class="btn btn-primary">استيراد قائمة الموقع <i
-                                    class="fa-solid fa-right-to-bracket mx-1"></i></button>
+                            <p class="text-secondary my-5">يوفر قيود صفحة خاصة بالفروع للمساهمة في تسهيل التعاملات مع
+                                الفروع وملخص لبياناتهم.</p>
+                            <a href="{{ URL('dashboard/Site/create') }}" class="text-light mx-2 btn btn-primary ">
+                                اضافة موقع
+                                <i class="fa-solid fa-plus"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
             @endif
 
-    </div>
-    </section>
+        </section>
     </div>
 @endsection
 @section('script')
@@ -277,35 +281,127 @@
             setSiteDatatable();
         });
 
+        var monthlySales = {!! json_encode($monthlySales) !!};
+        var monthlyPurchases = {!! json_encode($monthlyPurchases) !!};
+
+        // Create arrays to hold the sales and purchases data for each month
+        var salesData = new Array(12).fill(0); // Initialize with 0 for each month
+        var purchasesData = new Array(12).fill(0); // Initialize with 0 for each month
+
+        // Populate the salesData array with the total_sales values
+        monthlySales.forEach(function(sale) {
+            // Subtract 1 from the month because JavaScript arrays are zero-indexed
+            salesData[sale.month - 1] = sale.total_sales;
+        });
+
+        // Populate the purchasesData array with the total_purchases values
+        monthlyPurchases.forEach(function(purchase) {
+            // Subtract 1 from the month because JavaScript arrays are zero-indexed
+            purchasesData[purchase.month - 1] = purchase.total_purchases;
+        });
+
         var ctx_3 = document.getElementById("chart_th").getContext('2d');
         var myDoughnutChart_3 = new Chart(ctx_3, {
             type: 'line',
             data: {
                 labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September",
                     "October", "November", "December"
-                ], // fix
+                ],
                 datasets: [{
-                    label: "مصروفات",
-                    data: [186, 205, 1321, 1516, 2107,
-                        2191, 3133, 3221, 4783, 5478
-                    ],
-                    borderColor: "#3cba9f",
-                    fill: false
-                }, {
-                    label: "إيرادات",
-                    data: [1282, 1350, 2411, 2502, 2635,
-                        2809, 3947, 4402, 3700, 5267
-                    ],
-                    borderColor: "#e43202",
-                    fill: false
-                }]
+                        label: "مصروفات", // Expenses
+                        data: purchasesData, // Use the dynamically populated purchasesData array
+                        borderColor: "#e43202",
+                        fill: false
+                    },
+                    {
+                        label: "إيرادات", // Revenue
+                        data: salesData, // Use the dynamically populated salesData array
+                        borderColor: "#3cba9f",
+                        fill: false
+                    }
+                ]
             },
             options: {
+                responsive: true,
                 title: {
                     display: true,
-                    text: 'Chart JS Multiple Lines Example'
+                    text: 'Monthly Sales and Purchases'
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
         });
+
+
+        // var monthlySales = {!! json_encode($monthlySales) !!};
+
+        // // Create an array to hold the sales data for each month
+        // var salesData = new Array(12).fill(0); // Initialize with 0 for each month
+
+        // // Populate the salesData array with the total_sales values
+        // monthlySales.forEach(function(sale) {
+        //     // Subtract 1 from the month because JavaScript arrays are zero-indexed
+        //     salesData[sale.month - 1] = sale.total_sales;
+        // });
+
+        // var ctx_3 = document.getElementById("chart_th").getContext('2d');
+        // var myDoughnutChart_3 = new Chart(ctx_3, {
+        //     type: 'line',
+        //     data: {
+        //         labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+        //             "October", "November", "December"
+        //         ],
+        //         datasets: [{
+        //             label: "مصروفات",
+        //             data: [186, 205, 1321, 1516, 2107, 2191, 3133, 3221, 4783, 10000],
+        //             borderColor: "#3cba9f",
+        //             fill: false
+        //         }, {
+        //             label: "إيرادات",
+        //             data: salesData, // Use the dynamically populated salesData array
+        //             borderColor: "#e43202", 
+        //             fill: false
+        //         }]
+        //     },
+        //     options: {
+        //         title: {
+        //             display: true,
+        //             text: 'Chart JS Multiple Lines Example'
+        //         }
+        //     }
+        // });
+        // var data = {{ json_encode($monthlySales) }}
+        // var ctx_3 = document.getElementById("chart_th").getContext('2d');
+        // var myDoughnutChart_3 = new Chart(ctx_3, {
+        //     type: 'line',
+        //     data: {
+        //         labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+        //             "October", "November", "December"
+        //         ], // fix
+        //         datasets: [{
+        //             label: "مصروفات",
+        //             data: [ 186, 205, 1321, 1516, 2107,
+        //                 2191, 3133, 3221, 4783, 5478],
+        //             borderColor: "#3cba9f",
+        //             fill: false
+        //         }, {
+        //             label: "إيرادات",
+        //             data: [1282, 1350, 2411, 2502, 2635,
+        //                 2809, 3947, 4402, 3700, 5267
+        //             ],
+        //             borderColor: "#e43202",
+        //             fill: false
+        //         }]
+        //     },
+        //     options: {
+        //         title: {
+        //             display: true,
+        //             text: 'Chart JS Multiple Lines Example'
+        //         }
+        //     }
+        // });
     </script>
 @endsection

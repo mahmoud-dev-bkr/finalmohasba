@@ -163,7 +163,7 @@
                                                                 <tr>
                                                                     <th>الاسم العربي</th>
                                                                     <td><input id="name_ar" type="text"
-                                                                            name="name" value=""
+                                                                            name="name_ar" value=""
                                                                             class="form-control" placeholder="" required>
                                                                     </td>
                                                                     <th>الاسم الانجليزي</th>
@@ -474,7 +474,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
-                                                                        <select id="country" name="Inventory"
+                                                                        <select id="country" name="Inventory_id"
                                                                             class="form-control" required>
                                                                             @foreach ($Inventorys as $Inventory)
                                                                                 <option value="{{ $Inventory->id }}">

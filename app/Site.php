@@ -13,6 +13,7 @@ class site extends Model
         'name_en',
         'email',
         'email2',
+        'Inventory_id',
         'main_activity',
         'Activity_description',
         'Registered_capital',

@@ -408,7 +408,7 @@
           row += `
           <tr>
                 <td class="text-center" colspan="1">
-                    <select class="form-select my-2 form-select-lg " style="display: initial; width: 90%; height: 40px;">
+                    <select class="form-select my-2 form-select-lg " style="display: initial; width: 90%; height: 40px;" disabled>
                         <optgroup>
                             @foreach ($units as $id => $name )
                                 <option value="{{ $id }}" class="units">{{ $name  }}</option>

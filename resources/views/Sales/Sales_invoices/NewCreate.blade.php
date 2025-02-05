@@ -121,7 +121,7 @@
 
                                   </td>
                                   <td class="px-2 td-ftora">
-                                    <input name="code"type="text" class="form-control  my-2 tab-input" value="{{ $settings->code }} {{  $count }}"  id="code">
+                                    <input name="code"type="text" class="form-control  my-2 tab-input" value="{{ $settings->code ?? 'INV' }} {{  $count }}"  id="code">
                                     <input name="done" type="text" class="form-control w-75 my-2 tab-input" value="1" id="done" hidden>
                                   </td>
                                 </tr>

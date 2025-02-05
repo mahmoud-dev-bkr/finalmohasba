@@ -197,8 +197,15 @@ class SiteController extends Controller
             ->orderBy('month')
             ->get()
             ->toArray();
-        // dd($monthlySales);
-        return view('Site.sub_site', compact('Site', 'monthlySales', 'currentYear'));
+        $monthlyPurchases = DB::table('purchase_invoices')
+            ->selectRaw('MONTH(Date_start) as month, SUM(total) as total_purchases')
+            ->whereYear('Date_start', $currentYear) // Get only current year's data
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->toArray();
+        // dd($monthlyPurchases);
+        return view('Site.sub_site', compact('Site', 'monthlySales', 'currentYear','monthlyPurchases'));
     }
 
 
@@ -238,13 +245,14 @@ class SiteController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $data = $request->all();
+        // dd($data);
         $data['type'] = 0;
         if ($request->pointsSite == 'on') {
             $data['pointsSite'] = 1;
         } else {
             $data['pointsSite'] = 0;
         }
-        $data['Inventory_id']  = 37;
+        // $data['Inventory_id']  = 37;
         $site = Site::create($data);
 
 
