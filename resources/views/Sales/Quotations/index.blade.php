@@ -16,18 +16,18 @@
             </section>
             <section>
                <div class="d-flex justify-content-sm-end mx-5">
-                   @can('create_Quotation')
-                    <button class="btn btn-primary mx-2">  
-                        <a href="{{ route('Quotation.create') }}"  class="text-light">اضافة  عروض واسعار</a> 
+                   @if(canPerission('create_Quotation'))
+                    <button class="btn btn-primary mx-2">
+                        <a href="{{ route('Quotation.create') }}"  class="text-light">اضافة  عروض واسعار</a>
                         <i class="fa-solid fa-plus"></i>
-                    </button> 
-                    @endcan
+                    </button>
+                    @endif
                     <button onclick="downloadExcel($('.code').val(), $('.name').val(), $('.status').val(), $('.date').val(), $('.start-date').val(), $('.end-date').val(), $('.site').val())" class="btn btn-primary mx-2" id="exportButton">
                         <!--<a href="{{ route('ExportSalesinvoices') }}" class="text-light"> تصدير </a>-->
                         تصدير
                         <i class="fa-solid fa-plus"></i>
                     </button>
-                
+
                     <!--{{-- <button class="btn btn-primary mx-2">استيراد قائمة  عروض واسعار  -->
                     <!--    <i class="fa-solid fa-right-to-bracket mx-1"></i>-->
                     <!--</button> --}}-->
@@ -72,7 +72,7 @@
 
                                             </optgroup>
                                         </select>
-                                                                       
+
                                         <input type="date" class="form-control w-30 mx-2 select-fillter  start-date" onfocus="(this.type='date')"  placeholder="من">
                                         <input type="date" class="form-control w-30 mx-2 select-fillter end-date" onfocus="(this.type='date')"  placeholder="الي">
                                         <select style="height:40px" class="form-control select-fillter  site" name="" id="">
@@ -84,9 +84,9 @@
                                             </optgroup>
                                         </select>
 
-    
+
                                         <br><br>
-                                        
+
                                     </div>
 
                                     </div>
@@ -167,7 +167,7 @@
     <script src="{{ asset('assets/libs/pdfmake/pdfmake.min.js') }}"></script>
     <script>
     function reloadData(code,name, status,date,start_date,end_date, site) {
-            // end-date start-date date status name code 
+            // end-date start-date date status name code
             // alert(site)
             var url = "{{ route('getQuotationsData') }}?code=" + code+"&name="+ name +"&status="+ status +"&date="+ date +"&start_date="+ start_date+"&end_date="+ end_date+"&site="+ site;
             PurchaseInvoicesTable.ajax.url(url).load();
@@ -241,7 +241,7 @@
                         n.show();
 
                     }); //end of delete
-                    
+
                     $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
                     //delete
                     $('.notdone').click(function(e) {
@@ -270,11 +270,11 @@
                         n.show();
 
                     }); //end of delete
-                    
-                    
+
+
                 },
-                
-                
+
+
 
                 // language: {
                 paginate: {
@@ -282,10 +282,10 @@
                     "next": "<i class='mdi mdi-chevron-right'>"
                 },
                 // },
-      
+
                  columns: [
                 {
-                  data: 'code'  
+                  data: 'code'
                 },
                 {
                     data: 'id_supplers'
@@ -312,7 +312,7 @@
         $(function() {
             setPurchaseInvoicesDatatable();
         });
-        
+
         // function exportTableToExcel(filename) {
         //     var table = document.getElementById("PurchaseInvoicesTable");
         //     var html = table.outerHTML;
@@ -331,13 +331,13 @@
         // document.getElementById("exportButton").addEventListener("click", function () {
         //     exportTableToExcel("data.xlsx");
         // });
-        
+
         function downloadExcel(code,name, status,date,start_date,end_date, site) {
-            
+
             const url = '{{ route("ExportQuotation") }}?code=' + code+"&name="+ name +"&status="+ status +"&date="+ date +"&start_date="+ start_date+"&end_date="+ end_date+"&site="+ site;
-            
+
             alert("يتم التحميل")
-        
+
             fetch(url, {
                 method: 'GET',
             })
@@ -348,19 +348,19 @@
                 link.href = URL.createObjectURL(blob);
                 link.download = 'ReturnsSalesInvoices.xlsx';
                 document.body.appendChild(link);
-        
+
                 // Trigger the click event to start the download
                 link.click();
-        
+
                 // Remove the temporary anchor element
                 document.body.removeChild(link);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
-        }        
-        
-        
+        }
+
+
     </script>
 
 @endsection

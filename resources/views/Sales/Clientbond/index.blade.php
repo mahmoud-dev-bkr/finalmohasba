@@ -16,12 +16,12 @@
     </section>
     <section>
         <div class="d-flex justify-content-sm-end mx-5">
-            @can('create_Clientbond')
-            <button class="btn btn-primary mx-2">
-                <a href="{{ route('Clientbond.create') }}" class="text-light">اضافة سندات العميل</a>
-                <i class="fa-solid fa-plus"></i>
-            </button>
-            @endcan
+            @if(canPerission('create_Clientbond'))
+                <button class="btn btn-primary mx-2">
+                    <a href="{{ route('Clientbond.create') }}" class="text-light">اضافة سندات العميل</a>
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            @endif
             <button class="btn btn-primary mx-2">
                 <a href="{{ route('ExportClientbond') }}" class="text-light">تصدير </a>
                 <i class="fa-solid fa-plus"></i>
@@ -40,9 +40,9 @@
             </div>
             @if (count($Clientbond) > 0)
             <!--<div class="row pb-4 brdr">-->
-                
+
                 <section class="row pb-4 brdr">
-                
+
                 <div class="container my-5">
                     <div class="row">
 
@@ -171,7 +171,7 @@
 <script src="{{ asset('assets/libs/pdfmake/pdfmake.min.js') }}"></script>
 <script>
     function reloadData(code, name, status, date, start_date, end_date) {
-        // end-date start-date date status name code 
+        // end-date start-date date status name code
         var url = "{{ route('getClientbondsData') }}?code=" + code + "&name=" + name + "&status=" + status + "&date=" +
             date + "&start_date=" + start_date + "&end_date=" + end_date;
         ClientbondsTable.ajax.url(url).load();

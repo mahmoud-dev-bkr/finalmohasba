@@ -38,50 +38,52 @@ class UserController extends Controller
     }
     public function getUsers(Request $request){
         $Users = User::query();
-        
-        if($request->name) 
+
+        if($request->name)
             $Users->where('name', 'like', '%'. $request->name . '%');
-         
+
         if ($request->email)
             $Users->where('email', 'like', '%'. $request->email .'%');
-            
+
         if ($request->phone)
             $Users->where('phon', 'like', '%'.$request->phone. '%');
-            
+
         if ($request->status == 1)
             $Users->where('status', 1);
-            
+
         if ($request->status == 2)
             $Users->where('status', 0);
 
-        
-        
+
+
         $data = Datatables()->eloquent($Users->latest('id'))
         ->addColumn('action' , function($User){
             return view('Users.actions' , ['type' => 'action' , 'Client' => $User]);
         })
-        
+
         // ->addColumn('bonds' , function($Client){
         //     return Clientbond::where('id_customers', $Client->id)->sum('Amount');
         // })
         // ->addColumn('Salesinvoices' , function($Client){
         //     return Sales_invoices::where('id_supplers', $Client->id)->sum('total');
         // })
-        
-        // ->editColumn('status', function ($Client){
-        //     if ($Client->status == 1) {
-        //         return "مفعل";
-        //     } else {
-        //         return "غير مفعل";
-        //     }
-        // })
+
+        ->editColumn('role_id', function ($Client){
+            return Role::find($Client->role_id)->name;
+        })
+        ->editColumn('pos', function ($Client){
+            return $Client->pos == 1 ? 'نعم' : 'لا';
+        })
+        ->editColumn('isActive', function ($Client){
+            return $Client->isActive == 1 ? 'نعم' : 'لا';
+        })
         ->toJson();
 
 
         return $data;
     }
-    
-    
+
+
     public function subAjaxUser(Request $request)
     {
         $input = $request->all();
@@ -91,11 +93,11 @@ class UserController extends Controller
         $UserRole = RoleUser::create([
             'user_id'        => $user->id,
             'role_id'        => $request->role_id,
-            'user_type'      => 'App\User',              
+            'user_type'      => 'App\User',
         ]);
         return response()->json(['success'=>$user->id]);
     }
-        
+
     public function index()
     {
         $Client = Client::all();
@@ -111,7 +113,7 @@ class UserController extends Controller
             ]
         ));
     }
-    
+
     public function status($id)
     {
         $Client = Client::find($id);
@@ -131,8 +133,8 @@ class UserController extends Controller
         $sites = Site::all();
         $salespersons = Salesperson::all();
         return view('Sales.Clients.newCreate', compact([
-            'sites' , 'salespersons' 
-        
+            'sites' , 'salespersons'
+
         ]));
     }
 
@@ -144,8 +146,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        
-        
+
+
          $rules = [
             'name' => 'required',
         ];
@@ -160,29 +162,29 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $data = $request->all();
-        
+
         $infoUser = $request->all();
-        
+
         // dd($data);
 
-    
+
         if ($request->pointsClient == 'true') {
             $infoUser['pointsClient'] = 1;
         } else {
             $infoUser['pointsClient'] = 0;
         }
-        
+
         if ($request->status == 'true') {
             $infoUser['status'] = 1;
         } else {
             $infoUser['status'] = 0;
         }
-        
-        
+
+
         $client = Client::create($infoUser);
-        
+
         if ($request->name1) {
-            
+
             AccountBanks::create(
                 [
                  'client_id' => $client->id,
@@ -195,13 +197,13 @@ class UserController extends Controller
                  'code' => $request->code1,
                  'address' => $request->address1,
                  'type' => 1,
-                ]    
+                ]
             );
         }
-        
-        
+
+
         if ($request->name2) {
-            
+
             AccountBanks::create(
                 [
                  'client_id' => $client->id,
@@ -214,16 +216,16 @@ class UserController extends Controller
                  'code' => $request->code2,
                  'address' => $request->address2,
                  'type' => 2,
-                ]    
+                ]
             );
         }
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
         // fill appointments em ployees
          return redirect()->route('client.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
@@ -239,7 +241,7 @@ class UserController extends Controller
         $Client = Client::FindOrFail($id);
         $Sales_invoices = Sales_invoices::where('id_supplers', $id)->get();
         $Clientbonds = Clientbond::where('id_customers', $id)->get();
-        
+
         // dd($Clientbonds);
         return view('Sales.Clients.show', compact(['Client', 'Sales_invoices', 'Clientbonds']));
     }
@@ -257,7 +259,7 @@ class UserController extends Controller
         $AccountBank2 = AccountBanks::where('client_id', $id)->where("type", 2)->first();
         $sites = Site::all();
         $salespersons = Salesperson::all();
-       
+
         return view('Sales.Clients.update', compact('Client','sites','salespersons','AccountBank1','AccountBank2'));
     }
 
@@ -278,7 +280,7 @@ class UserController extends Controller
         } else {
             $data['pointsClient'] = 0;
         }
-        
+
         if ($request->status == 'true') {
             $data['status'] = 1;
         } else {
@@ -295,16 +297,16 @@ class UserController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-     
+
          public function print($id){
 
- 
+
 
       $Clientbonds = Clientbond::find($id);
 
- 
 
- 
+
+
 
       $Client = Client::where('id', $Clientbonds->id_customers)->get();
 
@@ -312,12 +314,12 @@ class UserController extends Controller
 
       return view('Sales.Clientbond.print', compact('Client', 'Sales_invoices', 'Clientbonds'));
 
- 
+
 
     }
-     
-     
-     
+
+
+
     public function destroy($id)
     {
         try {

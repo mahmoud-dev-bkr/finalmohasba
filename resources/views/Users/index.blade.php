@@ -1,7 +1,7 @@
 @extends('layouts.vertical', ['title' => 'ادارة المستخدمين'])
 @section('css')
     <style>
-        select {
+        /* select {
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -12,7 +12,7 @@
             width: 200px;
             background-size: 12px;
             background-position: 8px center;
-        }
+        } */
     </style>
 @endsection
 @section('content')
@@ -127,8 +127,6 @@
                                                     <th scope="col"> اتصال</th>
                                                     <th scope="col">المنصب</th>
                                                     <th scope="col">مستخدم تطبيق نقاط البيع</th>
-                                                    <th scope="col">آخر تسجيل دخول</th>
-                                                    <th scope="col">2FA</th>
                                                     <th scope="col">الحالة</th>
                                                     <th scope="col">الخيارات</th>
                                                 </tr>
@@ -336,151 +334,149 @@
             </div>
         </section>
     </div>
-    <!-- Vendor js -->
-    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ URL('js/main.js') }}"></script>
-    <script src="//cdn.datatables.net/plug-ins/1.10.25/i18n/Arabic.json"></script>
-    <!-- Plugins js-->
-    <script src="{{ asset('assets/libs/datatables/datatables.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/pdfmake/pdfmake.min.js') }}"></script>
-    <script>
-        let PurchaseInvoicesTable = null
 
-        function setPurchaseInvoicesDatatable() {
-            var url = "{{ route('getsales_invoicessData') }}";
-            PurchaseInvoicesTable = $("#PurchaseInvoicesTable").DataTable({
-                processing: true,
-                serverSide: true,
-                dom: 'Blfrtip',
-                lengthMenu: [25, 50, 75, 100, 150, 200, 300, 500],
-                pageLength: 25,
-                sorting: [0, "DESC"],
-                ordering: false,
-                ajax: url,
-                // buttons : ['excel', 'print', 'reset', 'reload'],
-                // language: [
-                //           'url' => url('/vendor/datatables/arabic.json')
-                // ],
-                drawCallback: function(settings) {
-                    $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
-                    //delete
-                    $('.delete').click(function(e) {
+@endsection
+@section('script')
+<!-- Vendor js -->
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ URL('js/main.js') }}"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.25/i18n/Arabic.json"></script>
+<!-- Plugins js-->
+<script src="{{ asset('assets/libs/datatables/datatables.min.js') }}"></script>
+<script src="{{ asset('assets/libs/pdfmake/pdfmake.min.js') }}"></script>
+<script>
+    let PurchaseInvoicesTable = null
 
-                        var that = $(this)
+    function setPurchaseInvoicesDatatable() {
+        var url = "{{ route('getusersData') }}";
+        // alert(url)
+        PurchaseInvoicesTable = $("#PurchaseInvoicesTable").DataTable({
+            processing: true,
+            serverSide: true,
+            dom: 'Blfrtip',
+            lengthMenu: [25, 50, 75, 100, 150, 200, 300, 500],
+            pageLength: 25,
+            sorting: [0, "DESC"],
+            ordering: false,
+            ajax: url,
+            // buttons : ['excel', 'print', 'reset', 'reload'],
+            // language: [
+            //           'url' => url('/vendor/datatables/arabic.json')
+            // ],
+            drawCallback: function(settings) {
+                $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+                //delete
+                $('.delete').click(function(e) {
 
-                        e.preventDefault();
+                    var that = $(this)
 
-                        var n = new Noty({
-                            text: "@lang('تأكيد الحذف')",
-                            type: "warning",
-                            killer: true,
-                            buttons: [
-                                Noty.button("@lang('نعم')", 'btn btn-success mr-2',
-                                    function() {
-                                        that.closest('form').submit();
-                                    }),
+                    e.preventDefault();
 
-                                Noty.button("@lang('لا')", 'btn btn-primary mr-2',
-                                    function() {
-                                        n.close();
-                                    })
-                            ]
-                        });
+                    var n = new Noty({
+                        text: "@lang('تأكيد الحذف')",
+                        type: "warning",
+                        killer: true,
+                        buttons: [
+                            Noty.button("@lang('نعم')", 'btn btn-success mr-2',
+                                function() {
+                                    that.closest('form').submit();
+                                }),
 
-                        n.show();
+                            Noty.button("@lang('لا')", 'btn btn-primary mr-2',
+                                function() {
+                                    n.close();
+                                })
+                        ]
+                    });
 
-                    }); //end of delete
+                    n.show();
+
+                }); //end of delete
+            },
+
+
+            // language: {
+            paginate: {
+                "previous": "<i class='mdi mdi-chevron-left'>",
+                "next": "<i class='mdi mdi-chevron-right'>"
+            },
+            // },
+
+            columns: [{
+                    data: 'name_en'
                 },
-
-
-                // language: {
-                paginate: {
-                    "previous": "<i class='mdi mdi-chevron-left'>",
-                    "next": "<i class='mdi mdi-chevron-right'>"
+                {
+                    data: 'email'
                 },
-                // },
-
-                columns: [{
-                        data: 'code'
-                    },
-                    {
-                        data: 'id_supplers'
-                    },
-                    {
-                        data: 'Date_start'
-                    },
-                    {
-                        data: 'Date_end'
-                    },
-                    {
-                        data: 'old_balance'
-                    },
-                    {
-                        data: 'total',
-
-                    },
-                    {
-                        data: 'status'
-                    },
-                    {
-                        data: 'returns'
-                    },
-                    {
-                        data: 'action',
-
-                    }
-
-                ],
-            });
-        }
-
-        $(function() {
-            setPurchaseInvoicesDatatable();
-        });
-        $(document).ready(function() {
-            $('#div-toggle').hide();
-            $('#flexCheckDefault1').change(function() {
-                if ($(this).is(':checked')) {
-                    $('#div-toggle').show();
-                } else {
-                    $('#div-toggle').hide();
-                }
-            });
-        });
-
-        function submit_user() {
-            var descount_limit = document.getElementById('descount_limit').value;
-            var name = document.getElementById('name').value;
-            var email = document.getElementById('email').value;
-            var site_id = document.getElementById('site_id').value;
-            var account_id = document.getElementById('account_id').value;
-            var pos = document.getElementById('flexCheckDefault1').checked ? 1 : 0; // Use 1 or 0 based on your needs
-            var role_id = document.getElementById('role_id').value;
-            var password = document.getElementById('password').value;
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                {
+                    data: 'Tel_1'
                 },
-                type: 'POST',
-                url: "{{ route('sub.Ajax.user') }}",
-                data: {
-                    descount_limit: descount_limit,
-                    _token: '{{ csrf_token() }}',
-                    name_en: name,
-                    email: email,
-                    role_id: role_id,
-                    pos: pos,
-                    account_id: account_id,
-                    site_id: site_id,
-                    password: password,
+                {
+                    data: 'role_id'
                 },
-                success: function(data) {
-                    $('#AddUserModal').modal('hide');
-                    alert("تم الحفظ");
+                {
+                    data: 'pos'
+                },
+                {
+                    data: 'isActive'
+                },
+                {
+                    data: 'action',
 
                 }
-            });
-        }
-    </script>
+
+            ],
+        });
+    }
+
+    $(function() {
+        setPurchaseInvoicesDatatable();
+    });
+    $(document).ready(function() {
+        $('#div-toggle').hide();
+        $('#flexCheckDefault1').change(function() {
+            if ($(this).is(':checked')) {
+                $('#div-toggle').show();
+            } else {
+                $('#div-toggle').hide();
+            }
+        });
+    });
+
+    function submit_user() {
+        var descount_limit = document.getElementById('descount_limit').value;
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var site_id = document.getElementById('site_id').value;
+        var account_id = document.getElementById('account_id').value;
+        var pos = document.getElementById('flexCheckDefault1').checked ? 1 : 0; // Use 1 or 0 based on your needs
+        var role_id = document.getElementById('role_id').value;
+        var password = document.getElementById('password').value;
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            url: "{{ route('sub.Ajax.user') }}",
+            data: {
+                descount_limit: descount_limit,
+                _token: '{{ csrf_token() }}',
+                name_en: name,
+                email: email,
+                role_id: role_id,
+                pos: pos,
+                account_id: account_id,
+                site_id: site_id,
+                password: password,
+            },
+            success: function(data) {
+                $('#AddUserModal').modal('hide');
+                alert("تم الحفظ");
+
+            }
+        });
+    }
+</script>
+
 @endsection
