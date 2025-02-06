@@ -18,7 +18,7 @@
                <div class="d-flex justify-content-sm-end mx-5">
                    @can('create_salesinvoices')
                     <button class="btn btn-primary mx-2">
-                        <a href="{{ route('Services.create') }}"  class="text-light">إنشاء فاتورة</a>
+                        <a href="{{ route('Services.create') }}"  class="text-light">إنشاء خدمات</a>
                         <i class="fa-solid fa-plus"></i>
                     </button>
                     @endcan
@@ -40,7 +40,7 @@
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     @endcan
-                    <!--{{-- <button class="btn btn-primary mx-2">استيراد قائمة فاتورة مبيعات  -->
+                    <!--{{-- <button class="btn btn-primary mx-2">استيراد قائمة خدمات مبيعات  -->
                     <!--    <i class="fa-solid fa-right-to-bracket mx-1"></i>-->
                     <!--</button> --}}-->
                 </div>
@@ -131,7 +131,7 @@
                                 <p class="text-secondary my-5">
                                     يتيح لك محاسبة خاصية إنشاء فواتير خدمات و تكاليف وهي وثائق تجارية صادرة من البائع للمشتري، تبين المنتجات أو الخدمات المقدمة, وكمياتها, وأسعارها.
                                 </p>
-                                <button class="btn btn-primary mx-2 "> <a href="{{ route('sales_invoices.create') }}" class="text-light">إنشاء فاتورة</a>  <i class="fa-solid fa-plus"></i></button>
+                                <button class="btn btn-primary mx-2 "> <a href="{{ route('Services.create') }}" class="text-light">إنشاء خدمات</a>  <i class="fa-solid fa-plus"></i></button>
 
 
                             </div>

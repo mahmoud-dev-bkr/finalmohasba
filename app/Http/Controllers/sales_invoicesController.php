@@ -747,6 +747,7 @@ class sales_invoicesController extends Controller
         try {
             $PurchaseInvoices = Sales_invoices::find($id);
             $deleted =  $PurchaseInvoices->delete();
+            $PurchaseInvoiceDetails = PurchaseInvoiceDetails::where('purchase_invoice_id', $id)->delete();
             if (!$deleted) {
                 return redirect()->route('sales_invoices.index')->with(['error' => 'هذه الوظيفة لا يمكن مسحها']);
             }

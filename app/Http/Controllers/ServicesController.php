@@ -20,6 +20,8 @@ use App\PurchaseInvoiceDetails;
 use App\ServiceDetails;
 use App\Supplier;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\Calculation\Web\Service;
+
 class ServicesController extends Controller
 {
     public function getServicess (Request $request)
@@ -57,10 +59,7 @@ class ServicesController extends Controller
             $count = 1;
         }
         $Clients  = Supplier::where('status', 1)
-            ->where(function ($query) {
-                $query->where('site_id', 10)
-                    ->orWhere('site_id', 0);
-            })
+
             ->get();
         $salespersons = Salesperson::where('site_id', 10)->get();
         $products   = Product::all();
@@ -70,6 +69,24 @@ class ServicesController extends Controller
         $account2     = Account::where('type', 5)->get();
         return view('Services.NewCreate', compact('Clients', 'products', 'count', 'sites', 'salespersons',  'units', 'items',  'account1', 'account2'));
     }
+
+
+    public function destroy($id)
+    {
+        try {
+            $PurchaseInvoices = Services::find($id);
+            // dd($PurchaseInvoices);
+            $deleted =  $PurchaseInvoices->delete();
+            $PurchaseInvoiceDetails = ServiceDetails::where('service_id', $id)->delete();
+            if (!$deleted) {
+                return redirect()->route('Services.index')->with(['error' => 'هذه الوظيفة لا يمكن مسحها']);
+            }
+            return redirect()->route('Services.index')->with(['success' => 'تم حذفبنجاح']);
+        } catch (\Exception $ex) {
+            return redirect()->route('Services.index')->with(['error' => 'هناك خطأ برجاء المحاولة ثانيا']);
+        }
+    }
+
 
     public function store(Request $request)
     {

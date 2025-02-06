@@ -59,7 +59,14 @@ Auth::routes();
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => 'Dashboard'], function () {
     // Localization Route
     Route::get('/lang/{lang}', [LocalizationController::class, 'lang'])->name('change.lang');
-
+    Route::get('/send-mail', function () { 
+        $details = [
+            'title' => 'Mail from ItSolutionStuff.com',
+            'body' => 'This is for testing email using smtp'
+        ];
+        \Mail::to('mmida094@gmail.com')->send(new \App\Mail\SendMail($details));
+        echo 'Success';
+     })->name('send.mail');
     Route::get('/client',               [ClientController::class, 'index'])->name('client.index');
     Route::get('/client/create',        [ClientController::class, 'create'])->name('client.create');
     Route::get('/client/show/{id}',          [ClientController::class, 'show'])->name('client.show');
