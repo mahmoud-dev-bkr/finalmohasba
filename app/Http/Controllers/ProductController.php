@@ -245,7 +245,7 @@ class ProductController extends Controller
         if (isset($data['ids'])) {
             // dd($data);
             $count_site = Site::where("type", "!=", 1)->get();
-            $count_site = count($count_site) == 0? 1 : count($count_site);
+            $count_site = count($count_site) == 0 ? 1 : count($count_site);
             $len  = count($data['test']) / 6;
             $lenSite =  count($data['ids']) / $count_site;
             // dd($lenSite);
@@ -465,8 +465,8 @@ class ProductController extends Controller
 
             foreach ($group as $index) {
                 $unit[] = [
-                    'id_unit'           => $index[0],
-                    'counter_of_unit'   => $index[1],
+                    'id_unit'           => $index[1],
+                    'counter_of_unit'   => $index[0],
                     'price_buy'         => $index[2],
                     'is_buy_tex'       => $index[3],
                     'price_sell'        => $index[4],
@@ -496,6 +496,7 @@ class ProductController extends Controller
                 $countunit += 1;
             }
 
+            // dd($unitsites);
 
 
             ProductUint::insert($unit);
@@ -507,40 +508,39 @@ class ProductController extends Controller
             $group      = [];
             $unit       = [];
             // dd($data);
-            for ($i = 0; $i < 1; $i++) {
-
-                $group[] = array_slice($data['test'], $start, 6, false);
-
-                $start += 6;
-            }
-
             $product->update($data);
 
-            // dd($group);
+            if (isset($data['test'])) {
+                for ($i = 0; $i < 1; $i++) {
 
+                    $group[] = array_slice($data['test'], $start, 6, false);
 
-            foreach ($group as $index) {
-                $unit[] = [
-                    'id_unit'           => $index[1],
-                    'counter_of_unit'   => $index[0],
-                    'price_buy'         => $index[2],
-                    'is_buy_tex'       => $index[3],
-                    'price_sell'        => $index[4],
-                    'barcode'           => $index[5],
-                    'id_product'        => $product->id
-                ];
-                $unitsites[] = [
-                    'unit_id'           => $index[1],
-                    'counter_of_unit'   => $index[0],
-                    'site_id'           => 1,
-                    'price'             => $index[4],
-                    'product_id'        => $product->id,
-                ];
-                // create
-                // dd($unitsites);
+                    $start += 6;
+                }
 
-                ProductUint::insert($unit);
-                ProductUintPrices::insert($unitsites);
+                foreach ($group as $index) {
+                    $unit[] = [
+                        'id_unit'           => $index[1],
+                        'counter_of_unit'   => $index[0],
+                        'price_buy'         => $index[2],
+                        'is_buy_tex'       => $index[3],
+                        'price_sell'        => $index[4],
+                        'barcode'           => $index[5],
+                        'id_product'        => $product->id
+                    ];
+                    $unitsites[] = [
+                        'unit_id'           => $index[1],
+                        'counter_of_unit'   => $index[0],
+                        'site_id'           => 1,
+                        'price'             => $index[4],
+                        'product_id'        => $product->id,
+                    ];
+                    // create
+                    dd($unitsites, $unit);
+
+                    ProductUint::insert($unit);
+                    ProductUintPrices::insert($unitsites);
+                }
             }
         }
 
@@ -595,7 +595,7 @@ class ProductController extends Controller
         $account1     = Account::where('type', 4)->get();
         $account2     = Account::where('type', 5)->get();
         $ProductUint  = ProductUint::where('id_product', $id)->get();
-        
+
         $ProductUintPrices         = ProductUintPrices::where('product_id', $id)->where('unit_id', '!=', $Product->id_unit)->get();
         $ProductUintPricesMain     = ProductUintPrices::where('product_id', $id)->where('unit_id',  $Product->id_unit)->get();
         // dd($ProductUintPricesMain);

@@ -15,6 +15,7 @@ use App\Supplierbond;
 use App\Journal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
 class PurchaseInvoiceController extends Controller
 {
     /**
@@ -22,7 +23,8 @@ class PurchaseInvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getPurchase_Invoices(Request $request){
+    public function getPurchase_Invoices(Request $request)
+    {
         $PurchaseInvoices = PurchaseInvoices::query();
 
 
@@ -32,36 +34,36 @@ class PurchaseInvoiceController extends Controller
 
 
         if ($request->code)
-            $PurchaseInvoices->where('code','like', '%'. $request->code . '%');
+            $PurchaseInvoices->where('code', 'like', '%' . $request->code . '%');
 
 
-        if($request->name) {
-            $Client = Supplier::where('name','like','%'. $request->name . "%")->first();
+        if ($request->name) {
+            $Client = Supplier::where('name', 'like', '%' . $request->name . "%")->first();
 
-             $PurchaseInvoices->where('id_supplers', $Client->id);
+            $PurchaseInvoices->where('id_supplers', $Client->id);
         }
 
-        if($request->status ==  3) {
+        if ($request->status ==  3) {
 
             $PurchaseInvoices->whereColumn('total', '=', 'old_balance');
             $PurchaseInvoices->where('total', '!=', 0);
             $PurchaseInvoices->where('done', '!=', '0');
         }
 
-        if($request->status ==  4) {
+        if ($request->status ==  4) {
 
-            $PurchaseInvoices->where('total',0 );
+            $PurchaseInvoices->where('total', 0);
             $PurchaseInvoices->where('done', '!=', '0');
         }
-        if($request->status ==  5) {
+        if ($request->status ==  5) {
 
-            $PurchaseInvoices->where('total',"!=", 0 );
+            $PurchaseInvoices->where('total', "!=", 0);
             $PurchaseInvoices->whereColumn('total', '<', 'old_balance');
             $PurchaseInvoices->where('done', '!=', '0');
         }
-        if($request->status ==  6) {
+        if ($request->status ==  6) {
 
-            $PurchaseInvoices->where('done',0 );
+            $PurchaseInvoices->where('done', 0);
         }
 
 
@@ -69,31 +71,23 @@ class PurchaseInvoiceController extends Controller
 
         if ($request->date == 1) {
             if ($request->start_date)
-                $PurchaseInvoices->where('Date_start', '>=' ,$request->start_date);
+                $PurchaseInvoices->where('Date_start', '>=', $request->start_date);
 
-            if ($request->end_date )
-                $PurchaseInvoices->where('Date_start','<=', $request->end_date);
+            if ($request->end_date)
+                $PurchaseInvoices->where('Date_start', '<=', $request->end_date);
+        } elseif ($request->date == 2) {
+            if ($request->start_date)
+                $PurchaseInvoices->where('Date_end', '>=', $request->start_date);
 
-        }
-
-
-        elseif ($request->date == 2) {
-             if ($request->start_date )
-                $PurchaseInvoices->where('Date_end', '>=' ,$request->start_date);
-
-            if ($request->end_date )
-                $PurchaseInvoices->where('Date_end','<=', $request->end_date);
-
-
-        }
-
-        else {
+            if ($request->end_date)
+                $PurchaseInvoices->where('Date_end', '<=', $request->end_date);
+        } else {
 
             if ($request->start_date)
-                    $PurchaseInvoices->where('Date_start', '>=' ,$request->start_date);
+                $PurchaseInvoices->where('Date_start', '>=', $request->start_date);
 
-            if ($request->end_date )
-                    $PurchaseInvoices->where('Date_start','<=', $request->end_date);
+            if ($request->end_date)
+                $PurchaseInvoices->where('Date_start', '<=', $request->end_date);
         }
 
 
@@ -103,31 +97,31 @@ class PurchaseInvoiceController extends Controller
 
 
         $data = Datatables()->eloquent($PurchaseInvoices->latest('id'))
-        ->addColumn('action' , function($PurchaseInvoices){
-             $premation = $PurchaseInvoices->total == $PurchaseInvoices->old_balance ? 'ok' : 'notEdit';
-            $is_done   = $PurchaseInvoices->total == 0 ? 'notDeleted' : 'ok';
-                     return view('Procurement.Purchase_Invoices.actions' , ['type' => 'action' , 'PurchaseInvoices' => $PurchaseInvoices, 'premation' => $premation, 'is_done'=> $is_done]);
-        })
-        ->editColumn('id_supplers', function ($PurchaseInvoices){
-            $Supplier = Supplier::where('id', $PurchaseInvoices->id_supplers)->first();
-            return  optional($Supplier)->name;
-        })
-       ->addColumn('status', function ($PurchaseInvoices){
-            $PurchaseInvoicesTotal  = $PurchaseInvoices->total;
-            $PurchaseInvoicesold    = $PurchaseInvoices->old_balance;
-            if ($PurchaseInvoicesTotal == 0 && $PurchaseInvoices->done != 0) {
-                return "دفعت";
-            } elseif ($PurchaseInvoicesold > $PurchaseInvoicesTotal && $PurchaseInvoices->done != 0) {
-                return " دفعت جزئيا";
-            } elseif ($PurchaseInvoicesTotal == 0 && $PurchaseInvoices->done != 0) {
-              return "دفعت"  ;
-            } elseif ($PurchaseInvoices->done == 0) {
-              return "مسوده";
-            } else {
-                return "موافق عليه";
-            }
-        })
-        ->toJson();
+            ->addColumn('action', function ($PurchaseInvoices) {
+                $premation = $PurchaseInvoices->total == $PurchaseInvoices->old_balance ? 'ok' : 'notEdit';
+                $is_done   = $PurchaseInvoices->total == 0 ? 'notDeleted' : 'ok';
+                return view('Procurement.Purchase_Invoices.actions', ['type' => 'action', 'PurchaseInvoices' => $PurchaseInvoices, 'premation' => $premation, 'is_done' => $is_done]);
+            })
+            ->editColumn('id_supplers', function ($PurchaseInvoices) {
+                $Supplier = Supplier::where('id', $PurchaseInvoices->id_supplers)->first();
+                return  optional($Supplier)->name;
+            })
+            ->addColumn('status', function ($PurchaseInvoices) {
+                $PurchaseInvoicesTotal  = $PurchaseInvoices->total;
+                $PurchaseInvoicesold    = $PurchaseInvoices->old_balance;
+                if ($PurchaseInvoicesTotal == 0 && $PurchaseInvoices->done != 0) {
+                    return "دفعت";
+                } elseif ($PurchaseInvoicesold > $PurchaseInvoicesTotal && $PurchaseInvoices->done != 0) {
+                    return " دفعت جزئيا";
+                } elseif ($PurchaseInvoicesTotal == 0 && $PurchaseInvoices->done != 0) {
+                    return "دفعت";
+                } elseif ($PurchaseInvoices->done == 0) {
+                    return "مسوده";
+                } else {
+                    return "موافق عليه";
+                }
+            })
+            ->toJson();
 
 
         return $data;
@@ -135,11 +129,11 @@ class PurchaseInvoiceController extends Controller
     public function index()
     {
         $PurchaseInvoices = PurchaseInvoices::all();
-            $sites   = Site::all();
+        $sites   = Site::all();
         return view('Procurement.Purchase_Invoices.index', compact(
             [
                 'PurchaseInvoices',
-                  'sites',
+                'sites',
             ]
         ));
     }
@@ -152,27 +146,27 @@ class PurchaseInvoiceController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
-       */
+     */
 
 
-      public function create()
+    public function create()
     {
         $count = "";
         $PurchaseInvoices = "";
         $sites = Site::all();
-        $PurchaseInvoices = PurchaseInvoices::latest()->first() ;
+        $PurchaseInvoices = PurchaseInvoices::latest()->first();
         // dd($PurchaseInvoices);
         if ($PurchaseInvoices) {
-            $count = $PurchaseInvoices->id + 1 ; // 52
+            $count = $PurchaseInvoices->id + 1; // 52
         } else {
             $count = 1;
         }
         $Clients  = Supplier::where('status', 1)
-                //  ->where(function($query) {
-                //      $query->where('site_id', 10)
-                //            ->orWhere('site_id', 0);
-                //  })
-                 ->get();
+            //  ->where(function($query) {
+            //      $query->where('site_id', 10)
+            //            ->orWhere('site_id', 0);
+            //  })
+            ->get();
         $salespersons = Salesperson::where('site_id', 10)->get();
         $products   = Product::all();
         return view('Procurement.Purchase_Invoices.create', compact('Clients', 'products', 'count', 'sites', 'salespersons'));
@@ -207,7 +201,7 @@ class PurchaseInvoiceController extends Controller
         //     return redirect()->back()->withErrors($validator)->withInput();
         // }
         $data = $request->all();
-      //dd($data['test']);
+        //dd($data['test']);
         $data['type'] = 1;
         $len  = count($data['test']) / 11;
         $end   = 0;
@@ -215,12 +209,11 @@ class PurchaseInvoiceController extends Controller
         $group = [];
         $unit  = [];
 
-        for ($i=0; $i < $len; $i++) {
+        for ($i = 0; $i < $len; $i++) {
 
-           $group[] = array_slice($data['test'],$start , 11, false);
+            $group[] = array_slice($data['test'], $start, 11, false);
 
-           $start += 11;
-
+            $start += 11;
         }
         $data['old_balance'] = $request->final_total;
         $data['total']       = $request->final_total;
@@ -318,13 +311,13 @@ class PurchaseInvoiceController extends Controller
                 $this->saveAccountEstrictions($accountTax, $accountSales, $totalamountClaint, $totalamountTax, $totalamountSales, $PurchaseInvoices, $index);
 
                 // dd($store);
-                if($store) {
+                if ($store) {
 
                     $qunInstore = $store->qun + ($index[1] * $arr[2]);
                     $store->qun = $qunInstore; // Update the 'qun' field
                     $store->save();
                 } else {
-                   $store = Store::create([
+                    $store = Store::create([
                         'site_id' => $data['site_id'],
                         'qun' => ($index[1] * $arr[2]),
                         'product_id' =>  $index[0],
@@ -375,12 +368,11 @@ class PurchaseInvoiceController extends Controller
         $group = [];
         $unit  = [];
 
-        for ($i=0; $i < $len; $i++) {
+        for ($i = 0; $i < $len; $i++) {
 
-           $group[] = array_slice($data['test'],$start , 10, false);
+            $group[] = array_slice($data['test'], $start, 10, false);
 
-           $start += 10;
-
+            $start += 10;
         }
         $data['old_balance'] = $request->total;
         $PurchaseInvoices = PurchaseInvoices::create($data);
@@ -495,12 +487,12 @@ class PurchaseInvoiceController extends Controller
     {
 
         $Sales_invoices = PurchaseInvoices::where('id', $id)->first();
-         $site           = Site::where("id", $Sales_invoices->site_id)->first();
+        $site           = Site::where("id", $Sales_invoices->site_id)->first();
         $Client         = Supplier::FindOrFail($Sales_invoices->id_supplers);
         $PurchaseInvoiceDetails = PurchaseInvoiceDetails::where('type', 1)->where('purchase_invoice_id', $id)->get();
 
         // dd($Sales_invoices);
-        return view('Procurement.Purchase_Invoices.show', compact(['Client', 'Sales_invoices', 'PurchaseInvoiceDetails','site']));
+        return view('Procurement.Purchase_Invoices.show', compact(['Client', 'Sales_invoices', 'PurchaseInvoiceDetails', 'site']));
     }
 
     public function print($id)
@@ -525,7 +517,7 @@ class PurchaseInvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-      public function edit($id)
+    public function edit($id)
     {
         $PurchaseInvoices = PurchaseInvoices::FindOrFail($id);
         $SR  = Supplier::where('id', $PurchaseInvoices->id_supplers)->first();
@@ -543,16 +535,16 @@ class PurchaseInvoiceController extends Controller
         // }
 
 
-        return view('Procurement.Purchase_Invoices.update', compact('PurchaseInvoices', 'Suppliers','products', 'QuotationDetails', 'SR', 'sites', 'salespersons'));
+        return view('Procurement.Purchase_Invoices.update', compact('PurchaseInvoices', 'Suppliers', 'products', 'QuotationDetails', 'SR', 'sites', 'salespersons'));
     }
 
     public function payment($id)
     {
         $PurchaseInvoices = PurchaseInvoices::FindOrFail($id);
-        $Clientbond = Supplierbond::latest()->first() ;
+        $Clientbond = Supplierbond::latest()->first();
         // dd($PurchaseInvoices);
         if ($Clientbond) {
-            $count = $Clientbond->id + 1 ;
+            $count = $Clientbond->id + 1;
         } else {
             $count = 1;
         }
@@ -561,13 +553,14 @@ class PurchaseInvoiceController extends Controller
         return view('Procurement.Purchase_Invoices.payment', compact('PurchaseInvoices', 'Clients', 'accounts', 'count'));
     }
 
-    public function paymentPost(Request $request) {
+    public function paymentPost(Request $request)
+    {
         $data = $request->all();
 
 
 
 
-        $Clientbond=  Supplierbond::create($data);
+        $Clientbond =  Supplierbond::create($data);
         $PurchaseInvoices = PurchaseInvoices::FindOrFail($data['PurchaseInvoices_id']);
         $total  = $request->total;
         $PurchaseInvoices->update(['total' => $total]);
@@ -629,14 +622,14 @@ class PurchaseInvoiceController extends Controller
     }
 
 
-        public function copy($id)
+    public function copy($id)
     {
         // dd($id);
-        $PurchaseInvoices = PurchaseInvoices::latest()->first() ;
+        $PurchaseInvoices = PurchaseInvoices::latest()->first();
 
         // dd($PurchaseInvoices);
         if ($PurchaseInvoices) {
-            $count = $PurchaseInvoices->id + 1 ;
+            $count = $PurchaseInvoices->id + 1;
         } else {
             $count = 1;
         }
@@ -647,8 +640,7 @@ class PurchaseInvoiceController extends Controller
         $salespersons = Salesperson::all();
         $sites     = site::all();
         $QuotationDetails  = PurchaseInvoiceDetails::where('purchase_invoice_id', $id)->where('type', 1)->get();
-        return view('Procurement.Purchase_Invoices.copy', compact('PurchaseInvoices', 'Suppliers','products', 'QuotationDetails', 'count', 'SR', 'sites', 'salespersons'));
-
+        return view('Procurement.Purchase_Invoices.copy', compact('PurchaseInvoices', 'Suppliers', 'products', 'QuotationDetails', 'count', 'SR', 'sites', 'salespersons'));
     }
 
 
@@ -683,12 +675,11 @@ class PurchaseInvoiceController extends Controller
         $group = [];
         $unit  = [];
 
-        for ($i=0; $i < $len; $i++) {
+        for ($i = 0; $i < $len; $i++) {
 
-           $group[] = array_slice($data['test'],$start , 8, false);
+            $group[] = array_slice($data['test'], $start, 8, false);
 
-           $start += 8;
-
+            $start += 8;
         }
         $PurchaseInvoices = PurchaseInvoices::create($data);
         // get 3 accounts TaxAccount and salesAccount and CliantAccount
@@ -789,7 +780,7 @@ class PurchaseInvoiceController extends Controller
 
 
 
-        public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $PurchaseInvoices = PurchaseInvoices::findOrFail($id);
         $data = $request->all();
@@ -811,12 +802,11 @@ class PurchaseInvoiceController extends Controller
             $producs  = [];
             $oldcounter = 0;
 
-            for ($i=0; $i < $len; $i++) {
+            for ($i = 0; $i < $len; $i++) {
 
-               $groupold[] = array_slice($data['old'],$startold , 12, false);
+                $groupold[] = array_slice($data['old'], $startold, 12, false);
 
-               $startold += 12;
-
+                $startold += 12;
             }
             // dd($groupold);
             // get deleted array
@@ -831,30 +821,29 @@ class PurchaseInvoiceController extends Controller
 
                 if (count($data['old']) >= 8) {
 
-                        $new[] = $index[1];
+                    $new[] = $index[1];
 
-                        $unitold = [
-                            'product_id' => $index[0],
-                            'qun' => $index[2],
-                            'price_unit_id' => $index[3],
-                            'price_unit' => $arr[0],
-                            'unit_id' => $arr[1],
-                            'withDescunt' => $index[5],
-                            'descunt' => $index[6],
-                            'type_descount' => $index[7],
-                            'price_before' => $index[8],
-                            'tax' => $index[9],
-                            'tax_value' => $index[10],
-                            'price_after' => $index[11],
-                            'type' => 1,
-                        ];
+                    $unitold = [
+                        'product_id' => $index[0],
+                        'qun' => $index[2],
+                        'price_unit_id' => $index[3],
+                        'price_unit' => $arr[0],
+                        'unit_id' => $arr[1],
+                        'withDescunt' => $index[5],
+                        'descunt' => $index[6],
+                        'type_descount' => $index[7],
+                        'price_before' => $index[8],
+                        'tax' => $index[9],
+                        'tax_value' => $index[10],
+                        'price_after' => $index[11],
+                        'type' => 1,
+                    ];
 
-                        PurchaseInvoiceDetails::where("id", $index[1])
-                            ->where('type', 1)
-                            ->update($unitold);
+                    PurchaseInvoiceDetails::where("id", $index[1])
+                        ->where('type', 1)
+                        ->update($unitold);
 
-                        echo $oldcounter;
-
+                    echo $oldcounter;
                 }
             }
 
@@ -908,45 +897,44 @@ class PurchaseInvoiceController extends Controller
             $group = [];
             $unit  = [];
 
-            for ($i=0; $i < $len; $i++) {
+            for ($i = 0; $i < $len; $i++) {
 
-               $group[] = array_slice($data['test'],$start , 10, false);
+                $group[] = array_slice($data['test'], $start, 10, false);
 
-               $start += 10;
-
+                $start += 10;
             }
 
-        //   dd($group);
+            //   dd($group);
 
-        foreach ($group as $index) {
-            if (count($data['test']) >= 8) {
-                $arr = explode("-", $index[2]);
-                $store = Store::where("site_id", $data['site_id'])->where("product_id", $index[0])->first();
-
-
-
-                $qunInstore = $store->qun + $index[1];
-                $store->qun = $qunInstore; // Update the 'qun' field
-                $store->save();
+            foreach ($group as $index) {
+                if (count($data['test']) >= 8) {
+                    $arr = explode("-", $index[2]);
+                    $store = Store::where("site_id", $data['site_id'])->where("product_id", $index[0])->first();
 
 
-                $unit[] = [
-                    'product_id' => $index[0],
-                    'qun' => $index[1],
-                    'price_unit_id' => $index[2],
-                    'price_unit' => $arr[0],
-                    'unit_id' => $arr[1],
-                    'descunt' => $index[4],
-                    'type_descount' => $index[5],
-                    'price_before' => $index[6],
-                    'tax' => $index[7],
-                    'tax_value' => $index[8],
-                    'price_after' => $index[9],
-                    'purchase_invoice_id'        => $PurchaseInvoices->id,
-                    'type' => 1
-                ];
+
+                    $qunInstore = $store->qun + $index[1];
+                    $store->qun = $qunInstore; // Update the 'qun' field
+                    $store->save();
+
+
+                    $unit[] = [
+                        'product_id' => $index[0],
+                        'qun' => $index[1],
+                        'price_unit_id' => $index[2],
+                        'price_unit' => $arr[0],
+                        'unit_id' => $arr[1],
+                        'descunt' => $index[4],
+                        'type_descount' => $index[5],
+                        'price_before' => $index[6],
+                        'tax' => $index[7],
+                        'tax_value' => $index[8],
+                        'price_after' => $index[9],
+                        'purchase_invoice_id'        => $PurchaseInvoices->id,
+                        'type' => 1
+                    ];
+                }
             }
-        }
             // dd($unit);
             PurchaseInvoiceDetails::insert($unit);
         }
@@ -964,7 +952,7 @@ class PurchaseInvoiceController extends Controller
 
 
 
-    function saveAccountEstrictions( $accountTax, $accountSales, $totalamountClaint, $totalamountTax, $totalamountSales, $PurchaseInvoices, $index)
+    function saveAccountEstrictions($accountTax, $accountSales, $totalamountClaint, $totalamountTax, $totalamountSales, $PurchaseInvoices, $index)
     {
         // $accountClaint->update([
         //     'amount' =>  $totalamountClaint

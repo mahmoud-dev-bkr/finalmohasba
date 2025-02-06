@@ -28,7 +28,7 @@ return [
     'due_date'     => 'تاريخ الاستحقاق	',
     'reset'        => 'اعادة التعيين',
     'release_date' => 'تاريخ الإصدار',
-    ''             => '',
+    'select_product' => 'اختار المنتج',
     ''             => '',
     ''             => '',
     ''             => '',
@@ -86,7 +86,7 @@ return [
     'account_closing_date'    => 'تاريخ اغلاق الحساب',
     'day_fiscal_year_start'   => 'يوم بدء السنة المالية',
     'month_fiscal_year_start' => 'شهر بدء السنة المالية',
-    
+
     'jan'                      => 'يناير',
     'feb'                      => 'فبراير',
     'mar'                      => 'مارس',

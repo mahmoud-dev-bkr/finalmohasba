@@ -98,7 +98,12 @@ class sales_invoicesController extends Controller
     {
         $count = "";
         $PurchaseInvoices = "";
-        $sites = Site::all();
+        $user = auth()->user();
+        if ($user->site_id == 10) {
+            $sites = Site::all();
+        } else {
+            $sites = Site::where('id', $user->site_id)->get();
+        }
         $PurchaseInvoices = Sales_invoices::latest()->first();
         // dd($PurchaseInvoices);
         $settings = $this->getSettingsSalesInvoices();

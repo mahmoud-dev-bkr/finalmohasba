@@ -300,7 +300,7 @@
                                         <table class="table text-center table-bordered inventary-table ct"
                                             style="width:100%;">
                                             <thead
-                                                class="cf 
+                                                class="cf
                                     <tr>
                                         <!--<th class="text-center"
                                                 scope="col"> الوحده </th>-->
@@ -445,14 +445,14 @@
                 counter += 1
                 var row = '';
                 row += `
-                    <tr> 
+                    <tr>
                         <td class="text-center" colspan="1">
                             <select  class="form-select my-2 form-select-lg " style="display: initial; width: 90%; height: 40px;">
                                 <optgroup>
                                     @foreach ($units as $uint)
                                         <option value="{{ $uint->id }}" class="units" {{ $uint->id == $Product->id_unit ? 'selected' : '' }}>{{ $uint->name }}</option>
                                     @endforeach
-                
+
                                 </optgroup>
                             </select>
                         </td>
@@ -468,7 +468,7 @@
                                     @foreach ($units as $uint)
                                         <option value="{{ $uint->id }}" {{ $uint->id == $PU->id_unit ? 'selected' : '' }}>{{ $uint->name }}</option>
                                     @endforeach
-                
+
                                 </optgroup>
                             </select>
                         </td>
@@ -493,22 +493,22 @@
                                         ->first();
                                 @endphp
                                 ${counter += 1}
-                            
+
                                 <td class="text-center" colspan="1" >
                                     <input type="text" class="form-custom-2 my-2"  name="price[]"  value="{{ $ProductUintPrice->price ?? '' }}"         style="width: 125px;" id="price_${counter}" onfocusout="result(${counter})">
-                                    <input type="text" class="form-custom-2 my-2"  value="{{ $si->id }}"   style="width: 125px;" id="ids_${counter}"  > 
-                                    <input type="text" class="form-custom-2 my-2"  name="ids[]" value="{{ $si->id }}-{{ $ProductUintPrice->price ?? '' }}"   style="width: 125px;"  id="result_${counter}"  > 
+                                    <input type="text" class="form-custom-2 my-2"  value="{{ $si->id }}"   style="width: 125px;" id="ids_${counter}" hidden >
+                                    <input type="text" class="form-custom-2 my-2"  name="ids[]" value="{{ $si->id }}-{{ $ProductUintPrice->price ?? '' }}"   style="width: 125px;"  id="result_${counter}" hidden >
                                 </td>
                             @endif
                         @endforeach
-                            
+
                         <td class="text-center" colspan="1" >
                             <input type="text" class="form-custom-2 my-2"  name="test[]" value="{{ $PU->barcode }}"  style="width: 125px;" >
                         </td>
                         <td class="text-center" colspan="1" >
                             <i class="mt-3 fas fa-times text-danger delete_row" data-id="${id}" style="width:30px"></i>
-                        </td> 
-                            
+                        </td>
+
                     </tr>`;
                 id += 1;
             @endforeach
@@ -524,14 +524,14 @@
             // Add row
             var row = '';
             row += `
-                <tr> 
+                <tr>
                     <td class="text-center" colspan="1">
                         <select name="test[]" class="form-select my-2 form-select-lg " style="display: initial; width: 90%; height: 40px;">
                             <optgroup>
                                 @foreach ($units as $uint)
                                     <option value="{{ $uint->id }}" class="units">{{ $uint->name }}</option>
                                 @endforeach
-            
+
                             </optgroup>
                         </select>
                     </td>
@@ -547,7 +547,7 @@
                                 @foreach ($units as $uint)
                                     <option value="{{ $uint->id }}" >{{ $uint->name }}</option>
                                 @endforeach
-            
+
                             </optgroup>
                         </select>
                     </td>
@@ -568,8 +568,8 @@
                         @if ($sit->id != 10)
                             <td class="text-center" colspan="1" >
                                 <input type="text" class="form-custom-2 my-2"  name="price[]"           style="width: 125px;" id="price_${counter}" onfocusout="result(${counter})">
-                                <input type="text" class="form-custom-2 my-2"  value="{{ $sit->id }}"   style="width: 125px;" id="ids_${counter}"  > 
-                                <input type="text" class="form-custom-2 my-2"  name="ids[]" value="{{ $sit->id }}"   style="width: 125px;"  id="result_${counter}"  > 
+                                <input type="text" class="form-custom-2 my-2"  value="{{ $sit->id }}"   style="width: 125px;display: none;" id="ids_${counter}" hidden >
+                                <input type="text" class="form-custom-2 my-2"  name="ids[]" value="{{ $sit->id }}"   style="width: 125px;display: none;"  id="result_${counter}"  hidden >
                             </td>
                         @endif
                     @endforeach
@@ -578,8 +578,8 @@
                     </td>
                     <td class="text-center" colspan="1" >
                         <i class="mt-3 fas fa-times text-danger delete_row" data-id="${id}" style="width:30px"></i>
-                    </td> 
-                        
+                    </td>
+
                 </tr>`;
 
             $("#t-body").append(row);
@@ -593,7 +593,7 @@
             });
 
 
-            //   Total_value[id] = 0; 
+            //   Total_value[id] = 0;
             //   Total_before[id] = 0;
             //   Total_Tax[id] = 0;
             //   getSum();

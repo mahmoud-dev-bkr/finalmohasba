@@ -1214,7 +1214,7 @@
 
         var qunWithUnit =  data.qun / price[2];
         // qunMessage.textContent = "Qun = " + qunWithUnit;
-        console.log(qunWithUnit)
+        // console.log(qunWithUnit)
        if (data.qun == 0 || qunProduct > qunWithUnit) {
           errorMessage.classList.add('show');
           qunMessage.textContent = "Qun = " + qunWithUnit;
@@ -1238,7 +1238,7 @@
       var qunProduct = document.getElementById('qun_product_'+id).value;
       var price = dec_product.split("-");
         var qunWithUnit =  data.qun / price[2];
-        console.log(dec_product);
+        // console.log(dec_product);
         qunMessage.textContent = "Qun = " + qunWithUnit;
        if (data.qun == 0 || qunProduct > qunWithUnit) {
           errorMessage.classList.add('show');
@@ -1404,7 +1404,7 @@
 
                 } else {
                     // alert("sub")
-                    console.log(data.prices[0])
+                    // console.log(data.prices[0])
                     price = data.prices[0].price
                     $.each(data.prices, function(key, value) {
 
@@ -1476,11 +1476,11 @@
             sumValTax    += Total_Tax[index];
             sumValBefore += Total_before[index];
             // if (index == 1) {
-                console.log(index)
-                console.log(Total_value[index])
-                console.log(Total_Tax[index])
-                console.log(Total_before[index])
-                console.log("-------------------------------------")
+                // console.log(index)
+                // console.log(Total_value[index])
+                // console.log(Total_Tax[index])
+                // console.log(Total_before[index])
+                // console.log("-------------------------------------")
 
             // }
 
@@ -1525,7 +1525,7 @@
             // get the formatted date string
             const futureDateStr = inputDate.toISOString().slice(0, 10); // get the formatted date string
             endDateInput.value = futureDateStr;
-            console.log(futureDateStr); // output: the future date string
+            // console.log(futureDateStr); // output: the future date string
             Date_Groce_Period.value = inputDateStr
         }
     });
@@ -1543,7 +1543,7 @@
             priceuints =  ((PriceUint * qunProduct) * tax_on_product) / 100 ;
             TotalWithOutTax.value = total - priceuints;
             // TotalWithOutTax.value = ;
-            console.log(priceuints);
+            // console.log(priceuints);
         } else {
             TotalWithOutTax.value =  PriceUint * qunProduct;;
         }
@@ -1786,6 +1786,7 @@ function checked(index) {
 
   $.get(ProductURL, function(data) {
     var qunWithUnit = data.qun / price[2];
+    console.log(data);
     QunChek(data, qunInput, qunWithUnit, errorMessage, qunMessage, index, iderror, site)
 
   });
@@ -1803,21 +1804,21 @@ function QunChek(data, qunInput, qunWithUnit, errorMessage, qunMessage, index, i
     if(index == 0) {
         if (data.qun == 0 || qunInput.value > qunWithUnit) {
           errorMessage.classList.add('show');
-          console.log("error");
+        //   console.log("error");
           Errors[iderror] = 1
         } else {
           errorMessage.classList.remove('show');
-          console.log("not error");
+        //   console.log("not error");
           Errors[iderror] = 0
         }
     } else {
         if (data.qun == 0 || qunInput.value > qunWithUnit) {
           errorMessage.classList.add('show');
-          console.log("error");
+        //   console.log("error");
           Errors[iderror] = 1
         } else {
           errorMessage.classList.remove('show');
-          console.log("not error");
+        //   console.log("not error");
           Errors[iderror] = 0
         }
     }
@@ -1832,7 +1833,7 @@ function QunChek(data, qunInput, qunWithUnit, errorMessage, qunMessage, index, i
 
     } else {
         // alert("sub")
-        console.log(data.prices[0])
+        // console.log(data.prices[0])
         price = data.prices[0].price
         $.each(data.prices, function(key, value) {
 
@@ -1954,7 +1955,7 @@ function remove(id, button, counter) {
       var final_total_h = document.getElementById('final_total_h').textContent;
       var payment_method                      = document.getElementById('payment_method').value;
 
-      console.log(oldInputs);
+    //   console.log(oldInputs);
       if (inputElement.value.trim() === '') {
         inputElement.classList.add('error-border');
         state = "no";
@@ -2005,7 +2006,7 @@ function remove(id, button, counter) {
           code.classList.remove('error-border');
       }
 
-        console.log(Errors)
+        // console.log(Errors)
         for(var i = 0; i < Errors.length ; i ++) {
 
           if(Errors[i] == 1) {

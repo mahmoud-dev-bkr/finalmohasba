@@ -2,20 +2,24 @@
     @case('action')
         <div>
             <ul>
-            {{-- @can('show_salesinvoices') --}}
-             <a href="{{ route('sales_invoices.show',  $PurchaseInvoices->id) }}"><li><i class="fa-solid fa-eye"></i></li></a>
-            {{-- @endcan --}}
-            {{-- @can('download_salesinvoices') --}}
+            @if(canPerission('show_salesinvoices'))
+                <a href="{{ route('sales_invoices.show',  $PurchaseInvoices->id) }}"><li><i class="fa-solid fa-eye"></i></li></a>
+            @endif
+            @if(canPerission('download_salesinvoices'))
                 <a href="{{ route('sales_invoices.print',  $PurchaseInvoices->id) }}" target="_blank"><li><i class="fas fa-print"></i></li></a>
                 <a href="{{ route('sales_invoices.pdf',    $PurchaseInvoices->id) }}" target="_blank"><li><li><i class="fas fa-download"></i></li></li></a>
-            {{-- @endcan --}}
+            @endif
 
             {{-- @can('copy_salesinvoices') --}}
-            <a href="{{ route('sales_invoices.copy', $PurchaseInvoices->id) }}" ><li><i class="fas fa-copy"></i></li></a>
-                <li><i class="fas fa-envelope"></i></li>
+            @if (canPerission('copy_salesinvoices'))
+
+                <a href="{{ route('sales_invoices.copy', $PurchaseInvoices->id) }}" ><li><i class="fas fa-copy"></i></li></a>
+                    <li><i class="fas fa-envelope"></i></li>
+            @endif
             {{-- @endcan --}}
 
             {{-- @can('pay_salesinvoices') --}}
+            @if (canPerission('pay_salesinvoices'))
                 @if($is_done == "ok" && $PurchaseInvoices->done == 1)
                     <a data-toggle="modal" data-target="#exampleModal" onclick="check_data({{$PurchaseInvoices->id}})"><li><i class="fa fa-credit-card"></i></li></a>
                 @elseif($PurchaseInvoices->done == 0)
@@ -23,30 +27,35 @@
                 @else
                     <a  onclick="showErrorDelete()" id="edit-action_{{ $PurchaseInvoices->id }}"><li><i class="fa fa-credit-card canupdate"></i></li></a>
                 @endif
+            @endif
             {{-- @endcan --}}
 
             {{-- @can('update_salesinvoices') --}}
+                @if (canPerission('update_salesinvoices'))
 
-                @if($premation == "ok" || $PurchaseInvoices->done == 0)
-                    <a href="{{ route('sales_invoices.update', $PurchaseInvoices->id) }}"><li><i class="fa-solid fa-pen-to-square"></i></li></a>
-                @else
-                    <a  onclick="showerror()" id="edit-action_{{ $PurchaseInvoices->id }}"><li><i id="" class="fa-solid fa-pen-to-square"></i></li></a>
+                    @if($premation == "ok" || $PurchaseInvoices->done == 0)
+                        <a href="{{ route('sales_invoices.update', $PurchaseInvoices->id) }}"><li><i class="fa-solid fa-pen-to-square"></i></li></a>
+                    @else
+                        <a  onclick="showerror()" id="edit-action_{{ $PurchaseInvoices->id }}"><li><i id="" class="fa-solid fa-pen-to-square"></i></li></a>
+                    @endif
                 @endif
 
             {{-- @endcan --}}
 
             {{-- @can('delete_salesinvoices') --}}
+                @if (canPerission('delete_salesinvoices'))
 
-                @if($is_done == "ok" && $premation == "ok")
-                    <form action="{{ route('sales_invoices.destroy', $PurchaseInvoices->id) }}" method="post">
-                        @csrf
-                        <button class="action-icon delete btn  btn-sm text-white" type="submit">
+                    @if($is_done == "ok" && $premation == "ok")
+                        <form action="{{ route('sales_invoices.destroy', $PurchaseInvoices->id) }}" method="post">
+                            @csrf
+                            <button class="action-icon delete btn  btn-sm text-white" type="submit">
+                                <li><i class="fa-solid fa-trash"></i></li></button>
+                        </form>
+                    @else
+
+                        <button onclick="showErrorDelete()" class="action-icon  btn  btn-sm text-white" type="button">
                             <li><i class="fa-solid fa-trash"></i></li></button>
-                    </form>
-                @else
-
-                    <button onclick="showErrorDelete()" class="action-icon  btn  btn-sm text-white" type="button">
-                        <li><i class="fa-solid fa-trash"></i></li></button>
+                    @endif
                 @endif
 
             {{-- @endcan --}}
