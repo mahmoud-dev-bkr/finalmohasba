@@ -28,9 +28,17 @@ class PosController extends Controller
 
     public function chackout(Request $request) {
         $data  = $request->all();
+        // dd($data);
         foreach ($data['test'] as $cart) {
+            $arr = explode("-", $cart['uint_id']);
+            $HandelData = [
+                'id_unit' => $arr[0],
+                'unit_id' => $arr[1],
+                'quantity' => $cart['quantity'],
+                'price' => $cart['price'],
+            ];
             $cartData  = Cart::where('id', $cart['id'])->first();
-            $cartData->update($cart);
+            $cartData->update($HandelData);
         }
 
         return redirect()->route('checkout.view.pos')->with(['success' => 'تم تحديث بيانات العميل بنجاح']);

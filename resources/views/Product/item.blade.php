@@ -68,7 +68,7 @@
                         <img src="{{ URL('images/Products.svg') }}"  alt="">
                         <h1 class="my-3">ليس لديك أي اصناف</h1>
                         <p class="text-secondary my-5">يوفر محاسبة صفحة خاصة بالاصناف للمساهمة في تسهيل التعاملات مع الأصناف وملخص لبياناتهم.</p>
-                        <button class="btn btn-primary mx-2 "> <a href="{{ route('Product.tenant') }}" class="text-light">اضافة الأصناف</a>  <i class="fa-solid fa-plus"></i></button> <button class="btn btn-primary">استيراد قائمة الأصناف  <i class="fa-solid fa-right-to-bracket mx-1"></i></button>
+                        <button class="btn btn-primary mx-2 "> <a href="{{ route('Product.create.item') }}" class="text-light">اضافة الأصناف</a>  <i class="fa-solid fa-plus"></i></button> 
                     </div>
                 </div>
             </div>

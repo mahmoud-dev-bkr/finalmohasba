@@ -24,14 +24,14 @@ class AjaxController extends Controller
     public function addCart(Request $request)
     {
         $cart = Cart::where('product_id',$request->product_id)->where('user_id', auth()->user()->id)->first();
-        dd($cart);
+        $product = Product::find($request->product_id);
         if (!$cart) {
             $cart = Cart::create([
                 'product_id'   => $request->product_id,
                 'user_id'      => auth()->user()->id,
                 'quantity'     => 1,
-                'price'        => $request->price,
-                'uint_id'      => $request->uint_id
+                'price'        => $product->buy,
+                'uint_id'      => $product->id_unit
             ]);
         }
 

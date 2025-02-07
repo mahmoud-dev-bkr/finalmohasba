@@ -66,7 +66,7 @@ public function __construct(Inventory $model)
         // without -token
         
         $data = $request->except('_token');        
-        // dd($data);
+        // dd($data);  
         $inventory = $this->model::create($data);
 
         $this->InsertInventoryDetails($inventory->id ,$data['inventorydetails'], $data['site_id']);

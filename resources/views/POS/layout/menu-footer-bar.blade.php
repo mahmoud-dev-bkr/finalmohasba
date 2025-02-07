@@ -6,12 +6,12 @@
             role="button">Home</a>
 
         <!-- Twitter -->
-        <a class="btn btn-primary btn-floating m-1 text-white" style="background-color: #55acee;" href="#!"
-            role="button">Invoices POS</a>
+        {{-- <a class="btn btn-primary btn-floating m-1 text-white" style="background-color: #55acee;" href="#!"
+            role="button">Invoices POS</a> --}}
 
         <!-- Google -->
-        <a class="btn btn-primary btn-floating m-1 text-white" style="background-color: #dd4b39;" href="#!"
-            role="button">Customer POS</a>
+        {{-- <a class="btn btn-primary btn-floating m-1 text-white" style="background-color: #dd4b39;" href="#!"
+            role="button">Customer POS</a> --}}
 
     </section>
     <!-- Section: Social media -->

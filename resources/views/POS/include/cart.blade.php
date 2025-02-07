@@ -46,7 +46,7 @@
                                     onchange="resultPrice({{ $get->id }})" id="price_{{ $get->id }}">
                                     @foreach ($productUnits as $productUnit)
                                         <option value="{{ $productUnit->unit_id }}-{{ $productUnit->price }}-{{ $productUnit->site->id }}" {{ $get->uint_id == $productUnit->unit_id.'-'.$productUnit->price.'-'.$productUnit->site->id  ? 'selected' : '' }}>
-                                            {{ $productUnit->unit->name }} / {{ $productUnit->price }} /
+                                            {{ optional($productUnit->unit)->name  }} / {{ $productUnit->price }} /
                                             {{ $productUnit->site->name_ar }}</option>
                                     @endforeach
                                 </select>

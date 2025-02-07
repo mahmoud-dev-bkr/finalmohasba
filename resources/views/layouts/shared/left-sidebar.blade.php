@@ -451,7 +451,7 @@
                 </li>
             </ul>
         </li>
-        <li>
+        {{-- <li>
             <a href="#submenu6" data-bs-toggle="collapse" class="nav-link px-0 align-middle clicked-item">
                 <i class="fa-solid fa-building-columns side-icon"></i>
                 <span class="ms-1  d-sm-inline toggle-span">الاصول الثابتة
@@ -488,7 +488,7 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
         <li>
             <a href="#submenu4" data-bs-toggle="collapse" class="nav-link px-0 align-middle clicked-item">
                 <i class="fa-solid fa-folder-open side-icon"></i>
