@@ -59,7 +59,7 @@ Auth::routes();
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => 'Dashboard'], function () {
     // Localization Route
     Route::get('/lang/{lang}', [LocalizationController::class, 'lang'])->name('change.lang');
-    Route::get('/send-mail', function () { 
+    Route::get('/send-mail', function () {
         $details = [
             'title' => 'Mail from ItSolutionStuff.com',
             'body' => 'This is for testing email using smtp'
@@ -264,8 +264,11 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
 
     Route::get('roles',                [RoleController::class, "index"])->name('roles.index');
     Route::get('/roles/create',        [RoleController::class, 'create'])->name('roles.create');
-    Route::post('roles/update/{id}',   [RoleController::class, 'update'])->name('roles.update');
+    Route::get('roles/update/{id}',   [RoleController::class, 'edit'])->name('roles.update');
+    Route::post('roles/edit/{id}',   [RoleController::class, 'update'])->name('roles.edit');
+    Route::post('roles/destroy/{id}',   [RoleController::class, 'destroy'])->name('roles.destroy');
     Route::post('roles/store',         [RoleController::class, 'store'])->name('roles.create.post');
+     Route::get('/roles/data',          [RoleController::class, 'getroles'])->name('getrolesData');
 
 
 
@@ -478,7 +481,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
         //create this route nameing setting.getTemplate.sales
         Route::get('/teplate/sales', [SettingController::class, 'getTeplateSales'])->name('settings.templates.sales');
         // Template store
-        Route::post('/teplate/sales/store', [SettingController::class, 'storeTeplateSales'])->name('settings.templates.store.sales'); 
+        Route::post('/teplate/sales/store', [SettingController::class, 'storeTeplateSales'])->name('settings.templates.store.sales');
 
     });
 

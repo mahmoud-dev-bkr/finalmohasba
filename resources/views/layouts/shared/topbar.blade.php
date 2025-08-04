@@ -23,7 +23,7 @@
                               {{  app()->getLocale() }}
                           </span>
                           <i class="fa-solid fa-globe"></i>
-                        </a> 
+                        </a>
                     </li>
                     <li class="nav-item dropdown">
                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -32,10 +32,9 @@
 
     <section>
         <div class="d-flex justify-content-sm-end mx-2">
-            <button class="btn btn-primary btn-sm mx-2">
-                 رجوع
-                <i class="fa fa-arrow-left"></i>
-            </button>
+                <div class="d-flex justify-content-sm-end mx-5"> <a
+                    href="{{ route('roles.index') }}" class="btn btn-primary mx-2"> رجوع</a>
+                </div>
         </div>
         <div class="container my-3">
             <div class="row">
