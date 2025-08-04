@@ -21,6 +21,11 @@ class SiteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+
+
+
+    
+
     function getSite(Request $request)
     {
         $Site = Site::query();
@@ -292,7 +297,7 @@ class SiteController extends Controller
             ->get()
             ->toArray();
             // dd($monthlyPurchases);
-            return view('Site.show', compact( 'monthlySales', 'currentYear','monthlyPurchases'));   
+            return view('Site.show', compact( 'monthlySales', 'currentYear','monthlyPurchases'));
     }
 
     /**

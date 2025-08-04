@@ -41,8 +41,8 @@
                     إضافة مستخدم
                     <i class="fa fa-lock"></i>
                 </button>
-                <a class="btn btn-primary btn-sm mx-2" href="{{ route('roles.create') }}">
-                    اضافة المناصب
+                <a class="btn btn-primary btn-sm mx-2" href="{{ route('roles.index') }}">
+                     المنصب
                 </a>
                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#AddUserModal"> إضافة مستخدم
                     الدعم</button>

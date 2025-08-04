@@ -20,7 +20,7 @@ class RoleController extends Controller
         $permissions = DB::table('permissions')->get();
         $roles = DB::table('roles')->get();
 
-        return view('dashboard.roles.index', compact('roles', 'permissions'));
+        return view('Role.index', compact('roles', 'permissions'));
 
     }//end of index
 
@@ -54,7 +54,7 @@ class RoleController extends Controller
     {
         $role = Role::FindOrFail($role_id);
         $permissions = $this->getPermissions();
-        return view('dashboard.roles.edit',compact('role','permissions'));
+        return view('Role.update',compact('role','permissions'));
     }
 
 
@@ -76,10 +76,10 @@ class RoleController extends Controller
             $role -> update($request->except('_token'));
             $role->permission()->sync(array_filter((array)$request->permission_id));
 
-            dd("done");
+
 
         }catch(\Exception $ex){
-            return redirect()->route('admin.roles.index')->with(['error' => 'هناك خطأ برجاء المحاولة ثانيا']);
+            return redirect()->route('roles.index')->with(['error' => 'هناك خطأ برجاء المحاولة ثانيا']);
 
         }
 
@@ -148,5 +148,32 @@ class RoleController extends Controller
             $current_name = $prefix;
         }
         return $permissions_data;
+    }
+
+
+
+
+
+    public function getroles(Request $request){
+        $Users = Role::query();
+
+        if($request->name)
+            $Users->where('name', 'like', '%'. $request->name . '%');
+
+
+
+
+        $data = Datatables()->eloquent($Users->latest('id'))
+        ->addColumn('action' , function($User){
+            return view('Role.actions' , ['type' => 'action' , 'role' => $User]);
+        })
+
+
+
+
+        ->toJson();
+
+
+        return $data;
     }
 }

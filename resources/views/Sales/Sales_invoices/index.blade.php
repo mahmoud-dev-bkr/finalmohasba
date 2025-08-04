@@ -17,7 +17,7 @@
             </section>
             <section>
                <div class="d-flex justify-content-sm-end mx-5">
-                   @if(canPerission('create_SalesInvoices'))
+                @if(canPerission('create_SalesInvoices'))
                     <button class="btn btn-primary mx-2">
                         <a href="{{ route('sales_invoices.create') }}"  class="text-light">إنشاء فاتورة</a>
                         <i class="fa-solid fa-plus"></i>
