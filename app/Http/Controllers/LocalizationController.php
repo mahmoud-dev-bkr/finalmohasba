@@ -14,4 +14,9 @@ class LocalizationController extends Controller
         Session::put('locale', $locale);
         return redirect()->back();
     }
+
+    public function changeSites($site_id) {
+        Session::put('site_id', $site_id);
+        return redirect()->back();
+    }
 }

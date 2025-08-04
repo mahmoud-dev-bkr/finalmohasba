@@ -12,6 +12,7 @@ use App\Account;
 use App\User;
 use App\Role;
 use App\RoleUser;
+use App\UserSite;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 use Illuminate\Support\Facades\Gate;
@@ -87,9 +88,27 @@ class UserController extends Controller
     public function subAjaxUser(Request $request)
     {
         $input = $request->all();
+        // dd($input);
         $input['password']      = Hash::make($request->password);
-        $input['comapny_id']    = auth()->user()->company_id;
+        // $input['comapny_id']    = auth()->user()->company_id;
         $user = User::create($input);
+        if($request->site_id == 0) {
+           $sites = Site::all();
+           foreach ($sites as $site) {
+               UserSite::create([
+                   'site_id' => $site->id,
+                   'user_id' => $user->id,
+               ]);
+           } 
+        } else {
+            foreach ($request->sites as $site) {
+                UserSite::create([
+                    'site_id' => $site,
+                    'user_id' => $user->id,
+                ]);
+            }
+        }
+        
         $UserRole = RoleUser::create([
             'user_id'        => $user->id,
             'role_id'        => $request->role_id,

@@ -52,4 +52,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Branch::class);
     }
+
+    // public function sites()
+    // {
+    //     $sites = UserSite::where('user_id', $this->id)->get()->pluck('site_id')->toArray();
+    //     return Site::whereIn('id', $sites)->get();
+    // }
 }

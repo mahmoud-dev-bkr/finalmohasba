@@ -63,7 +63,7 @@ class ProductController extends Controller
             $Product->where('id_des', request()->item);
 
 
-        
+
 
 
         $data = Datatables()->eloquent($Product->latest())
@@ -241,7 +241,7 @@ class ProductController extends Controller
     {
 
         $data = $request->all();
-        // dd($data);
+        dd($data);
         if (isset($data['ids'])) {
             // dd($data);
             $count_site = Site::where("type", "!=", 1)->get();
@@ -273,7 +273,7 @@ class ProductController extends Controller
 
                 $start += 6;
             }
-            // dd($group);
+            dd($group);
             $product = Product::create($data);
 
 
