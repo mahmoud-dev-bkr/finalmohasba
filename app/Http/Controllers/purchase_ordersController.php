@@ -73,7 +73,7 @@ class purchase_ordersController extends Controller
         } 
         
          
-        $Purchase_orders->where('comapny_id', auth()->user()->company_id);
+        $Purchase_orders->where('company_id', auth()->user()->company_id);
         
         $data = Datatables()->eloquent($Purchase_orders->latest('id'))
         ->addColumn('action' , function($Purchase_orders){
@@ -341,7 +341,7 @@ class purchase_ordersController extends Controller
         // }
         $data = $request->all();
         //dd($data);
-        $data['comapny_id'] = auth()->user()->company_id;
+        $data['company_id'] = auth()->user()->company_id;
         $len  = count($data['test']) / 11;
         $end   = 0;
         $start = 0;
@@ -382,7 +382,7 @@ class purchase_ordersController extends Controller
                     'price_after'   => $index[10],
                     'purchase_invoice_id'        => $PurchaseInvoices->id,
                     'type' => 1,
-                    'comapny_id'        => auth()->user()->company_id
+                    'company_id'        => auth()->user()->company_id
                 ];
         //   }
 

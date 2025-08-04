@@ -59,6 +59,7 @@ Auth::routes();
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => 'Dashboard'], function () {
     // Localization Route
     Route::get('/lang/{lang}', [LocalizationController::class, 'lang'])->name('change.lang');
+    Route::get('/change/sites/{site_id}', [LocalizationController::class, 'changeSites'])->name('change.sites');
     Route::get('/send-mail', function () {
         $details = [
             'title' => 'Mail from ItSolutionStuff.com',

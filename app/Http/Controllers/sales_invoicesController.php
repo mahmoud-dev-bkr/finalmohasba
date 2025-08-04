@@ -23,6 +23,7 @@ use Illuminate\Http\Request;
 use App\Sales_invoices;
 use App\Services\InvoiceService;
 use App\Setting;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -819,6 +820,9 @@ class sales_invoicesController extends Controller
             if ($request->end_date)
                 $PurchaseInvoices->where('Date_start', '<=', $request->end_date);
         }
+        $sectionSites = Session::get('site_id');
+        // dd($sectionSites);
+        $PurchaseInvoices->where('site_id', $sectionSites);
         return $data = Datatables()->eloquent($PurchaseInvoices->latest())
             ->addColumn('action', function ($PurchaseInvoices) {
                 $premation = $PurchaseInvoices->total == $PurchaseInvoices->old_balance ? 'ok' : 'notEdit';

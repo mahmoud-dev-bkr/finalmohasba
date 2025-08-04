@@ -2,17 +2,17 @@
 @section('css')
     <style>
         /* select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="6"><polygon points="6,6 0,0 12,0" style="fill:%23000"/></svg>') no-repeat;
-            padding: 8px 24px 8px 36px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 200px;
-            background-size: 12px;
-            background-position: 8px center;
-        } */
+                    appearance: none;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="6"><polygon points="6,6 0,0 12,0" style="fill:%23000"/></svg>') no-repeat;
+                    padding: 8px 24px 8px 36px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    width: 200px;
+                    background-size: 12px;
+                    background-position: 8px center;
+                } */
     </style>
 @endsection
 @section('content')
@@ -70,7 +70,7 @@
                             <div class="container">
                                 <div class="row">
 
-                                    <div class="col-md-9">
+                                    <div class="col-md-12">
 
                                         <div class="d-flex pt-5 justify-content-sm-center">
 
@@ -211,7 +211,7 @@
                                                     </div>
                                                     <div class="col">
                                                         <div class="row">
-                                                            <div class="col-9">
+                                                            <div class="col-12">
                                                                 <select name="role_id" id="role_id"
                                                                     class="form-control" required="required">
 
@@ -230,13 +230,28 @@
                                                     </div>
                                                     <div class="col">
                                                         <select name="site_id" id="site_id" class="form-control"
-                                                            required="required">
-
-                                                            @foreach ($sites as $site)
-                                                                <option value="{{ $site->id }}">{{ $site->name_ar }}
-                                                                </option>
-                                                            @endforeach
+                                                            required="required" onchange="changeSite(this.value);">
+                                                            <option value="0">
+                                                                كل المواقع
+                                                            </option>
+                                                            <option value="1">
+                                                                تحديد المواقع المسموح بها
+                                                            </option>
                                                         </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4 " id="sites" style="display: none;">
+                                                    <div class="col-6">
+                                                        <label>المواقع المسموح بها</label>
+                                                    </div>
+                                                    <div class="col-6 row">
+                                                        @foreach ($sites as $site)
+                                                            <div class="col-12 d-flex gap-3">
+
+                                                                <input type="checkbox" name="sites[]"
+                                                                    value="{{ $site->id }}">{{ $site->name_ar }}
+                                                            </div>
+                                                        @endforeach
                                                     </div>
                                                 </div>
                                                 <div class="row pt-3">
@@ -334,149 +349,204 @@
             </div>
         </section>
     </div>
-
 @endsection
 @section('script')
-<!-- Vendor js -->
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ URL('js/main.js') }}"></script>
-<script src="//cdn.datatables.net/plug-ins/1.10.25/i18n/Arabic.json"></script>
-<!-- Plugins js-->
-<script src="{{ asset('assets/libs/datatables/datatables.min.js') }}"></script>
-<script src="{{ asset('assets/libs/pdfmake/pdfmake.min.js') }}"></script>
-<script>
-    let PurchaseInvoicesTable = null
+    <!-- Vendor js -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ URL('js/main.js') }}"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.25/i18n/Arabic.json"></script>
+    <!-- Plugins js-->
+    <script src="{{ asset('assets/libs/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/pdfmake/pdfmake.min.js') }}"></script>
+    <script>
+        let PurchaseInvoicesTable = null
 
-    function setPurchaseInvoicesDatatable() {
-        var url = "{{ route('getusersData') }}";
-        // alert(url)
-        PurchaseInvoicesTable = $("#PurchaseInvoicesTable").DataTable({
-            processing: true,
-            serverSide: true,
-            dom: 'Blfrtip',
-            lengthMenu: [25, 50, 75, 100, 150, 200, 300, 500],
-            pageLength: 25,
-            sorting: [0, "DESC"],
-            ordering: false,
-            ajax: url,
-            // buttons : ['excel', 'print', 'reset', 'reload'],
-            // language: [
-            //           'url' => url('/vendor/datatables/arabic.json')
-            // ],
-            drawCallback: function(settings) {
-                $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
-                //delete
-                $('.delete').click(function(e) {
+        function setPurchaseInvoicesDatatable() {
+            var url = "{{ route('getusersData') }}";
+            // alert(url)
+            PurchaseInvoicesTable = $("#PurchaseInvoicesTable").DataTable({
+                processing: true,
+                serverSide: true,
+                dom: 'Blfrtip',
+                lengthMenu: [25, 50, 75, 100, 150, 200, 300, 500],
+                pageLength: 25,
+                sorting: [0, "DESC"],
+                ordering: false,
+                ajax: url,
+                // buttons : ['excel', 'print', 'reset', 'reload'],
+                // language: [
+                //           'url' => url('/vendor/datatables/arabic.json')
+                // ],
+                drawCallback: function(settings) {
+                    $('.dataTables_paginate > .pagination').addClass('pagination-rounded');
+                    //delete
+                    $('.delete').click(function(e) {
 
-                    var that = $(this)
+                        var that = $(this)
 
-                    e.preventDefault();
+                        e.preventDefault();
 
-                    var n = new Noty({
-                        text: "@lang('تأكيد الحذف')",
-                        type: "warning",
-                        killer: true,
-                        buttons: [
-                            Noty.button("@lang('نعم')", 'btn btn-success mr-2',
-                                function() {
-                                    that.closest('form').submit();
-                                }),
+                        var n = new Noty({
+                            text: "@lang('تأكيد الحذف')",
+                            type: "warning",
+                            killer: true,
+                            buttons: [
+                                Noty.button("@lang('نعم')", 'btn btn-success mr-2',
+                                    function() {
+                                        that.closest('form').submit();
+                                    }),
 
-                            Noty.button("@lang('لا')", 'btn btn-primary mr-2',
-                                function() {
-                                    n.close();
-                                })
-                        ]
-                    });
+                                Noty.button("@lang('لا')", 'btn btn-primary mr-2',
+                                    function() {
+                                        n.close();
+                                    })
+                            ]
+                        });
 
-                    n.show();
+                        n.show();
 
-                }); //end of delete
-            },
-
-
-            // language: {
-            paginate: {
-                "previous": "<i class='mdi mdi-chevron-left'>",
-                "next": "<i class='mdi mdi-chevron-right'>"
-            },
-            // },
-
-            columns: [{
-                    data: 'name_en'
+                    }); //end of delete
                 },
-                {
-                    data: 'email'
-                },
-                {
-                    data: 'Tel_1'
-                },
-                {
-                    data: 'role_id'
-                },
-                {
-                    data: 'pos'
-                },
-                {
-                    data: 'isActive'
-                },
-                {
-                    data: 'action',
 
+
+                // language: {
+                paginate: {
+                    "previous": "<i class='mdi mdi-chevron-left'>",
+                    "next": "<i class='mdi mdi-chevron-right'>"
+                },
+                // },
+
+                columns: [{
+                        data: 'name_en'
+                    },
+                    {
+                        data: 'email'
+                    },
+                    {
+                        data: 'Tel_1'
+                    },
+                    {
+                        data: 'role_id'
+                    },
+                    {
+                        data: 'pos'
+                    },
+                    {
+                        data: 'isActive'
+                    },
+                    {
+                        data: 'action',
+
+                    }
+
+                ],
+            });
+        }
+
+        $(function() {
+            setPurchaseInvoicesDatatable();
+        });
+        $(document).ready(function() {
+            $('#div-toggle').hide();
+            $('#flexCheckDefault1').change(function() {
+                if ($(this).is(':checked')) {
+                    $('#div-toggle').show();
+                } else {
+                    $('#div-toggle').hide();
                 }
-
-            ],
+            });
         });
-    }
 
-    $(function() {
-        setPurchaseInvoicesDatatable();
-    });
-    $(document).ready(function() {
-        $('#div-toggle').hide();
-        $('#flexCheckDefault1').change(function() {
-            if ($(this).is(':checked')) {
-                $('#div-toggle').show();
+        // function submit_user() {
+        //     var descount_limit = document.getElementById('descount_limit').value;
+        //     var name = document.getElementById('name').value;
+        //     var email = document.getElementById('email').value;
+        //     var site_id = document.getElementById('site_id').value;
+        //     var account_id = document.getElementById('account_id').value;
+        //     var pos = document.getElementById('flexCheckDefault1').checked ? 1 : 0; // Use 1 or 0 based on your needs
+        //     var role_id = document.getElementById('role_id').value;
+        //     var password = document.getElementById('password').value;
+            
+
+        //     $.ajax({
+        //         headers: {
+        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         },
+        //         type: 'POST',
+        //         url: "{{ route('sub.Ajax.user') }}",
+        //         data: {
+        //             descount_limit: descount_limit,
+        //             _token: '{{ csrf_token() }}',
+        //             name_en: name,
+        //             email: email,
+        //             role_id: role_id,
+        //             pos: pos,
+        //             account_id: account_id,
+        //             site_id: site_id,
+        //             password: password,
+        //         },
+        //         success: function(data) {
+        //             $('#AddUserModal').modal('hide');
+        //             alert("تم الحفظ");
+
+        //         }
+        //     });
+        // }
+        function submit_user() {
+            var descount_limit = document.getElementById('descount_limit').value;
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var site_id = document.getElementById('site_id').value;
+            var account_id = document.getElementById('account_id').value;
+            var pos = document.getElementById('flexCheckDefault1').checked ? 1 : 0; // Use 1 or 0 based on your needs
+            var role_id = document.getElementById('role_id').value;
+            var password = document.getElementById('password').value;
+            
+            // Collect selected sites
+            var sites = [];
+            $('input[name="sites[]"]:checked').each(function() {
+                sites.push($(this).val());
+            });
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: "{{ route('sub.Ajax.user') }}",
+                data: {
+                    descount_limit: descount_limit,
+                    _token: '{{ csrf_token() }}',
+                    name_en: name,
+                    email: email,
+                    role_id: role_id,
+                    pos: pos,
+                    account_id: account_id,
+                    site_id: site_id,
+                    password: password,
+                    sites: sites // Add the sites array to the data payload
+                },
+                success: function(data) {
+                    $('#AddUserModal').modal('hide');
+                    // alert("تم الحفظ");
+                    // Optionally, refresh the DataTable to reflect the new user
+                    PurchaseInvoicesTable.ajax.reload();
+                },
+                error: function(xhr, status, error) {
+                    // console.error('Error:', xhr.responseText);
+                    alert('حدث خطأ أثناء الحفظ. يرجى المحاولة مرة أخرى.');
+                }
+            });
+        }
+
+        function changeSite(id) {
+           var site = document.getElementById('sites')
+            if (id == 0) {
+               $('#sites').hide();
+                
             } else {
-                $('#div-toggle').hide();
+                $('#sites').show();
             }
-        });
-    });
-
-    function submit_user() {
-        var descount_limit = document.getElementById('descount_limit').value;
-        var name = document.getElementById('name').value;
-        var email = document.getElementById('email').value;
-        var site_id = document.getElementById('site_id').value;
-        var account_id = document.getElementById('account_id').value;
-        var pos = document.getElementById('flexCheckDefault1').checked ? 1 : 0; // Use 1 or 0 based on your needs
-        var role_id = document.getElementById('role_id').value;
-        var password = document.getElementById('password').value;
-
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: 'POST',
-            url: "{{ route('sub.Ajax.user') }}",
-            data: {
-                descount_limit: descount_limit,
-                _token: '{{ csrf_token() }}',
-                name_en: name,
-                email: email,
-                role_id: role_id,
-                pos: pos,
-                account_id: account_id,
-                site_id: site_id,
-                password: password,
-            },
-            success: function(data) {
-                $('#AddUserModal').modal('hide');
-                alert("تم الحفظ");
-
-            }
-        });
-    }
-</script>
-
+        }
+    </script>
 @endsection
