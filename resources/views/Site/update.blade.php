@@ -145,7 +145,7 @@
                                             </tr>
                                             <tr>
                                               <th>الاسم العربي</th>
-                                              <td><input id="name_ar" type="text" name="name" value="{{ $Site->name }}" class="form-control" placeholder="" required></td>
+                                              <td><input id="name_ar" type="text" name="name" value="{{ $Site->name_ar }}" class="form-control" placeholder="" required></td>
                                               <th>الاسم الانجليزي</th>
                                               <td><input id="name_en" type="text" name="name_en" value="{{ $Site->name_en }}" class="form-control" placeholder="" required></td>
                                             </tr>
