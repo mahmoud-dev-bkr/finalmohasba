@@ -29,10 +29,9 @@
                 <div class="row  pb-4 brdr">
                     <div class="my-3">
                         <h5>المواقع الخاصة بك</h5>
-                        <p class="text-secondary">(هذه المواقع هي لمساعدتك لتبداء باستخدام محاسبة)</p>
                     </div>
                     @foreach ($sites as $site)
-                        <div class="col-md-6 row">
+                        <div class="col-md-4 row mb-3">
                             <div class="col-md-6">
                                 <div>
                                     <ul class="mohasba-list">
