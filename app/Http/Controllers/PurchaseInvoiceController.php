@@ -14,6 +14,7 @@ use App\CcountEstrictions;
 use App\Supplierbond;
 use App\Journal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class PurchaseInvoiceController extends Controller
@@ -92,7 +93,8 @@ class PurchaseInvoiceController extends Controller
 
 
 
-
+         $sectionSites = Session::get('site_id');
+        $PurchaseInvoices->where('site_id', $sectionSites);
 
 
 

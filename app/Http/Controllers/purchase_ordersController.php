@@ -16,6 +16,7 @@ use App\Supplier;
 use Exception;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 class purchase_ordersController extends Controller
 {
@@ -27,54 +28,57 @@ class purchase_ordersController extends Controller
 
     public  function getPurchase_orderss(Request $request){
         $Purchase_orders = Purchase_orders::query();
-        
-        
-        
-        
+
+
+
+
        if ($request->code)
             $Purchase_orders->where('code','like', '%'. $request->code . '%');
         if($request->name) {
             $Client = Supplier::where('name','like','%'. $request->name . "%")->first();
              $Purchase_orders->where('id_supplers', $Client->id);
         }
-        
+
         if($request->status > 0)
             $Purchase_orders->where('status', $request->status);
-        
-        
-        
+
+
+
         if ($request->date == 1) {
             if ($request->start_date)
                 $Purchase_orders->where('Date_start', '>=' ,$request->start_date);
-            
+
             if ($request->end_date )
                 $Purchase_orders->where('Date_end','<=', $request->end_date);
-        
-        } 
-        
-        
+
+        }
+
+
         elseif ($request->date == 2) {
              if ($request->start_date )
                 $Purchase_orders->where('Date_start', '>=' ,$request->start_date);
-            
+
             if ($request->end_date )
                 $Purchase_orders->where('Date_end','<=', $request->end_date);
-        
-             
-        } 
-        
+
+
+        }
+
         else {
-            
+
             if ($request->start_date)
                     $Purchase_orders->where('Date_start', '>=' ,$request->start_date);
-                
+
             if ($request->end_date )
                     $Purchase_orders->where('Date_end','<=', $request->end_date);
-        } 
-        
-         
+        }
+
+
+         $sectionSites = Session::get('site_id');
+        $Purchase_orders->where('site_id', $sectionSites);
+
         $Purchase_orders->where('company_id', auth()->user()->company_id);
-        
+
         $data = Datatables()->eloquent($Purchase_orders->latest('id'))
         ->addColumn('action' , function($Purchase_orders){
             return view('Procurement.Purchase_orders.actions' , ['type' => 'action' , 'Purchase_orders' => $Purchase_orders]);
@@ -91,7 +95,7 @@ class purchase_ordersController extends Controller
             } elseif($Quotation->status == 5) {
                 return "مسوده";
             } elseif ($Quotation->status == 3) {
-               return "تمت الفوترة" ; 
+               return "تمت الفوترة" ;
             }
         })
         ->toJson();
@@ -107,22 +111,22 @@ class purchase_ordersController extends Controller
             [
                 'PurchaseInvoices',
                  'sites',
-            
+
             ]
         ));
     }
-    
-    
+
+
         public function status($id) {
-        
+
         $Sales_invoices = Purchase_orders::find($id);
         $Sales_invoices->status = 4;
         $Sales_invoices->save();
         return redirect()->route('Purchase_orders.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
-    
-        
-   public function done($id) 
+
+
+   public function done($id)
     {
         $count = "";
         // dd($id);
@@ -144,14 +148,14 @@ class purchase_ordersController extends Controller
         // $count     = count($QuotationDetails);
         // dd($QuotationDetails);
         $salespersons = Salesperson::all();
-        return view('Procurement.Purchase_orders.done', compact('PurchaseInvoices', 'Suppliers', 'products', 'QuotationDetails', 'count', 'sites', 'Supplierr','salespersons')); 
+        return view('Procurement.Purchase_orders.done', compact('PurchaseInvoices', 'Suppliers', 'products', 'QuotationDetails', 'count', 'sites', 'Supplierr','salespersons'));
     }
-    
-    
+
+
     public function donePost(Request $request, $id){
-         
-     
-       
+
+
+
         $data = $request->all();
         $Sales_invoices = Purchase_orders::find($id);
         $Sales_invoices->status = 3;
@@ -162,7 +166,7 @@ class purchase_ordersController extends Controller
         $start = 0;
         $group = [];
         $unit  = [];
-  
+
         for ($i=0; $i < $len; $i++) {
 
            $group[] = array_slice($data['test'],$start , 11, false);
@@ -176,24 +180,24 @@ class purchase_ordersController extends Controller
         $accountTax    = Account::where('name', '2105 - ضريبة القيمة المضافة المستحقة')->first();
         $accountClaint = Account::where('name', '1103 - المدينون')->first();
         $accountSales  = Account::where('name', '4101 - إيرادات المبيعات/ الخدمات')->first();
-        
+
         // $totalamountClaint = $accountClaint->amount     - $request->total;
         // $totalamountTax    = $accountTax->amount        + $request->tax_value;
         // $totalamountSales  = $accountSales->amount      + $request->total_with_tax;
-        
+
         // $accountClaint->update([
-        //       'amount' =>  $totalamountClaint 
+        //       'amount' =>  $totalamountClaint
         // ]);
-        
+
         // $accountTax->update([
-        //     'amount' =>  $totalamountTax    
+        //     'amount' =>  $totalamountTax
         // ]);
-        
+
         // $accountSales->update([
-        //     'amount' =>  $totalamountSales    
+        //     'amount' =>  $totalamountSales
         // ]);
-        
-        
+
+
         // $CcountEstrictions = [
         //     'account_id' => $accountClaint->id,
         //     'type' => '2',
@@ -203,8 +207,8 @@ class purchase_ordersController extends Controller
         //     'from_to'      => 1,
         // ];
         // CcountEstrictions::create($CcountEstrictions);
-        
-        
+
+
         // $CcountEstrictions = [
         //     'account_id' => $accountTax->id,
         //     'type' => '2',
@@ -214,7 +218,7 @@ class purchase_ordersController extends Controller
         //     'from_to'      => 1,
         // ];
         // CcountEstrictions::create($CcountEstrictions);
-        
+
         // $CcountEstrictions = [
         //     'account_id' => $accountSales->id,
         //     'type' => '2',
@@ -224,7 +228,7 @@ class purchase_ordersController extends Controller
         //     'from_to'      => 1,
         // ];
         // CcountEstrictions::create($CcountEstrictions);
-        
+
         // $Journal = [];
         // $Journal[] = [
         //     'journal_id' => $PurchaseInvoices->id,
@@ -242,21 +246,21 @@ class purchase_ordersController extends Controller
             // if (count($data['test']) >= 8) {
                 $arr = explode("-", $index[2]);
                 $store = Store::where("site_id", $data['site_id'])->where("product_id", $index[0])->first();
-                
+
            if($store) {
-                    
+
                     $qunInstore = $store->qun + $index[1];
                     $store->qun = $qunInstore; // Update the 'qun' field
                     $store->save();
                 } else {
                    $store = Store::create([
-                        'site_id' => $data['site_id'],   
-                        'product_id' => $index[0],   
-                        'qun' =>  $index[1],   
+                        'site_id' => $data['site_id'],
+                        'product_id' => $index[0],
+                        'qun' =>  $index[1],
                     ]);
                 }
-                
-           
+
+
                 $unit[] = [
                     'product_id' => $index[0],
                     'qun' => $index[1],
@@ -281,16 +285,16 @@ class purchase_ordersController extends Controller
         // dd("done");
         return redirect()->route('Purchase_Invoices.index')->with(['success' => 'تم الحفظ بنجاح']);
      }
-    
-    
+
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
 
-    
-   
+
+
       public function create()
     {
         $Quotation = Purchase_orders::latest()->first() ;
@@ -318,7 +322,7 @@ class purchase_ordersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-     
+
    public function store(Request $request)
     {
 
@@ -364,9 +368,9 @@ class purchase_ordersController extends Controller
        foreach ($group as $index) {
         //   if (count($data['test']) >= 8) {
         // echo "dasdas";
-        
+
                $arr = explode("-", $index[2]);
-                
+
                  $unit[] = [
                     'product_id'    => $index[0],
                     'qun'           => $index[1],
@@ -394,12 +398,12 @@ class purchase_ordersController extends Controller
         // fill appointments em ployees
         return redirect()->route('Purchase_orders.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
-    
-    
-     
-    
-    
-    
+
+
+
+
+
+
 
     /**
      * Display the specified resource.
@@ -409,13 +413,13 @@ class purchase_ordersController extends Controller
      */
     public function show($id)
     {
-        
+
         $Sales_invoices = Purchase_orders::FindOrFail($id);
           $site           = Site::where("id", $Sales_invoices->site_id)->first();
         // dd($Sales_invoices);
         $Client         = Supplier::FindOrFail($Sales_invoices->id_supplers);
         $PurchaseInvoiceDetails = QuotationDetails::where('type', 1)->where('purchase_invoice_id', $id)->get();
-        return view('Procurement.Purchase_orders.show',  compact(['Client','site', 'Sales_invoices', 'PurchaseInvoiceDetails'])); 
+        return view('Procurement.Purchase_orders.show',  compact(['Client','site', 'Sales_invoices', 'PurchaseInvoiceDetails']));
         // return view('Sales.Quotations.show');
     }
 
@@ -468,8 +472,8 @@ class purchase_ordersController extends Controller
             return redirect()->route('Purchase_orders.index')->with(['error' => 'هناك خطأ برجاء المحاولة ثانيا']);
         }
     }
-    
- 
+
+
         public function copy($id)
     {
        // dd($id);
@@ -487,17 +491,17 @@ class purchase_ordersController extends Controller
         $sites       = site::all();
          $salespersons = Salesperson::all();
         $QuotationDetails  = QuotationDetails::where('purchase_invoice_id', $id)->where('type', 1)->get();
-   
+
         return view('Procurement.Purchase_orders.newCopy', compact('PurchaseInvoices', 'Suppliers','products', 'QuotationDetails', 'count', 'SR', 'sites','salespersons'));
-        
+
     }
-    
-    
-    
-     
+
+
+
+
         public function copystore(Request $request)
     {
-    
+
         // $rules = [
         //     'Ref' => 'required',
         //     'id_supplers' => 'required',
@@ -538,24 +542,24 @@ class purchase_ordersController extends Controller
         $accountTax    = Account::where('name', '2105 - ضريبة القيمة المضافة المستحقة')->first();
         $accountClaint = Account::where('name', '1103 - المدينون')->first();
         $accountSales  = Account::where('name', '4101 - إيرادات المبيعات/ الخدمات')->first();
-        
+
         // $totalamountClaint = $accountClaint->amount     - $request->total;
         // $totalamountTax    = $accountTax->amount        + $request->tax_value;
         // $totalamountSales  = $accountSales->amount      + $request->total_with_tax;
-        
+
         // $accountClaint->update([
-        //       'amount' =>  $totalamountClaint 
+        //       'amount' =>  $totalamountClaint
         // ]);
-        
+
         // $accountTax->update([
-        //     'amount' =>  $totalamountTax    
+        //     'amount' =>  $totalamountTax
         // ]);
-        
+
         // $accountSales->update([
-        //     'amount' =>  $totalamountSales    
+        //     'amount' =>  $totalamountSales
         // ]);
-        
-        
+
+
         // $CcountEstrictions = [
         //     'account_id' => $accountClaint->id,
         //     'type' => '2',
@@ -565,8 +569,8 @@ class purchase_ordersController extends Controller
         //     'from_to'      => 1,
         // ];
         // CcountEstrictions::create($CcountEstrictions);
-        
-        
+
+
         // $CcountEstrictions = [
         //     'account_id' => $accountTax->id,
         //     'type' => '2',
@@ -576,7 +580,7 @@ class purchase_ordersController extends Controller
         //     'from_to'      => 1,
         // ];
         // CcountEstrictions::create($CcountEstrictions);
-        
+
         // $CcountEstrictions = [
         //     'account_id' => $accountSales->id,
         //     'type' => '2',
@@ -586,7 +590,7 @@ class purchase_ordersController extends Controller
         //     'from_to'      => 1,
         // ];
         // CcountEstrictions::create($CcountEstrictions);
-        
+
         // $Journal = [];
         // $Journal[] = [
         //     'journal_id' => $PurchaseInvoices->id,
@@ -602,7 +606,7 @@ class purchase_ordersController extends Controller
         // 'descunt'                    => $index[3],
         foreach ($group as $index) {
             if (count($data['test']) >= 8) {
-                
+
                 $unit[] = [
                     'product_id'                 => $index[0],
                     'qun'                        => $index[1],
@@ -622,9 +626,9 @@ class purchase_ordersController extends Controller
         // dd("done");
         return redirect()->route('Purchase_orders.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
-    
-    
-    
-    
-    
+
+
+
+
+
 }

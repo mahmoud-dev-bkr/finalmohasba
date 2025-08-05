@@ -17,6 +17,7 @@ use App\ReturnsSalesInvoices;
 use App\Sales_invoices;
 use App\PurchaseInvoices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ReturnsSalesInvoicesController extends Controller
 {
@@ -229,6 +230,8 @@ class ReturnsSalesInvoicesController extends Controller
             if ($request->end_date )
                     $PurchaseInvoices->where('Date_start','<=', $request->end_date);
         }
+        $sectionSites = Session::get('site_id');
+        $PurchaseInvoices->where('site_id', $sectionSites);
 
 
         $data = Datatables()->eloquent($PurchaseInvoices->latest())
@@ -249,6 +252,10 @@ class ReturnsSalesInvoicesController extends Controller
         // ->addColumn('action', function ($PurchaseInvoices){
         //     return view('Sales..actions',['type' => 'action' , 'PurchaseInvoices' => $PurchaseInvoices]);
         // })
+        // dd($sectionSites);
+
+
+
         ->addColumn('status', function ($PurchaseInvoices){
             $PurchaseInvoicesTotal  = $PurchaseInvoices->total;
             $PurchaseInvoicesold    = $PurchaseInvoices->old_balance;
@@ -267,6 +274,8 @@ class ReturnsSalesInvoicesController extends Controller
                 return "بانتظار الموافقه";
             }
         })
+
+
         ->toJson();
 
 

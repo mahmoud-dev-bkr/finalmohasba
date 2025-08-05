@@ -12,6 +12,7 @@ use App\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 use Illuminate\Support\Facades\Validator;
 
@@ -62,7 +63,8 @@ class ProductController extends Controller
         if ($request->item > 0)
             $Product->where('id_des', request()->item);
 
-
+     $sectionSites = Session::get('site_id');
+        $Product->where('site_id', $sectionSites);
 
 
 

@@ -59,7 +59,7 @@ class UserController extends Controller
 
         $data = Datatables()->eloquent($Users->latest('id'))
         ->addColumn('action' , function($User){
-            return view('Users.actions' , ['type' => 'action' , 'Client' => $User]);
+            return view('Users.actions' , ['type' => 'action' , 'User' => $User]);
         })
 
         // ->addColumn('bonds' , function($Client){
@@ -99,7 +99,7 @@ class UserController extends Controller
                    'site_id' => $site->id,
                    'user_id' => $user->id,
                ]);
-           } 
+           }
         } else {
             foreach ($request->sites as $site) {
                 UserSite::create([
@@ -108,7 +108,7 @@ class UserController extends Controller
                 ]);
             }
         }
-        
+
         $UserRole = RoleUser::create([
             'user_id'        => $user->id,
             'role_id'        => $request->role_id,
@@ -151,7 +151,7 @@ class UserController extends Controller
     {
         $sites = Site::all();
         $salespersons = Salesperson::all();
-        return view('Sales.Clients.newCreate', compact([
+        return view('', compact([
             'sites' , 'salespersons'
 
         ]));
@@ -273,13 +273,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $Client = Client::FindOrFail($id);
-        $AccountBank1 = AccountBanks::where('client_id', $id)->where("type", 1)->first();
-        $AccountBank2 = AccountBanks::where('client_id', $id)->where("type", 2)->first();
-        $sites = Site::all();
-        $salespersons = Salesperson::all();
 
-        return view('Sales.Clients.update', compact('Client','sites','salespersons','AccountBank1','AccountBank2'));
+
+       $user = user::FindOrFail($id);
+        $sites  = Site::all();
+        $accounts  = Account::where('transactions', 1)->get();
+        $roles     = Role::all();
+        return view('Users.update', compact(
+            [
+                'user', 'roles', 'sites', 'accounts'
+            ]
+        ));
     }
 
     /**

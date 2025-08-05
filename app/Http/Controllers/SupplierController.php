@@ -12,6 +12,7 @@ use App\Salesperson;
 use Exception;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class SupplierController extends Controller
 {
@@ -20,7 +21,7 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     public function getInfoSupplier (Request $request)
     {
         $ClienthId = $request->input('client_id');
@@ -32,27 +33,30 @@ class SupplierController extends Controller
         // Return the Client as a JSON response
         return response()->json($Client);
     }
-    
+
     public function getSuppliers(Request $request){
         $Supplier = Supplier::query();
-        
-           if($request->name) 
+
+           if($request->name)
             $Supplier->where('name', 'like', '%'. $request->name . '%');
-         
+
         if ($request->email)
             $Supplier->where('email1', 'like', '%'. $request->email .'%');
-            
+
         if ($request->phone)
             $Supplier->where('number1', 'like', '%'.$request->phone. '%');
-            
+
         if ($request->status == 1)
             $Supplier->where('status', 1);
-            
+
         if ($request->status == 2)
             $Supplier->where('status', 0);
 
         $Supplier->where('company_id', 1);
-        
+
+        $sectionSites = Session::get('site_id');
+        $Supplier->where('site_id', $sectionSites);
+
         $data = Datatables()->eloquent($Supplier->latest('id'))
         ->addColumn('action' , function($Supplier){
             return view('Procurement.Suppliers.actions' , ['type' => 'action' , 'Supplier' => $Supplier]);
@@ -92,11 +96,11 @@ class SupplierController extends Controller
      */
     public function create()
     {
-      
+
         $sites = Site::all();
         $salespersons = Salesperson::all();
         return view('Procurement.Suppliers.newCreate', compact([
-            'sites' , 'salespersons' 
+            'sites' , 'salespersons'
              ]));
     }
 
@@ -108,8 +112,8 @@ class SupplierController extends Controller
      */
       public function store(Request $request)
     {
-        
-        
+
+
          $rules = [
             'name' => 'required',
         ];
@@ -124,19 +128,19 @@ class SupplierController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $data = $request->all();
-        
+
         $infoUser = $request->all();
-        
+
         // dd($data);
 
-    
+
         if ($request->pointsClient == 'true') {
             // dd("ok");
             $infoUser['pointsClient'] = 1;
         } else {
             $infoUser['pointsClient'] = 0;
         }
-        
+
         if ($request->status == 'true') {
             $infoUser['status'] = 1;
         } else {
@@ -144,11 +148,11 @@ class SupplierController extends Controller
         }
         $infoUser['company_id'] = 1;
         // dd($infoUser);
-        
+
         $client = Supplier::create($infoUser);
-        
+
         if ($request->name1) {
-            
+
             AccountBanks::create(
                 [
                  'client_id' => $client->id,
@@ -162,13 +166,13 @@ class SupplierController extends Controller
                  'address' => $request->address1,
                  'type' => 3,
                  'company_id'   => 1
-                ]    
+                ]
             );
         }
-        
-        
+
+
         if ($request->name2) {
-            
+
             AccountBanks::create(
                 [
                  'client_id' => $client->id,
@@ -182,19 +186,19 @@ class SupplierController extends Controller
                  'address' => $request->address2,
                  'type' => 4,
                  'company_id'   => 1
-                ]    
+                ]
             );
         }
-        
-        
-        
-        
+
+
+
+
             // Supplier::create($data);
         // fill appointments em ployees
         return redirect()->route('Supplier.index')->with(['success' => 'تم الحفظ بنجاح']);
-        
-        
-      
+
+
+
     }
 
 
@@ -224,7 +228,7 @@ class SupplierController extends Controller
      */
     public function edit($id)
     {
-       
+
        $Client = Supplier::FindOrFail($id);
          $AccountBank1 = AccountBanks::where('client_id', $id)->where("type", 1)->first();
         $AccountBank2 = AccountBanks::where('client_id', $id)->where("type", 2)->first();

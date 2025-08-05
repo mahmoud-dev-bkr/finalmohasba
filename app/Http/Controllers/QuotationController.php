@@ -14,56 +14,59 @@ use App\Store;
 use App\Site;
 use App\Account;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 class QuotationController extends Controller
 {
     function getQuotations(Request $request){
         $Purchase_orders = Quotation::query();
-        
+
          if ($request->code)
             $Purchase_orders->where('code','like', '%'. $request->code . '%');
         if($request->name) {
             $Client = Client::where('name','like','%'. $request->name . "%")->first();
              $Purchase_orders->where('id_supplers', $Client->id);
         }
-        
+
         if($request->status > 0)
             $Purchase_orders->where('status', $request->status);
-        
-        
-        
+
+
+
         if ($request->date == 1) {
             if ($request->start_date)
                 $Purchase_orders->where('Date_start', '>=' ,$request->start_date);
-            
+
             if ($request->end_date )
                 $Purchase_orders->where('Date_end','<=', $request->end_date);
-        
-        } 
-        
-        
+
+        }
+
+
         elseif ($request->date == 2) {
              if ($request->start_date )
                 $Purchase_orders->where('Date_start', '>=' ,$request->start_date);
-            
+
             if ($request->end_date )
                 $Purchase_orders->where('Date_end','<=', $request->end_date);
-        
-             
-        } 
-        
+
+
+        }
+
         else {
-            
+
             if ($request->start_date)
                     $Purchase_orders->where('Date_start', '>=' ,$request->start_date);
-                
+
             if ($request->end_date )
                     $Purchase_orders->where('Date_end','<=', $request->end_date);
-        } 
-        
-         
-        
-        
+        }
+
+
+          $sectionSites = Session::get('site_id');
+        // dd($sectionSites);
+        $Purchase_orders->where('site_id', $sectionSites);
+
         $data = Datatables()->eloquent($Purchase_orders->latest('id'))
         ->addColumn('action' , function($Purchase_orders){
             return view('Sales.Quotations.actions' , ['type' => 'action' , 'Purchase_orders' => $Purchase_orders]);
@@ -80,7 +83,7 @@ class QuotationController extends Controller
             } elseif($Quotation->status == 5) {
                 return "مسوده";
             } elseif ($Quotation->status == 3) {
-               return "تمت الفوترة" ; 
+               return "تمت الفوترة" ;
             }
         })
         ->toJson();
@@ -88,7 +91,7 @@ class QuotationController extends Controller
 
         return $data;
     }
-  
+
         public function index()
     {
         $PurchaseInvoices = Quotation::all();
@@ -133,12 +136,12 @@ class QuotationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-     
-     
-     
-     
-     
-     
+
+
+
+
+
+
    public function store(Request $request)
     {
 
@@ -184,14 +187,14 @@ class QuotationController extends Controller
             if (count($data['test']) >= 8) {
                 $arr = explode("-", $index[2]);
                 $store = Store::where("site_id", $data['site_id'])->where("product_id", $index[0])->first();
-                
-                
-                    
+
+
+
                 // $qunInstore = $store->qun - $index[1];
                 // $store->qun = $qunInstore; // Update the 'qun' field
                 // $store->save();
-                
-           
+
+
                 $unit[] = [
                     'product_id'    => $index[0],
                     'qun'           => $index[1],
@@ -217,12 +220,12 @@ class QuotationController extends Controller
         // fill appointments em ployees
         return redirect()->route('Quotation.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
-     
-     
-     
-     
-     
- 
+
+
+
+
+
+
     /**
      * Display the specified resource.
      *
@@ -231,38 +234,38 @@ class QuotationController extends Controller
      */
      public function print($id)
     {
-        
+
         $Sales_invoices = Quotation::where('id', $id)->first();
         $Client         = Client::FindOrFail($Sales_invoices->client_id);
         $Clientbond     = Clientbond::where('PurchaseInvoices_id', $id)->get();
         // dd($Clientbond);
         $PurchaseInvoiceDetails = QuotationDetails::where('type', 2)->where('purchase_invoice_id', $id)->get();
-        
+
         // dd($Sales_invoices);
         return view('Sales.Quotations.print', compact(['Client', 'Sales_invoices', 'PurchaseInvoiceDetails', 'Clientbond']));
     }
     public function show($id)
     {
-        
-        
+
+
         $Sales_invoices = Quotation::where('id', $id)->first();
          $site           = Site::where("id", $Sales_invoices->site_id)->first();
         $Client         = Client::FindOrFail($Sales_invoices->client_id);
         $PurchaseInvoiceDetails = QuotationDetails::where('type', 2)->where('purchase_invoice_id', $id)->get();
         // dd($Sales_invoices);
-        return view('Sales.Quotations.show',  compact(['Client','site', 'Sales_invoices', 'PurchaseInvoiceDetails'])); 
+        return view('Sales.Quotations.show',  compact(['Client','site', 'Sales_invoices', 'PurchaseInvoiceDetails']));
         // return view('Sales.Quotations.show');
     }
-    
+
     public function status($id) {
-        
+
         $Sales_invoices = Quotation::find($id);
         $Sales_invoices->status = 4;
         $Sales_invoices->save();
         return redirect()->route('Quotation.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
-    
-    public function done($id) 
+
+    public function done($id)
     {
         $count = "";
         $PurchaseInvoices = "";
@@ -282,7 +285,7 @@ class QuotationController extends Controller
         $QuotationDetails  = QuotationDetails::where('purchase_invoice_id', $id)->where("type", 2)->get();
         // $count     = count($QuotationDetails);
         $salespersons = Salesperson::all();
-        return view('Sales.Quotations.Newdone', compact('PurchaseInvoices', 'Suppliers', 'products', 'QuotationDetails', 'count', 'sites', 'Supplierr', 'salespersons')); 
+        return view('Sales.Quotations.Newdone', compact('PurchaseInvoices', 'Suppliers', 'products', 'QuotationDetails', 'count', 'sites', 'Supplierr', 'salespersons'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -290,11 +293,11 @@ class QuotationController extends Controller
      * @param  \App\Quotation  $Quotation
      * @return \Illuminate\Http\Response
      */
-     
+
      public function donePost(Request $request, $id){
-         
-     
-       
+
+
+
         $data = $request->all();
         // dd($data);
         $Sales_invoices = Quotation::find($id);
@@ -324,18 +327,18 @@ class QuotationController extends Controller
         $accountTax    = Account::where('name', '2105 - ضريبة القيمة المضافة المستحقة')->first();
         $accountClaint = Account::where('name', '1103 - المدينون')->first();
         $accountSales  = Account::where('name', '4101 - إيرادات المبيعات/ الخدمات')->first();
-        
+
 
         foreach ($group as $index) {
 
                 $arr = explode("-", $index[2]);
                 $store = Store::where("site_id", $data['site_id'])->where("product_id", $index[0])->first();
-                    
+
                 $qunInstore = $store->qun - ($arr[2] * $index[1]);
                 $store->qun = $qunInstore; // Update the 'qun' field
                 $store->save();
-                
-           
+
+
                 $unit[] = [
                     'product_id'    => $index[0],
                     'qun'           => $index[1],
@@ -353,14 +356,14 @@ class QuotationController extends Controller
                     'purchase_invoice_id'        => $PurchaseInvoices->id,
                     'type' => 2
                 ];
-            
+
         }
 
         PurchaseInvoiceDetails::insert($unit);
 
         return redirect()->route('sales_invoices.index')->with(['success' => 'تم الحفظ بنجاح']);
      }
-     
+
     public function edit($id)
     {
         // $Quotation = Quotation::FindOrFail($id);
@@ -386,7 +389,7 @@ class QuotationController extends Controller
         $data = $request->all();
         // dd($data);
         //update in db
-        
+
         $Quotation->update($data);
         return redirect()->route('Quotation.index')->with(['success' => 'تم تحديث بيانات العميل بنجاح']);
     }
@@ -411,8 +414,8 @@ class QuotationController extends Controller
             return redirect()->route('Quotation.index')->with(['error' => 'هناك خطأ برجاء المحاولة ثانيا']);
         }
     }
-    
-    
+
+
     public function copy($id)
     {
        $count = "";
@@ -434,11 +437,11 @@ class QuotationController extends Controller
         // $count     = count($QuotationDetails);
         $salespersons = Salesperson::all();
         return view('Sales.Quotations.newCopy', compact('PurchaseInvoices', 'Suppliers','products', 'QuotationDetails', 'count', 'Supplierr', 'sites','salespersons'));
-        
+
     }
 
-    
-    
+
+
         public function copystore(Request $request)
     {
         $rules = [
@@ -481,24 +484,24 @@ class QuotationController extends Controller
         $accountTax    = Account::where('name', '2105 - ضريبة القيمة المضافة المستحقة')->first();
         $accountClaint = Account::where('name', '1103 - المدينون')->first();
         $accountSales  = Account::where('name', '4101 - إيرادات المبيعات/ الخدمات')->first();
-        
+
         // $totalamountClaint = $accountClaint->amount     - $request->total;
         // $totalamountTax    = $accountTax->amount        + $request->tax_value;
         // $totalamountSales  = $accountSales->amount      + $request->total_with_tax;
-        
+
         // $accountClaint->update([
-        //       'amount' =>  $totalamountClaint 
+        //       'amount' =>  $totalamountClaint
         // ]);
-        
+
         // $accountTax->update([
-        //     'amount' =>  $totalamountTax    
+        //     'amount' =>  $totalamountTax
         // ]);
-        
+
         // $accountSales->update([
-        //     'amount' =>  $totalamountSales    
+        //     'amount' =>  $totalamountSales
         // ]);
-        
-        
+
+
         // $CcountEstrictions = [
         //     'account_id' => $accountClaint->id,
         //     'type' => '2',
@@ -508,8 +511,8 @@ class QuotationController extends Controller
         //     'from_to'      => 1,
         // ];
         // CcountEstrictions::create($CcountEstrictions);
-        
-        
+
+
         // $CcountEstrictions = [
         //     'account_id' => $accountTax->id,
         //     'type' => '2',
@@ -519,7 +522,7 @@ class QuotationController extends Controller
         //     'from_to'      => 1,
         // ];
         // CcountEstrictions::create($CcountEstrictions);
-        
+
         // $CcountEstrictions = [
         //     'account_id' => $accountSales->id,
         //     'type' => '2',
@@ -529,7 +532,7 @@ class QuotationController extends Controller
         //     'from_to'      => 1,
         // ];
         // CcountEstrictions::create($CcountEstrictions);
-        
+
         // $Journal = [];
         // $Journal[] = [
         //     'journal_id' => $PurchaseInvoices->id,
@@ -545,7 +548,7 @@ class QuotationController extends Controller
         // 'descunt'                    => $index[3],
         foreach ($group as $index) {
             if (count($data['test']) >= 8) {
-                
+
                 $unit[] = [
                     'product_id'                 => $index[0],
                     'qun'                        => $index[1],
@@ -565,7 +568,7 @@ class QuotationController extends Controller
         // dd("done");
         return redirect()->route('Quotation.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
-    
-    
-    
+
+
+
 }

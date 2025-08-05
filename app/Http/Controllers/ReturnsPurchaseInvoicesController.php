@@ -21,6 +21,7 @@ use App\ReturnsPurchaseInvoices;
 use App\Sales_invoices;
 // use App\PurchaseInvoices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ReturnsPurchaseInvoicesController extends Controller
 {
@@ -202,6 +203,9 @@ class ReturnsPurchaseInvoicesController extends Controller
                     $PurchaseInvoices->where('Date_start','<=', $request->end_date);
         }
 
+
+         $sectionSites = Session::get('site_id');
+        $PurchaseInvoices->where('site_id', $sectionSites);
 
         $data = Datatables()->eloquent($PurchaseInvoices->latest())
 

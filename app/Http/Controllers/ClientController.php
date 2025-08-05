@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Exception;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ClientController extends Controller
 {
@@ -22,6 +23,8 @@ class ClientController extends Controller
      */
     public function getInfoClient (Request $request)
     {
+
+
         $ClienthId = $request->input('client_id');
 
         // Retrieve employees for the selected Clienth
@@ -33,36 +36,38 @@ class ClientController extends Controller
     }
     public function getClients(Request $request){
         $Clients = Client::query();
-        
-        if($request->name) 
+
+        if($request->name)
             $Clients->where('name', 'like', '%'. $request->name . '%');
-         
+
         if ($request->email)
             $Clients->where('email', 'like', '%'. $request->email .'%');
-            
+
         if ($request->phone)
             $Clients->where('phon', 'like', '%'.$request->phone. '%');
-            
+
         if ($request->status == 1)
             $Clients->where('status', 1);
-            
+
         if ($request->status == 2)
             $Clients->where('status', 0);
 
-        
-        
+        $sectionSites =  Session::get('site_id');
+        // dd($sectionSites);
+         $Clients->where('site_id', $sectionSites);
+
         $data = Datatables()->eloquent($Clients->latest('id'))
         ->addColumn('action' , function($Client){
             return view('Sales.Clients.actions' , ['type' => 'action' , 'Client' => $Client]);
         })
-        
+
         ->addColumn('bonds' , function($Client){
             return Clientbond::where('id_customers', $Client->id)->sum('Amount');
         })
         ->addColumn('Salesinvoices' , function($Client){
             return Sales_invoices::where('id_supplers', $Client->id)->sum('total');
         })
-        
+
         ->editColumn('status', function ($Client){
             if ($Client->status == 1) {
                 return "مفعل";
@@ -84,7 +89,7 @@ class ClientController extends Controller
             ]
         ));
     }
-    
+
     public function status($id)
     {
         $Client = Client::find($id);
@@ -104,8 +109,8 @@ class ClientController extends Controller
         $sites = Site::all();
         $salespersons = Salesperson::all();
         return view('Sales.Clients.newCreate', compact([
-            'sites' , 'salespersons' 
-        
+            'sites' , 'salespersons'
+
         ]));
     }
 
@@ -117,8 +122,8 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        
-        
+
+
          $rules = [
             'name' => 'required',
         ];
@@ -133,29 +138,29 @@ class ClientController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $data = $request->all();
-        
+
         $infoUser = $request->all();
-        
+
         // dd($data);
 
-    
+
         if ($request->pointsClient == 'true') {
             $infoUser['pointsClient'] = 1;
         } else {
             $infoUser['pointsClient'] = 0;
         }
-        
+
         if ($request->status == 'true') {
             $infoUser['status'] = 1;
         } else {
             $infoUser['status'] = 0;
         }
-        
-        // dd($data);  
+
+        // dd($data);
         $client = Client::create($infoUser);
-        
+
         if ($request->name1) {
-            
+
             AccountBanks::create(
                 [
                  'client_id' => $client->id,
@@ -169,13 +174,13 @@ class ClientController extends Controller
                  'address' => $request->address1,
                  'type' => 1,
                  'company_id'    => 1,
-                ]    
+                ]
             );
         }
-        
-        
+
+
         if ($request->name2) {
-            
+
             AccountBanks::create(
                 [
                  'client_id' => $client->id,
@@ -189,16 +194,16 @@ class ClientController extends Controller
                  'address' => $request->address2,
                  'type' => 2,
                  'company_id'    => 1,
-                ]    
+                ]
             );
         }
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
         // fill appointments em ployees
          return redirect()->route('client.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
@@ -214,7 +219,7 @@ class ClientController extends Controller
         $Client = Client::FindOrFail($id);
         $Sales_invoices = Sales_invoices::where('id_supplers', $id)->get();
         $Clientbonds = Clientbond::where('id_customers', $id)->get();
-        
+
         // dd($Clientbonds);
         return view('Sales.Clients.show', compact(['Client', 'Sales_invoices', 'Clientbonds']));
     }
@@ -232,7 +237,7 @@ class ClientController extends Controller
         $AccountBank2 = AccountBanks::where('client_id', $id)->where("type", 2)->first();
         $sites = Site::all();
         $salespersons = Salesperson::all();
-       
+
         return view('Sales.Clients.update', compact('Client','sites','salespersons','AccountBank1','AccountBank2'));
     }
 
@@ -253,7 +258,7 @@ class ClientController extends Controller
         } else {
             $data['pointsClient'] = 0;
         }
-        
+
         if ($request->status == 'true') {
             $data['status'] = 1;
         } else {
@@ -270,16 +275,16 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\Response
      */
-     
+
          public function print($id){
 
- 
+
 
       $Clientbonds = Clientbond::find($id);
 
- 
 
- 
+
+
 
       $Client = Client::where('id', $Clientbonds->id_customers)->get();
 
@@ -287,12 +292,12 @@ class ClientController extends Controller
 
       return view('Sales.Clientbond.print', compact('Client', 'Sales_invoices', 'Clientbonds'));
 
- 
+
 
     }
-     
-     
-     
+
+
+
     public function destroy($id)
     {
         try {

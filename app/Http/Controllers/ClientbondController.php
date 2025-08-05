@@ -12,43 +12,45 @@ use App\ClientBondsDitails;
 // use App\Account;
 use App\Journal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 class ClientbondController extends Controller
 {
 
     public function getClientbond(Request $request){
         $Clientbond = Clientbond::query();
-        
-        
-             
+
+
+
         if ($request->code)
             $Clientbond->where('code','like', '%'. $request->code . '%');
-            
-            
+
+
         if($request->name) {
             $Client = Client::where('name','like','%'. $request->name . "%")->first();
-            
+
              $Clientbond->where('	id_customers', $Client->id);
         }
-        
-        if($request->status > 0) 
+
+        if($request->status > 0)
             $Clientbond->where('status', $request->status);
-        
-        
-    
+
+
+
         if ($request->start_date)
             $Clientbond->where('Date', '>=' ,$request->start_date);
-        
+
         if ($request->end_date )
             $Clientbond->where('Date','<=', $request->end_date);
-        
- 
-        
-        
-        
-        
-        
-        
+
+
+        $sectionSites = Session::get('site_id');
+        $Clientbond->where('site_id', $sectionSites);
+
+
+
+
+
         $data = Datatables()->eloquent($Clientbond->latest('id'))
         ->addColumn('action' , function($Clientbond){
             return view('Sales.Clientbond.actions' , ['type' => 'action' , 'Clientbond' => $Clientbond]);
@@ -62,24 +64,24 @@ class ClientbondController extends Controller
             $Account = Account::where('id', $Clientbond->id_Account)->first();
             return $Account->name ?? '';
         })
-        
-        
+
+
         ->editColumn('status', function ($Clientbond){
             // $Account = Account::where('id', $Clientbond->id_Account)->first();
-            
+
             if ($Clientbond->status == 1) {
-                return "غير مستعمل";    
+                return "غير مستعمل";
             } else if ($Clientbond->status == 2) {
-                return "مستعمل جزائي";    
-                
+                return "مستعمل جزائي";
+
             } else if ($Clientbond->status == 3 ) {
                 return "مستعمل كامل";
             }
-            
+
             // return $Account->name ?? '';
         })
-        
-        
+
+
         ->editColumn('type', function ($Clientbond){
             if ($Clientbond->type == 1) {
                 return "قبض";
@@ -132,8 +134,8 @@ class ClientbondController extends Controller
      */
     public function store(Request $request)
     {
-        
-        
+
+
 
         $data = $request->all();
         $Clientbond = Clientbond::latest()->first() ;
@@ -146,25 +148,25 @@ class ClientbondController extends Controller
         if ($data['last_invoice'] == "on")
         {
             if ($data['type'] == 1) {
-                
+
                 $invoice = Sales_invoices::where('total', '!=', 0)
                     ->where('id_supplers', $data['id_customers'])
                     ->orderBy('created_at', 'asc')
                     ->first();
-    
+
                 $totalAmount = $invoice->total - $data['Amount'] ;
-                
+
                  $Sales_invoices = Sales_invoices::findOrFail($invoice->id);
-                
+
                  $Sales_invoices->update(['total'=>$totalAmount]);
-                
-                
+
+
                 // Update the total amount
-                    
+
                 $data['PurchaseInvoices_id'] = $invoice->id;
                 $data['status'] = 3;
-                $Clientbond = Clientbond::create($data); 
-                
+                $Clientbond = Clientbond::create($data);
+
             } else {
                 // dd("dasdas");
                 $invoice = ReturnsSalesInvoices::where('total', '!=', 0)
@@ -173,22 +175,22 @@ class ClientbondController extends Controller
                     ->first();
                 // dd($invoice);
                 $totalAmount = $invoice->total - $data['Amount'] ;
-                
+
                  $Sales_invoices = ReturnsSalesInvoices::findOrFail($invoice->id);
-                
+
                  $Sales_invoices->update(['total'=>$totalAmount]);
-                
-                
+
+
                 // Update the total amount
-                    
+
                 $data['PurchaseInvoices_id'] = $invoice->id;
                 $data['status'] = 3;
                 $data['type_returns'] = 0;
-                $Clientbond = Clientbond::create($data); 
-                
+                $Clientbond = Clientbond::create($data);
+
             }
-            
-            
+
+
         } else {
             if ($data['type'] == 1) {
                 $counter = 0;
@@ -197,36 +199,36 @@ class ClientbondController extends Controller
                 $ides    = $data['ids'];
                 $amounts = $data['Amounts'];
                 foreach( $ides as $invoices ) {
-                    
+
                     if ($amounts[$counter] != "") {
                         $Sales_invoices = Sales_invoices::findOrFail($ides[$counter]);
                         $totalAmount = $Sales_invoices->total - $amounts[$counter];
                         // dd($totalAmount);
                         $Sales_invoices->update(['total'=>$totalAmount]);
-                        
-                        
+
+
                         // create in a new table ditails bounds
-                        
+
                         $ClientBondsDitails = [
-                            'code' => $data['code'], 
+                            'code' => $data['code'],
                             'id_customers' => $data['id_customers'],
                             'Date' => $data['Date'],
                             'id_Account' => $data['id_Account'],
                             'type' => 1,
                             'Note' => $data['Note'],
-                            'Amount' => $amounts[$counter], 
-                            'PurchaseInvoices_id' => $ides[$counter], 
+                            'Amount' => $amounts[$counter],
+                            'PurchaseInvoices_id' => $ides[$counter],
                             'clientbons_id' => $count
                         ];
-                        
+
                         $ClientBondsDitails = ClientBondsDitails::create($ClientBondsDitails);
                         $total += $amounts[$counter];
                         $status = 1;
                     }
-                    
-                    
+
+
                     $counter += 1;
-                    
+
                 }
                 // dd ($total);
                 if ($status == 0) {
@@ -240,7 +242,7 @@ class ClientbondController extends Controller
                 }
                 // dd($amounts);
                 $Clientbond = Clientbond::create($data);
-                
+
             } else {
                 $counter = 0;
                 $total   = 0;
@@ -248,37 +250,37 @@ class ClientbondController extends Controller
                 $ides    = $data['ids'];
                 $amounts = $data['Amounts'];
                 foreach( $ides as $invoices ) {
-                    
+
                     if ($amounts[$counter] != "") {
                         $Sales_invoices = ReturnsSalesInvoices::findOrFail($ides[$counter]);
                         $totalAmount = $Sales_invoices->total - $amounts[$counter];
                         // dd($totalAmount);
                         $Sales_invoices->update(['total'=>$totalAmount]);
-                        
-                        
+
+
                         // create in a new table ditails bounds
-                        
+
                         $ClientBondsDitails = [
-                            'code' => $data['code'], 
+                            'code' => $data['code'],
                             'id_customers' => $data['id_customers'],
                             'Date' => $data['Date'],
                             'id_Account' => $data['id_Account'],
                             'type' => 1,
                             'Note' => $data['Note'],
-                            'Amount' => $amounts[$counter], 
-                            'PurchaseInvoices_id' => $ides[$counter], 
-                            'clientbons_id' => $count, 
+                            'Amount' => $amounts[$counter],
+                            'PurchaseInvoices_id' => $ides[$counter],
+                            'clientbons_id' => $count,
                             'type_returns'  => 0
                         ];
-                        
+
                         $ClientBondsDitails = ClientBondsDitails::create($ClientBondsDitails);
                         $total += $amounts[$counter];
                         $status = 1;
                     }
-                    
-                    
+
+
                     $counter += 1;
-                    
+
                 }
                 // dd ($total);
                 if ($status == 0) {
@@ -292,23 +294,23 @@ class ClientbondController extends Controller
                 }
                 // dd($amounts);
                 $data['type_returns'] = 0;
-                $Clientbond = Clientbond::create($data); 
+                $Clientbond = Clientbond::create($data);
             }
-            
-            
-        } 
-        
-        
-        
+
+
+        }
+
+
+
         /*$accountClaint = Account::where('code', '2101')->first();
         $accountTo     = Account::where('id', $request->id_Account)->first();
         $totalClaint   = $accountClaint->amount  + $request->Amount;
         $totalTo       = $accountTo->amount   -  $request->Amount;
         $accountClaint->update([
-            'amount' =>  $totalClaint    
+            'amount' =>  $totalClaint
         ]);
         $accountTo->update([
-            'amount' =>  $totalTo    
+            'amount' =>  $totalTo
         ]);
         // fill appointments em ployees
         $CcountEstrictions = [
@@ -345,7 +347,7 @@ class ClientbondController extends Controller
      * @param  \App\Clientbond  $Clientbond
      * @return \Illuminate\Http\Response
      */
-  
+
 
     /**
      * Show the form for editing the specified resource.
@@ -385,12 +387,12 @@ class ClientbondController extends Controller
      * @param  \App\Clientbond  $Clientbond
      * @return \Illuminate\Http\Response
      */
-     
+
     public function print($id){
-         
+
       $Clientbonds = Clientbond::find($id);
-      
-      
+
+
       $Client = Client::where('id', $Clientbonds->id_customers)->first();
       $account = Account::where('id', $Clientbonds->id_Account)->first();
       $Sales_invoices = Sales_invoices::find($Clientbonds->PurchaseInvoices_id);
@@ -398,25 +400,25 @@ class ClientbondController extends Controller
       $ClientBondsDitails  = ClientBondsDitails::where("clientbons_id", $id)->get();
     //   dd($ClientBondsDitails);
       return view('Sales.Clientbond.print', compact('Client', 'Sales_invoices', 'Clientbonds','account', 'type', 'ClientBondsDitails'));
-      
+
     }
-    
+
     public function show($id){
-         
+
       $Clientbonds = Clientbond::find($id);
-      
-      
+
+
       $Client = Client::where('id', $Clientbonds->id_customers)->first();
       $account = Account::where('id', $Clientbonds->id_Account)->first();
       $Sales_invoices = Sales_invoices::find($Clientbonds->PurchaseInvoices_id);
       $type           = $Clientbonds->PurchaseInvoices_id == "" ? 1 : 2;
       $ClientBondsDitails  = ClientBondsDitails::where("clientbons_id", $Clientbonds->id)->get();
       return view('Sales.Clientbond.show', compact('Client', 'Sales_invoices', 'Clientbonds','account', 'type', 'ClientBondsDitails'));
-      
+
     }
-     
-     
-     
+
+
+
     public function destroy($id)
     {
         try {
@@ -424,9 +426,9 @@ class ClientbondController extends Controller
             $Sales_invoices = Sales_invoices::find($Clientbond->PurchaseInvoices_id);
             if($Sales_invoices) {
                 $totalAmount = $Sales_invoices->total + $Clientbond->Amount;
-                
+
                 $Sales_invoices->update(['total'=>$totalAmount]);
-                
+
             }
             $deleted =  $Clientbond->delete();
             if (!$deleted) {
