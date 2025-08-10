@@ -16,12 +16,12 @@
             </section>
             <section>
                <div class="d-flex justify-content-sm-end mx-5">
-                   @if(canPerission('create_Quotation'))
+                   {{-- @if(canPerission('create_Quotation')) --}}
                     <button class="btn btn-primary mx-2">
                         <a href="{{ route('Quotation.create') }}"  class="text-light">اضافة  عروض واسعار</a>
                         <i class="fa-solid fa-plus"></i>
                     </button>
-                    @endif
+                    {{-- @endif --}}
                     <button onclick="downloadExcel($('.code').val(), $('.name').val(), $('.status').val(), $('.date').val(), $('.start-date').val(), $('.end-date').val(), $('.site').val())" class="btn btn-primary mx-2" id="exportButton">
                         <!--<a href="{{ route('ExportSalesinvoices') }}" class="text-light"> تصدير </a>-->
                         تصدير

@@ -16,12 +16,12 @@
     </section>
     <section>
         <div class="d-flex justify-content-sm-end mx-5">
-            @if(canPerission('create_Clientbond'))
+            {{-- @if(canPerission('create_Clientbond')) --}}
                 <button class="btn btn-primary mx-2">
                     <a href="{{ route('Clientbond.create') }}" class="text-light">اضافة سندات العميل</a>
                     <i class="fa-solid fa-plus"></i>
                 </button>
-            @endif
+            {{-- @endif --}}
             <button class="btn btn-primary mx-2">
                 <a href="{{ route('ExportClientbond') }}" class="text-light">تصدير </a>
                 <i class="fa-solid fa-plus"></i>

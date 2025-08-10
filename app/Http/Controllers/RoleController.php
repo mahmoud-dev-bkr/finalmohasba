@@ -87,13 +87,11 @@ class RoleController extends Controller
     }
 
 
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $role = DB::table('roles')->where('id', $request->role_id)->first();
-
+        $role = Role::FindOrFail($id);
         $role->delete();
-        session()->flash('success', __('site.deleted_successfully'));
-        return redirect()->route('dashboard.roles.index');
+        return redirect()->route('roles.index')->with(['success' => 'تم الحذف بنجاح']);
     }
     public function getPermissions(){
         $permissions_data = [];

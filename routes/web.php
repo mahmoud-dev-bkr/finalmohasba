@@ -39,6 +39,7 @@ use App\Http\Controllers\ReturnsPurchaseInvoicesController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Stocktakingcontroller;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SaquenceController;
 use App\SettingSalary;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -269,7 +270,19 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth',  'namespace' => '
     Route::post('roles/edit/{id}',   [RoleController::class, 'update'])->name('roles.edit');
     Route::post('roles/destroy/{id}',   [RoleController::class, 'destroy'])->name('roles.destroy');
     Route::post('roles/store',         [RoleController::class, 'store'])->name('roles.create.post');
-     Route::get('/roles/data',          [RoleController::class, 'getroles'])->name('getrolesData');
+    Route::get('/roles/data',          [RoleController::class, 'getroles'])->name('getrolesData');
+
+
+
+    Route::get('Saquence',                [SaquenceController::class, "index"])->name('Saquence.index');
+    Route::get('/Saquence/create',        [SaquenceController::class, 'create'])->name('Saquence.create');
+    Route::get('Saquence/update/{id}',   [SaquenceController::class, 'edit'])->name('Saquence.update');
+    Route::post('Saquence/edit/{id}',   [SaquenceController::class, 'update'])->name('Saquence.edit');
+    Route::post('Saquence/destroy/{id}',   [SaquenceController::class, 'destroy'])->name('Saquence.destroy');
+    Route::post('Saquence/store',         [SaquenceController::class, 'store'])->name('Saquence.create.post');
+    Route::get('Saquence/data',         [SaquenceController::class, 'getSaquence'])->name('getSaquenceData');
+
+
 
 
 

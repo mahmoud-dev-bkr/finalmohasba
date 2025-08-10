@@ -1,5 +1,6 @@
 @php
     $sites = App\UserSite::where('user_id', auth()->user()->id)->get();
+    // dd($sites);
 @endphp
 <div id="navbar-wrapper"lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
     <nav class="navbar navbar-expand-lg bg-body-tertiary ">

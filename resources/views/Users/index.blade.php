@@ -183,8 +183,10 @@
                                                         <label>رقم الهاتف</label>
                                                     </div>
                                                     <div class="col">
+
                                                         <input value="" autofocus="autofocus" type="text"
-                                                            name="phone" id="phone" class="form-control" />
+                                                            name="Tel_1" id="Tel_1" class="form-control" />
+
                                                     </div>
                                                 </div>
                                                 <div class="row pt-3">
@@ -466,7 +468,7 @@
         //     var pos = document.getElementById('flexCheckDefault1').checked ? 1 : 0; // Use 1 or 0 based on your needs
         //     var role_id = document.getElementById('role_id').value;
         //     var password = document.getElementById('password').value;
-            
+
 
         //     $.ajax({
         //         headers: {
@@ -495,13 +497,14 @@
         function submit_user() {
             var descount_limit = document.getElementById('descount_limit').value;
             var name = document.getElementById('name').value;
+            var Tel_1 = document.getElementById('Tel_1').value;
             var email = document.getElementById('email').value;
             var site_id = document.getElementById('site_id').value;
             var account_id = document.getElementById('account_id').value;
             var pos = document.getElementById('flexCheckDefault1').checked ? 1 : 0; // Use 1 or 0 based on your needs
             var role_id = document.getElementById('role_id').value;
             var password = document.getElementById('password').value;
-            
+
             // Collect selected sites
             var sites = [];
             $('input[name="sites[]"]:checked').each(function() {
@@ -518,6 +521,7 @@
                     descount_limit: descount_limit,
                     _token: '{{ csrf_token() }}',
                     name_en: name,
+                    Tel_1: Tel_1,
                     email: email,
                     role_id: role_id,
                     pos: pos,
@@ -543,7 +547,7 @@
            var site = document.getElementById('sites')
             if (id == 0) {
                $('#sites').hide();
-                
+
             } else {
                 $('#sites').show();
             }

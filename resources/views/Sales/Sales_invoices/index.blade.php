@@ -17,12 +17,12 @@
             </section>
             <section>
                <div class="d-flex justify-content-sm-end mx-5">
-                @if(canPerission('create_SalesInvoices'))
+                {{-- @if(canPerission('create_SalesInvoices')) --}}
                     <button class="btn btn-primary mx-2">
                         <a href="{{ route('sales_invoices.create') }}"  class="text-light">إنشاء فاتورة</a>
                         <i class="fa-solid fa-plus"></i>
                     </button>
-                    @endif
+                    {{-- @endif --}}
                     <button onclick="downloadExcel($('.code').val(), $('.name').val(), $('.status').val(), $('.date').val(), $('.start-date').val(), $('.end-date').val(), $('.site').val())" class="btn btn-primary mx-2" id="exportButton">
                         <!--<a href="{{ route('ExportSalesinvoices') }}" class="text-light"> تصدير </a>-->
                         تصدير
@@ -33,18 +33,18 @@
                     <!--    استيراد-->
                     <!--    <i class="fa-solid fa-plus"></i>-->
                     <!--</button>-->
-                    @if(canPerission('create_ReturnsSalesInvoices'))
+                    {{-- @if(canPerission('create_ReturnsSalesInvoices')) --}}
                         <button class="btn btn-primary mx-2">
                             <a href="{{ route('ReturnsSalesInvoices.create') }}" class="text-light">إشعارات دائنه</a>
                             <i class="fa-solid fa-plus"></i>
                         </button>
-                    @endif
-                    @if(canPerission('create_Clientbond'))
+                    {{-- @endif --}}
+                    {{-- @if(canPerission('create_Clientbond')) --}}
                         <button class="btn btn-primary mx-2">
                             <a href="{{ route('Clientbond.create') }}" class="text-light"> انشاء سند عميل </a>
                             <i class="fa-solid fa-plus"></i>
                         </button>
-                    @endif
+                    {{-- @endif --}}
                     <!--{{-- <button class="btn btn-primary mx-2">استيراد قائمة فاتورة مبيعات  -->
                     <!--    <i class="fa-solid fa-right-to-bracket mx-1"></i>-->
                     <!--</button> --}}-->
