@@ -651,12 +651,14 @@
                         </div>
                     </a>
                 </li>
+                <li class="w-100">
+              
                 <li>
-                    <a href="" class="nav-link px-0">
+                    <a href="{{ route('Saquence.index') }}" class="nav-link px-0">
                         <div class="space">
                             <span class=" d-sm-inline text">
                                 <i class="fa-solid fa-gear side-icon"></i>
-                                <span> اعدادات الإشتراكات</span>
+                                <span> اعدادات التسلسل</span>
                             </span>
                         </div>
                     </a>

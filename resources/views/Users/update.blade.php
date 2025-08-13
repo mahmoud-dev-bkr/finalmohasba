@@ -2,17 +2,17 @@
 @section('css')
     <style>
         /* select {
-                    appearance: none;
-                    -webkit-appearance: none;
-                    -moz-appearance: none;
-                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="6"><polygon points="6,6 0,0 12,0" style="fill:%23000"/></svg>') no-repeat;
-                    padding: 8px 24px 8px 36px;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    width: 200px;
-                    background-size: 12px;
-                    background-position: 8px center;
-                } */
+                        appearance: none;
+                        -webkit-appearance: none;
+                        -moz-appearance: none;
+                        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="6"><polygon points="6,6 0,0 12,0" style="fill:%23000"/></svg>') no-repeat;
+                        padding: 8px 24px 8px 36px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        width: 200px;
+                        background-size: 12px;
+                        background-position: 8px center;
+                    } */
     </style>
 @endsection
 @section('content')
@@ -25,7 +25,7 @@
 
                         <li><span class="text-dark ml-3">الاعدادات</span></li>
                         <li class="text-primary">
-                            <i class="fa fa-angle-double-left mx-2 "></i><a href="employers.html">المستخدمين</a>
+                            <i class="fa fa-angle-double-left mx-2 "></i><a href="employers.html">تعديل المستخدمين</a>
                         </li>
                     </ul>
                 </div>
@@ -37,15 +37,11 @@
 
         <section>
             <div class="d-flex justify-content-sm-end mx-2">
-                <button class="btn btn-secondary btn-sm">
-                    إضافة مستخدم
-                    <i class="fa fa-lock"></i>
-                </button>
-                <a class="btn btn-primary btn-sm mx-2" href="{{ route('roles.index') }}">
-                     المنصب
+
+                <a class="btn btn-primary btn-sm mx-2" href="{{ route('user.index') }}">
+                    رجوع
                 </a>
-                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#AddUserModal"> إضافة مستخدم
-                    الدعم</button>
+
             </div>
             <div class="container my-3">
                 <div class="row">
@@ -57,7 +53,7 @@
                     @endif
                     <div class="col-md-12 hi-mohasba">
 
-                        <h4 class="mx-4"> المستخدمين</h4>
+                        <h4 class="mx-4"> تعديل المستخدمين</h4>
                     </div>
 
                 </div>
@@ -67,16 +63,14 @@
 
                         <div class="w-100">
 
-                    
-
-
-                            <div class="modal fade" id="AddUserModal" tabindex="-1" role="dialog"
-                                aria-labelledby="AddUserModalLabel" aria-hidden="true">
+                            <form action="{{ route('user.edit', $user->id) }}" method="post">
+                                @csrf
+                                {{-- aria-labelledby="AddUserModalLabel" aria-hidden="true"> --}}
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-body modal-body-container support-user-container p-5 rounded"
                                             style="background:white;">
-                                            <h3 class="modal_header">إنشاء مستخدم الدعم</h3>
+                                            <h3 class="modal_header">تعديل مستخدم الدعم</h3>
                                             <form class="pt-5" id="" action="#" accept-charset="UTF-8"
                                                 method="post">
                                                 <div class="row">
@@ -84,8 +78,8 @@
                                                         <label>الاسم</label>
                                                     </div>
                                                     <div class="col">
-                                                        <input value="" autofocus="autofocus" type="text"
-                                                            name="name" id="name" class="form-control" />
+                                                        <input value="{{ $user->name_en }}" autofocus="autofocus" type="text"
+                                                            name="name_en" id="name" class="form-control" />
                                                     </div>
                                                 </div>
 
@@ -94,8 +88,8 @@
                                                         <label>رقم الهاتف</label>
                                                     </div>
                                                     <div class="col">
-                                                        <input value="" autofocus="autofocus" type="text"
-                                                            name="phone" id="phone" class="form-control" />
+                                                        <input value="{{ $user->Tel_1 }}" autofocus="autofocus" type="text"
+                                                            name="Tel_1" id="phone" class="form-control" />
                                                     </div>
                                                 </div>
                                                 <div class="row pt-3">
@@ -103,7 +97,7 @@
                                                         <label>البريد الإلكتروني</label>
                                                     </div>
                                                     <div class="col">
-                                                        <input value="" autofocus="autofocus" type="text"
+                                                        <input value="{{ $user->email }}" autofocus="autofocus" type="text"
                                                             name="email" id="email" class="form-control" />
                                                     </div>
                                                 </div>
@@ -112,8 +106,9 @@
                                                         <label>كلمة السر</label>
                                                     </div>
                                                     <div class="col">
-                                                        <input value="" autofocus="autofocus" type="password"
-                                                            name="password" id="password" class="form-control" />
+                                                        <input  autofocus="autofocus"
+                                                            type="password" name="password" id="password"
+                                                            class="form-control" />
                                                     </div>
                                                 </div>
                                                 <div class="row pt-3">
@@ -123,8 +118,8 @@
                                                     <div class="col">
                                                         <div class="row">
                                                             <div class="col-12">
-                                                                <select name="role_id" id="role_id"
-                                                                    class="form-control" required="required">
+                                                                <select name="role_id" id="role_id" class="form-control"
+                                                                    required="required">
 
                                                                     @foreach ($roles as $role)
                                                                         <option value="{{ $role->id }}">
@@ -142,16 +137,19 @@
                                                     <div class="col">
                                                         <select name="site_id" id="site_id" class="form-control"
                                                             required="required" onchange="changeSite(this.value);">
-                                                            <option value="0">
+                                                            <option value="0"
+                                                                {{ $counterUserSite == $counterSite ? 'selected' : '' }}>
                                                                 كل المواقع
                                                             </option>
-                                                            <option value="1">
+                                                            <option value="1"
+                                                                {{ $counterUserSite != $counterSite ? 'selected' : '' }}>
                                                                 تحديد المواقع المسموح بها
                                                             </option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mt-4 " id="sites" style="display: none;">
+                                                <div class="row mt-4 " id="sites"
+                                                    style="{{ $counterUserSite != $counterSite ? '' : 'display: none;' }}">
                                                     <div class="col-6">
                                                         <label>المواقع المسموح بها</label>
                                                     </div>
@@ -160,7 +158,8 @@
                                                             <div class="col-12 d-flex gap-3">
 
                                                                 <input type="checkbox" name="sites[]"
-                                                                    value="{{ $site->id }}">{{ $site->name_ar }}
+                                                                    value="{{ $site->id }}"
+                                                                    {{ in_array($site->id, $userSites) ? 'checked' : '' }}>{{ $site->name_ar }}
                                                             </div>
                                                         @endforeach
                                                     </div>
@@ -186,7 +185,8 @@
                                                     </div>
                                                     <div class="col">
                                                         <input type="text" name="descount_limit" id="descount_limit"
-                                                            value="" placeholder="%" class="form-control" />
+                                                            value="{{ $user->descount_limit }}" placeholder="%"
+                                                            class="form-control" />
                                                     </div>
                                                 </div>
                                                 <div class="form_row default_location d-none">
@@ -195,9 +195,8 @@
                                                         الموقع الافتراضي للفواتير
                                                     </div>
                                                     <div class="form_field pro-select select-unit">
-                                                        <select name="" id="inv_default_location"
-                                                            class="form-control" title="اختر موقع"
-                                                            data-live-search="true">
+                                                        <select name="" id="inv_default_location" class="form-control"
+                                                            title="اختر موقع" data-live-search="true">
                                                             <option value>اختر موقع</option>
                                                         </select>
                                                     </div>
@@ -239,20 +238,24 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="footer pt-3 row">
-                                                    <div class="col"></div>
-                                                    <div class="col">
-                                                        <button type="button" onclick="submit_user()"
-                                                            class="btn btn-primary"> حفظ</button>
-                                                        <label class="btn btn-dark mx-1" style="width:45%;"
-                                                            data-dismiss="modal">إلغاء</label>
-                                                    </div>
-                                                </div>
                                             </form>
+                                            <div class="footer pt-3 row">
+                                                <div class="col"></div>
+                                                <div class="col">
+                                                    <button type="submit"
+                                                        class="btn btn-primary"> حفظ</button>
+                                                    <label class="btn btn-dark mx-1" style="width:45%;"
+                                                        >إلغاء</label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                {{--
+                                <div class="modal fade" id="AddUserModal" tabindex="-1" role="dialog"
+
+                                </div> --}}
+                            </form>
 
                         </div>
                     </div>
@@ -451,9 +454,9 @@
         }
 
         function changeSite(id) {
-           var site = document.getElementById('sites')
+            var site = document.getElementById('sites')
             if (id == 0) {
-               $('#sites').hide();
+                $('#sites').hide();
 
             } else {
                 $('#sites').show();

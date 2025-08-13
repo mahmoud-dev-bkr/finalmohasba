@@ -26,28 +26,29 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getInfoClient (Request $request)
+    public function getInfoClient(Request $request)
     {
         $ClienthId = $request->input('client_id');
 
         // Retrieve employees for the selected Clienth
         $Client = Client::where('id', $ClienthId)
-        ->first();
+            ->first();
 
         // Return the Client as a JSON response
         return response()->json($Client);
     }
-    public function getUsers(Request $request){
+    public function getUsers(Request $request)
+    {
         $Users = User::query();
 
-        if($request->name)
-            $Users->where('name', 'like', '%'. $request->name . '%');
+        if ($request->name)
+            $Users->where('name', 'like', '%' . $request->name . '%');
 
         if ($request->email)
-            $Users->where('email', 'like', '%'. $request->email .'%');
+            $Users->where('email', 'like', '%' . $request->email . '%');
 
         if ($request->phone)
-            $Users->where('phon', 'like', '%'.$request->phone. '%');
+            $Users->where('phon', 'like', '%' . $request->phone . '%');
 
         if ($request->status == 1)
             $Users->where('status', 1);
@@ -58,27 +59,27 @@ class UserController extends Controller
 
 
         $data = Datatables()->eloquent($Users->latest('id'))
-        ->addColumn('action' , function($User){
-            return view('Users.actions' , ['type' => 'action' , 'User' => $User]);
-        })
+            ->addColumn('action', function ($User) {
+                return view('Users.actions', ['type' => 'action', 'User' => $User]);
+            })
 
-        // ->addColumn('bonds' , function($Client){
-        //     return Clientbond::where('id_customers', $Client->id)->sum('Amount');
-        // })
-        // ->addColumn('Salesinvoices' , function($Client){
-        //     return Sales_invoices::where('id_supplers', $Client->id)->sum('total');
-        // })
+            // ->addColumn('bonds' , function($Client){
+            //     return Clientbond::where('id_customers', $Client->id)->sum('Amount');
+            // })
+            // ->addColumn('Salesinvoices' , function($Client){
+            //     return Sales_invoices::where('id_supplers', $Client->id)->sum('total');
+            // })
 
-        ->editColumn('role_id', function ($Client){
-            return Role::find($Client->role_id)->name;
-        })
-        ->editColumn('pos', function ($Client){
-            return $Client->pos == 1 ? 'نعم' : 'لا';
-        })
-        ->editColumn('isActive', function ($Client){
-            return $Client->isActive == 1 ? 'نعم' : 'لا';
-        })
-        ->toJson();
+            ->editColumn('role_id', function ($Client) {
+                return Role::find($Client->role_id)->name;
+            })
+            ->editColumn('pos', function ($Client) {
+                return $Client->pos == 1 ? 'نعم' : 'لا';
+            })
+            ->editColumn('isActive', function ($Client) {
+                return $Client->isActive == 1 ? 'نعم' : 'لا';
+            })
+            ->toJson();
 
 
         return $data;
@@ -87,19 +88,20 @@ class UserController extends Controller
 
     public function subAjaxUser(Request $request)
     {
+
         $input = $request->all();
         // dd($input);
         $input['password']      = Hash::make($request->password);
         // $input['comapny_id']    = auth()->user()->company_id;
         $user = User::create($input);
-        if($request->site_id == 0) {
-           $sites = Site::all();
-           foreach ($sites as $site) {
-               UserSite::create([
-                   'site_id' => $site->id,
-                   'user_id' => $user->id,
-               ]);
-           }
+        if ($request->site_id == 0) {
+            $sites = Site::all();
+            foreach ($sites as $site) {
+                UserSite::create([
+                    'site_id' => $site->id,
+                    'user_id' => $user->id,
+                ]);
+            }
         } else {
             foreach ($request->sites as $site) {
                 UserSite::create([
@@ -114,7 +116,7 @@ class UserController extends Controller
             'role_id'        => $request->role_id,
             'user_type'      => 'App\User',
         ]);
-        return response()->json(['success'=>$user->id]);
+        return response()->json(['success' => $user->id]);
     }
 
     public function index()
@@ -136,7 +138,7 @@ class UserController extends Controller
     public function status($id)
     {
         $Client = Client::find($id);
-        $status = ($Client->status + 1) % 2 ;
+        $status = ($Client->status + 1) % 2;
         $Client->status = $status;
         $Client->save();
         return redirect()->route('client.index')->with(['success' => 'تم الحفظ بنجاح']);
@@ -152,7 +154,8 @@ class UserController extends Controller
         $sites = Site::all();
         $salespersons = Salesperson::all();
         return view('', compact([
-            'sites' , 'salespersons'
+            'sites',
+            'salespersons'
 
         ]));
     }
@@ -167,7 +170,7 @@ class UserController extends Controller
     {
 
 
-         $rules = [
+        $rules = [
             'name' => 'required',
         ];
 
@@ -206,16 +209,16 @@ class UserController extends Controller
 
             AccountBanks::create(
                 [
-                 'client_id' => $client->id,
-                 'name' => $request->name1,
-                 'name_account' =>$request->name_account1 ,
-                 'country' => $request->country1,
-                 'currency' => $request->currency1,
-                 'number_statement' => $request->number_statement1,
-                 'number_account' => $request->number_account1,
-                 'code' => $request->code1,
-                 'address' => $request->address1,
-                 'type' => 1,
+                    'client_id' => $client->id,
+                    'name' => $request->name1,
+                    'name_account' => $request->name_account1,
+                    'country' => $request->country1,
+                    'currency' => $request->currency1,
+                    'number_statement' => $request->number_statement1,
+                    'number_account' => $request->number_account1,
+                    'code' => $request->code1,
+                    'address' => $request->address1,
+                    'type' => 1,
                 ]
             );
         }
@@ -225,16 +228,16 @@ class UserController extends Controller
 
             AccountBanks::create(
                 [
-                 'client_id' => $client->id,
-                 'name' => $request->name2,
-                 'name_account' =>$request->name_account2 ,
-                 'country' => $request->country2,
-                 'currency' => $request->currency2,
-                 'number_statement' => $request->number_statement2,
-                 'number_account' => $request->number_account2,
-                 'code' => $request->code2,
-                 'address' => $request->address2,
-                 'type' => 2,
+                    'client_id' => $client->id,
+                    'name' => $request->name2,
+                    'name_account' => $request->name_account2,
+                    'country' => $request->country2,
+                    'currency' => $request->currency2,
+                    'number_statement' => $request->number_statement2,
+                    'number_account' => $request->number_account2,
+                    'code' => $request->code2,
+                    'address' => $request->address2,
+                    'type' => 2,
                 ]
             );
         }
@@ -246,7 +249,7 @@ class UserController extends Controller
 
 
         // fill appointments em ployees
-         return redirect()->route('client.index')->with(['success' => 'تم الحفظ بنجاح']);
+        return redirect()->route('client.index')->with(['success' => 'تم الحفظ بنجاح']);
     }
 
     /**
@@ -275,13 +278,24 @@ class UserController extends Controller
     {
 
 
-       $user = user::FindOrFail($id);
+        $user = User::FindOrFail($id);
         $sites  = Site::all();
+        $counterUserSite = UserSite::where('user_id', $user->id)->count();
+        $counterSite = Site::count();
         $accounts  = Account::where('transactions', 1)->get();
+        // pluck the site_id in userSite
+        $userSites = UserSite::where('user_id', $user->id)->pluck('site_id')->toArray();
         $roles     = Role::all();
+        // dd($counterSite, $counterUserSite);
         return view('Users.update', compact(
             [
-                'user', 'roles', 'sites', 'accounts'
+                'user',
+                'roles',
+                'sites',
+                'accounts',
+                'userSites',
+                'counterUserSite',
+                'counterSite'
             ]
         ));
     }
@@ -295,23 +309,51 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $Client = Client::findOrFail($id);
-        $data = $request->all();
+        $input = $request->all();
 
-        if ($request->pointsClient == 'true') {
-            $data['pointsClient'] = 1;
-        } else {
-            $data['pointsClient'] = 0;
+        $userites = UserSite::where('user_id', $id)->delete();
+        $userRole = RoleUser::where('user_id', $id)->delete();
+        // dd($input);
+        $input['password']      = Hash::make($request->password);
+
+        if ($input['password'] == null) {
+            unset($input['password']);
         }
 
-        if ($request->status == 'true') {
-            $data['status'] = 1;
-        } else {
-            $data['status'] = 0;
+        if ($input['password'] != null) {
+            $input['password'] = Hash::make($input['password']);
         }
 
-        $Client->update($data);
-        return redirect()->route('client.index')->with(['success' => 'تم تحديث بيانات العميل بنجاح']);
+
+        $user = User::find($id);
+        $user->update($input);
+        if ($request->site_id == 0) {
+            $sites = Site::all();
+            foreach ($sites as $site) {
+                UserSite::create([
+                    'site_id' => $site->id,
+                    'user_id' => $user->id,
+                ]);
+            }
+        } else {
+            if ($request->sites  == null) {
+                return back()->with(['error' => 'يجب اختيار الموقع']);
+            }
+            foreach ($request->sites as $site) {
+                UserSite::create([
+                    'site_id' => $site,
+                    'user_id' => $user->id,
+                ]);
+            }
+        }
+
+        $UserRole = RoleUser::create([
+            'user_id'        => $user->id,
+            'role_id'        => $request->role_id,
+            'user_type'      => 'App\User',
+        ]);
+        return redirect()->route('user.index')->with(['success' => 'تم التعديل بنجاح']);
+
     }
 
     /**
@@ -321,47 +363,35 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-         public function print($id){
+    public function print($id)
+    {
 
 
 
-      $Clientbonds = Clientbond::find($id);
+        $Clientbonds = Clientbond::find($id);
 
 
 
 
 
-      $Client = Client::where('id', $Clientbonds->id_customers)->get();
+        $Client = Client::where('id', $Clientbonds->id_customers)->get();
 
-      $Sales_invoices = Sales_invoices::find($Clientbonds->PurchaseInvoices_id);
+        $Sales_invoices = Sales_invoices::find($Clientbonds->PurchaseInvoices_id);
 
-      return view('Sales.Clientbond.print', compact('Client', 'Sales_invoices', 'Clientbonds'));
-
-
-
+        return view('Sales.Clientbond.print', compact('Client', 'Sales_invoices', 'Clientbonds'));
     }
 
 
 
     public function destroy($id)
     {
-        try {
-            $Client = Client::find($id);
-            $Sales_invoices = Sales_invoices::where('id_supplers', $id)->get();
-            $Clientbonds = Clientbond::where('id_customers', $id)->get();
-            if(count($Sales_invoices) > 0 || count($Clientbonds) > 0) {
-                 return redirect()->route('client.index')->with(['error' => 'لم يتم الحذف لان هذا العميل لديه فاتورة او سند']);
-            }
-            $deleted =  $Client->delete();
-            if (!$deleted) {
-                return redirect()->route('client.index')->with(['error' => 'هذه الوظيفة لا يمكن مسحها']);
-            }
-            return redirect()->route('client.index')->with(['success' => 'تم حذف  بنجاح']);
-        } catch (\Exception $ex) {
-            return redirect()->route('client.index')->with(['error' => 'هناك خطأ برجاء المحاولة ثانيا']);
-        }
+
+    $userRole = RoleUser::where('user_id', $id)->delete();
+   $UserSite = UserSite::where('user_id', $id)->delete();
+
+     User::where('id', $id)->delete();
+
+     return redirect()->route('user.index')->with(['success' => 'تم الحذف بنجاح']);
+
     }
-
-
-
 }
